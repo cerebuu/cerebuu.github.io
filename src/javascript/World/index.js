@@ -23,6 +23,7 @@ import Sounds from './Sounds.js'
 import gsap from 'gsap'
 import EasterEggs from './EasterEggs.js'
 import NameBlocks from './NameBlocks.js'
+import NavDock from '../NavDock.js'
 
 export default class World
 {
@@ -74,10 +75,17 @@ export default class World
         this.setNameBlocks()
         this.setCar()
         this.areas.car = this.car
+        this.navDock = new NavDock({ world: this })
         this.setTiles()
         this.setWalls()
         this.setSections()
         this.setEasterEggs()
+        this.setNavDock()
+    }
+
+    setNavDock()
+    {
+        this.navDock = new NavDock({ world: this })
     }
 
     setReveal()
@@ -102,6 +110,12 @@ export default class World
                 {
                     gsap.fromTo(this.sections.intro.otherInstructions.label.material, { opacity: 0 }, { opacity: 1, duration: 0.3, delay: 0.75 })
                 }
+            }
+
+            // Nav dock
+            if(this.navDock)
+            {
+                this.navDock.reveal()
             }
 
             // Car

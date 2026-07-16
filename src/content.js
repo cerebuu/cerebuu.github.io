@@ -9,10 +9,10 @@ export default {
 
     name: 'Caleb Adriel M. Tingson',
     title: 'Software Developer · Computer Science Student · GDG on Campus Lead',
-    bio: 'Computer Science student at the University of the Immaculate Conception (UIC) with a passion for software development, web technologies, artificial intelligence, and emerging technologies. I enjoy building clean, user-focused applications, solving real-world problems, and contributing to the tech community through leadership, hackathons, and events. I\'m continuously learning and expanding my skills to become a full-stack software developer.',
+    bio: 'Computer Science student at the University of the Immaculate Conception (UIC) with a passion for software development, web technologies, artificial intelligence, and emerging technologies. As GDG Campus Lead, I organize workshops and community events on software development, AI, and cloud technologies, helping other students explore emerging tech through peer learning. I\'m continuously learning and expanding my skills to become a full-stack software developer.',
 
     // Short version used in the 30-second summary card — 2 lines max
-    bioShort: 'CS student building clean, user-focused apps. Currently exploring full-stack development, AI, and interactive web experiences.',
+    bioShort: 'CS student and GDG Campus Lead at UIC, building clean, user-focused apps and organizing workshops on AI, cloud, and web development.',
 
     // The 3 skills to highlight in the summary card (pulled to the front,
     // rest of your skills still live in full detail in the skills[] list below)
