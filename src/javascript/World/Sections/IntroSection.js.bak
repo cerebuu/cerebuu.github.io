@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 export default class IntroSection
 {
@@ -25,7 +24,7 @@ export default class IntroSection
         this.setStatic()
         this.setInstructions()
         this.setOtherInstructions()
-        // this.setNameplate() // disabled — nameplate removed
+        this.setTitles()
         this.setTiles()
         this.setDikes()
     }
@@ -158,91 +157,123 @@ export default class IntroSection
         })
     }
 
-    /**
-     * Nameplate
-     * Draws the name onto an HTML canvas, then maps it as a texture
-     * onto a flat plane. Replaces the old letter-brick models so the
-     * name is fully editable in code, no 3D assets required.
-     */
-    /**
-     * Nameplate
-     * Real 3D extruded text built from a converted Anton font,
-     * replacing the old letter-brick models. Fully editable in
-     * code, no 3D assets required beyond the font JSON.
-     */
-    setNameplate()
+    setTitles()
     {
-        this.nameplate = {}
-        this.nameplate.font = this.resources.items.antonFont
-
-        this.nameplate.material = new THREE.MeshBasicMaterial({ color: 0xffffff })
-        this.nameplate.outlineMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
-
-        // Main name
-        this.nameplate.nameGeometry = new TextGeometry('CALEB TINGSON', {
-            font: this.nameplate.font,
-            size: 0.85,
-            height: 0.08,
-            curveSegments: 8,
-            bevelEnabled: false
+        // Title
+        this.objects.add({
+            base: this.resources.items.introBBase.scene,
+            collision: this.resources.items.introBCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
         })
-        this.nameplate.nameGeometry.computeBoundingBox()
-        this.nameplate.nameGeometry.center()
-
-        this.nameplate.nameOutlineGeometry = new TextGeometry('CALEB TINGSON', {
-            font: this.nameplate.font,
-            size: 0.85,
-            height: 0.06,
-            curveSegments: 8,
-            bevelEnabled: false
+        this.objects.add({
+            base: this.resources.items.introRBase.scene,
+            collision: this.resources.items.introRCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
         })
-        this.nameplate.nameOutlineGeometry.computeBoundingBox()
-        this.nameplate.nameOutlineGeometry.center()
-
-        // Black outline (larger scale, same depth, sits directly behind)
-        this.nameplate.nameOutlineMesh = new THREE.Mesh(this.nameplate.nameOutlineGeometry, this.nameplate.outlineMaterial)
-        this.nameplate.nameOutlineMesh.position.set(0, 0.75, -0.005)
-        this.nameplate.nameOutlineMesh.scale.set(1.12, 1.12, 1)
-        this.container.add(this.nameplate.nameOutlineMesh)
-
-        this.nameplate.nameMesh = new THREE.Mesh(this.nameplate.nameGeometry, this.nameplate.material)
-        this.nameplate.nameMesh.position.set(0, 0.75, 0.02)
-        this.container.add(this.nameplate.nameMesh)
-
-        // Subtitle
-        this.nameplate.subtitleGeometry = new TextGeometry('CREATIVE DEVELOPER', {
-            font: this.nameplate.font,
-            size: 0.4,
-            height: 0.05,
-            curveSegments: 8,
-            bevelEnabled: false
+        this.objects.add({
+            base: this.resources.items.introUBase.scene,
+            collision: this.resources.items.introUCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
         })
-        this.nameplate.subtitleGeometry.computeBoundingBox()
-        this.nameplate.subtitleGeometry.center()
-
-        this.nameplate.subtitleOutlineGeometry = new TextGeometry('CREATIVE DEVELOPER', {
-            font: this.nameplate.font,
-            size: 0.4,
-            height: 0.035,
-            curveSegments: 8,
-            bevelEnabled: false
+        this.objects.add({
+            base: this.resources.items.introNBase.scene,
+            collision: this.resources.items.introNCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            duplicated: true,
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
         })
-        this.nameplate.subtitleOutlineGeometry.computeBoundingBox()
-        this.nameplate.subtitleOutlineGeometry.center()
-
-        this.nameplate.subtitleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
-
-        // Black outline for subtitle
-        this.nameplate.subtitleOutlineMesh = new THREE.Mesh(this.nameplate.subtitleOutlineGeometry, this.nameplate.outlineMaterial)
-        this.nameplate.subtitleOutlineMesh.position.set(0, -0.2, -0.005)
-        this.nameplate.subtitleOutlineMesh.scale.set(1.15, 1.15, 1)
-        this.container.add(this.nameplate.subtitleOutlineMesh)
-
-        this.nameplate.subtitleMesh = new THREE.Mesh(this.nameplate.subtitleGeometry, this.nameplate.subtitleMaterial)
-        this.nameplate.subtitleMesh.position.set(0, -0.2, 0.02)
-        this.container.add(this.nameplate.subtitleMesh)
+        this.objects.add({
+            base: this.resources.items.introOBase.scene,
+            collision: this.resources.items.introOCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            duplicated: true,
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introSBase.scene,
+            collision: this.resources.items.introSCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introIBase.scene,
+            collision: this.resources.items.introICollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introMBase.scene,
+            collision: this.resources.items.introMCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introOBase.scene,
+            collision: this.resources.items.introOCollision.scene,
+            offset: new THREE.Vector3(3.95, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            duplicated: true,
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introNBase.scene,
+            collision: this.resources.items.introNCollision.scene,
+            offset: new THREE.Vector3(5.85, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            duplicated: true,
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introCreativeBase.scene,
+            collision: this.resources.items.introCreativeCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0.25),
+            shadow: { sizeX: 5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
+            mass: 1.5,
+            sleep: false,
+            soundName: 'brick'
+        })
+        this.objects.add({
+            base: this.resources.items.introDevBase.scene,
+            collision: this.resources.items.introDevCollision.scene,
+            offset: new THREE.Vector3(0, 0, 0),
+            rotation: new THREE.Euler(0, 0, 0),
+            shadow: { sizeX: 2.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
+            mass: 1.5,
+            soundName: 'brick'
+        })
     }
-
 
     setTiles()
     {
@@ -265,6 +296,26 @@ export default class IntroSection
             mass: 0.5,
             soundName: 'brick'
         }
+
+        // this.walls.add({
+        //     object:
+        //     {
+        //         ...this.dikes.brickOptions,
+        //         rotation: new THREE.Euler(0, 0, Math.PI * 0.5)
+        //     },
+        //     shape:
+        //     {
+        //         type: 'brick',
+        //         equilibrateLastLine: true,
+        //         widthCount: 3,
+        //         heightCount: 2,
+        //         position: new THREE.Vector3(this.x + 0, this.y - 4, 0),
+        //         offsetWidth: new THREE.Vector3(1.05, 0, 0),
+        //         offsetHeight: new THREE.Vector3(0, 0, 0.45),
+        //         randomOffset: new THREE.Vector3(0, 0, 0),
+        //         randomRotation: new THREE.Vector3(0, 0, 0.2)
+        //     }
+        // })
 
         this.walls.add({
             object: this.dikes.brickOptions,

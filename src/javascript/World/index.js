@@ -22,6 +22,7 @@ import Controls from './Controls.js'
 import Sounds from './Sounds.js'
 import gsap from 'gsap'
 import EasterEggs from './EasterEggs.js'
+import NameBlocks from './NameBlocks.js'
 
 export default class World
 {
@@ -70,6 +71,7 @@ export default class World
         this.setPhysics()
         this.setZones()
         this.setObjects()
+        this.setNameBlocks()
         this.setCar()
         this.areas.car = this.car
         this.setTiles()
@@ -376,6 +378,16 @@ export default class World
         // {
         //     this.objects.merge.update()
         // })
+    }
+
+    setNameBlocks()
+    {
+        this.nameBlocks = new NameBlocks({
+            objects: this.objects,
+            time: this.time,
+            name: 'CALEB',
+            position: new THREE.Vector3(0, -14, 0)
+        })
     }
 
     setCar()

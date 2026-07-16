@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 export default class IntroSection
 {
@@ -25,7 +24,7 @@ export default class IntroSection
         this.setStatic()
         this.setInstructions()
         this.setOtherInstructions()
-        // this.setNameplate() // disabled — nameplate removed
+        this.setNameplate()
         this.setTiles()
         this.setDikes()
     }
@@ -164,85 +163,54 @@ export default class IntroSection
      * onto a flat plane. Replaces the old letter-brick models so the
      * name is fully editable in code, no 3D assets required.
      */
-    /**
-     * Nameplate
-     * Real 3D extruded text built from a converted Anton font,
-     * replacing the old letter-brick models. Fully editable in
-     * code, no 3D assets required beyond the font JSON.
-     */
     setNameplate()
     {
         this.nameplate = {}
-        this.nameplate.font = this.resources.items.antonFont
+        this.nameplate.text = 'CALEB TINGSON'
+        this.nameplate.subtitle = 'CREATIVE DEVELOPER'
 
-        this.nameplate.material = new THREE.MeshBasicMaterial({ color: 0xffffff })
-        this.nameplate.outlineMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 })
+        // Canvas
+        this.nameplate.canvas = document.createElement('canvas')
+        this.nameplate.canvas.width = 1024
+        this.nameplate.canvas.height = 256
+
+        this.nameplate.context = this.nameplate.canvas.getContext('2d')
+        this.nameplate.context.clearRect(0, 0, this.nameplate.canvas.width, this.nameplate.canvas.height)
 
         // Main name
-        this.nameplate.nameGeometry = new TextGeometry('CALEB TINGSON', {
-            font: this.nameplate.font,
-            size: 0.85,
-            height: 0.08,
-            curveSegments: 8,
-            bevelEnabled: false
-        })
-        this.nameplate.nameGeometry.computeBoundingBox()
-        this.nameplate.nameGeometry.center()
-
-        this.nameplate.nameOutlineGeometry = new TextGeometry('CALEB TINGSON', {
-            font: this.nameplate.font,
-            size: 0.85,
-            height: 0.06,
-            curveSegments: 8,
-            bevelEnabled: false
-        })
-        this.nameplate.nameOutlineGeometry.computeBoundingBox()
-        this.nameplate.nameOutlineGeometry.center()
-
-        // Black outline (larger scale, same depth, sits directly behind)
-        this.nameplate.nameOutlineMesh = new THREE.Mesh(this.nameplate.nameOutlineGeometry, this.nameplate.outlineMaterial)
-        this.nameplate.nameOutlineMesh.position.set(0, 0.75, -0.005)
-        this.nameplate.nameOutlineMesh.scale.set(1.12, 1.12, 1)
-        this.container.add(this.nameplate.nameOutlineMesh)
-
-        this.nameplate.nameMesh = new THREE.Mesh(this.nameplate.nameGeometry, this.nameplate.material)
-        this.nameplate.nameMesh.position.set(0, 0.75, 0.02)
-        this.container.add(this.nameplate.nameMesh)
+        this.nameplate.context.fillStyle = '#ffffff'
+        this.nameplate.context.textAlign = 'center'
+        this.nameplate.context.textBaseline = 'middle'
+        this.nameplate.context.font = 'bold 120px Arial, sans-serif'
+        this.nameplate.context.fillText(this.nameplate.text, this.nameplate.canvas.width / 2, 100)
 
         // Subtitle
-        this.nameplate.subtitleGeometry = new TextGeometry('CREATIVE DEVELOPER', {
-            font: this.nameplate.font,
-            size: 0.4,
-            height: 0.05,
-            curveSegments: 8,
-            bevelEnabled: false
+        this.nameplate.context.font = '40px Arial, sans-serif'
+        this.nameplate.context.fillStyle = '#aaaaaa'
+        this.nameplate.context.fillText(this.nameplate.subtitle, this.nameplate.canvas.width / 2, 190)
+
+        // Texture
+        this.nameplate.texture = new THREE.CanvasTexture(this.nameplate.canvas)
+        this.nameplate.texture.magFilter = THREE.LinearFilter
+        this.nameplate.texture.minFilter = THREE.LinearFilter
+
+        // Geometry (matches roughly the footprint of the old brick title)
+        this.nameplate.geometry = new THREE.PlaneGeometry(9, 2.25, 1, 1)
+
+        // Material
+        this.nameplate.material = new THREE.MeshBasicMaterial({
+            map: this.nameplate.texture,
+            transparent: true,
+            depthWrite: false
         })
-        this.nameplate.subtitleGeometry.computeBoundingBox()
-        this.nameplate.subtitleGeometry.center()
 
-        this.nameplate.subtitleOutlineGeometry = new TextGeometry('CREATIVE DEVELOPER', {
-            font: this.nameplate.font,
-            size: 0.4,
-            height: 0.035,
-            curveSegments: 8,
-            bevelEnabled: false
-        })
-        this.nameplate.subtitleOutlineGeometry.computeBoundingBox()
-        this.nameplate.subtitleOutlineGeometry.center()
-
-        this.nameplate.subtitleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
-
-        // Black outline for subtitle
-        this.nameplate.subtitleOutlineMesh = new THREE.Mesh(this.nameplate.subtitleOutlineGeometry, this.nameplate.outlineMaterial)
-        this.nameplate.subtitleOutlineMesh.position.set(0, -0.2, -0.005)
-        this.nameplate.subtitleOutlineMesh.scale.set(1.15, 1.15, 1)
-        this.container.add(this.nameplate.subtitleOutlineMesh)
-
-        this.nameplate.subtitleMesh = new THREE.Mesh(this.nameplate.subtitleGeometry, this.nameplate.subtitleMaterial)
-        this.nameplate.subtitleMesh.position.set(0, -0.2, 0.02)
-        this.container.add(this.nameplate.subtitleMesh)
+        // Mesh
+        this.nameplate.mesh = new THREE.Mesh(this.nameplate.geometry, this.nameplate.material)
+        this.nameplate.mesh.position.set(0, 0, 0.05)
+        this.nameplate.mesh.matrixAutoUpdate = false
+        this.nameplate.mesh.updateMatrix()
+        this.container.add(this.nameplate.mesh)
     }
-
 
     setTiles()
     {
