@@ -242,6 +242,12 @@ export default class ResumeMode
         {
             $navDock.classList.add('is-hidden-by-resume')
         }
+
+        const $contactIcons = document.querySelector('.js-contact-icons')
+        if($contactIcons)
+        {
+            $contactIcons.classList.add('is-hidden-by-resume')
+        }
     }
 
     close()
@@ -256,6 +262,12 @@ export default class ResumeMode
         if($navDock)
         {
             $navDock.classList.remove('is-hidden-by-resume')
+        }
+
+        const $contactIcons = document.querySelector('.js-contact-icons')
+        if($contactIcons)
+        {
+            $contactIcons.classList.remove('is-hidden-by-resume')
         }
     }
 

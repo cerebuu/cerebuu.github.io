@@ -52,6 +52,12 @@ export default class NavDock
         {
             this.element.classList.add('is-visible')
         }
+
+        const contactIcons = document.querySelector('.js-contact-icons')
+        if(contactIcons)
+        {
+            contactIcons.classList.add('is-visible')
+        }
     }
 
     goTo(_name)

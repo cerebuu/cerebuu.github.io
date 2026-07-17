@@ -98,3 +98,87 @@
         transition: none !important;
     }
 }
+
+/* ============================================
+   CONTACT ICONS
+   Persistent email/GitHub/LinkedIn links,
+   reachable without exploring the 3D world.
+   ============================================ */
+
+.contact-icons
+{
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.contact-icons.is-visible
+{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.contact-icons.is-hidden-by-resume
+{
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.contact-icons__item
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--color-text-dim, #8a8a8a);
+    border-radius: 50%;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.contact-icons__item svg
+{
+    width: 16px;
+    height: 16px;
+}
+
+.contact-icons__item:hover
+{
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.contact-icons__item:focus-visible
+{
+    outline: 1px solid #ffffff;
+    outline-offset: 2px;
+}
+
+@media (max-width: 700px)
+{
+    .contact-icons
+    {
+        bottom: 68px;
+        right: 12px;
+        padding: 6px;
+        gap: 4px;
+    }
+
+    .contact-icons__item
+    {
+        width: 28px;
+        height: 28px;
+    }
+}

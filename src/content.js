@@ -184,8 +184,7 @@ export default {
     contact: [
         { label: 'Email', value: 'zaikurei112@gmail.com', href: 'mailto:zaikurei112@gmail.com' },
         { label: 'GitHub', value: 'github.com/cerebuu', href: 'https://github.com/cerebuu' },
+        { label: 'LinkedIn', value: 'linkedin.com/in/calebtingson', href: 'https://www.linkedin.com/in/calebtingson/' },
         { label: 'Facebook', value: 'facebook.com/caleb.adriel.tingson', href: 'https://www.facebook.com/caleb.adriel.tingson' }
-        // Add LinkedIn here once you have the URL:
-        // { label: 'LinkedIn', value: 'linkedin.com/in/...', href: 'https://linkedin.com/in/...' }
     ]
 }
