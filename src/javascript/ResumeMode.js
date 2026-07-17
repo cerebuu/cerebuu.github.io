@@ -45,6 +45,7 @@ export default class ResumeMode
             this.renderProjects() +
             this.renderExperience() +
             this.renderCertifications() +
+            this.renderActivities() +
             this.renderContact() +
             this.renderFooter()
     }
@@ -52,12 +53,13 @@ export default class ResumeMode
     renderNav()
     {
         return `
-            <a class="interactive-hover" href="#rm-about">About</a>
-            <a class="interactive-hover" href="#rm-skills">Skills</a>
-            <a class="interactive-hover" href="#rm-projects">Projects</a>
-            <a class="interactive-hover" href="#rm-experience">Experience</a>
-            <a class="interactive-hover" href="#rm-certifications">Certifications</a>
-            <a class="interactive-hover" href="#rm-contact">Contact</a>
+            <a href="#rm-about">About</a>
+            <a href="#rm-skills">Skills</a>
+            <a href="#rm-projects">Projects</a>
+            <a href="#rm-experience">Experience</a>
+            <a href="#rm-certifications">Certifications</a>
+            <a href="#rm-activities">Activities</a>
+            <a href="#rm-contact">Contact</a>
         `
     }
 
@@ -81,7 +83,7 @@ export default class ResumeMode
             <div class="rm-skills-group">
                 <h3>${group.group}</h3>
                 <div class="rm-skills-tags">
-                    ${group.tags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag}</span>`).join('')}
+                    ${group.tags.map((tag) => `<span class="interactive-fade${tag.featured ? ' is-featured' : ''}">${tag.name}</span>`).join('')}
                 </div>
             </div>
         `).join('')
@@ -99,7 +101,7 @@ export default class ResumeMode
     {
         const projects = content.projects.map((project) => {
             const link = project.link
-                ? `<span class="rm-project-link interactive-hover interactive-hover--opacity${project.link.disabled ? ' is-disabled' :''}">${project.link.text}</span>`
+                ? `<span class="rm-project-link${project.link.disabled ? ' is-disabled' : ' interactive-fade'}">${project.link.text}</span>`
                 : ''
 
             return `
@@ -111,7 +113,7 @@ export default class ResumeMode
                     <p class="rm-project-line"><strong>Problem:</strong> ${project.problem}</p>
                     <p class="rm-project-line"><strong>Solution:</strong> ${project.solution}</p>
                     <p class="rm-project-line"><strong>Impact:</strong> ${project.impact}</p>
-                    <div class="rm-project-tags">${project.tags.map((tag) => `<span>${tag}</span>`).join('')}</div>
+                    <div class="rm-project-tags">${project.tags.map((tag) => `<span class="interactive-fade">${tag}</span>`).join('')}</div>
                     ${link}
                 </div>
             `
@@ -168,6 +170,35 @@ export default class ResumeMode
         `
     }
 
+    renderActivities()
+    {
+        const activities = content.activities.map((activity) => {
+            const link = activity.link
+                ? `<span class="rm-project-link${activity.link.disabled ? ' is-disabled' : ' interactive-fade'}">${activity.link.text}</span>`
+                : ''
+
+            return `
+                <div class="rm-project">
+                    <div class="rm-project-header">
+                        <h3>${activity.title}</h3>
+                        <span class="rm-project-status">${activity.status}</span>
+                    </div>
+                    <p class="rm-project-line"><strong>${activity.week}:</strong> ${activity.description}</p>
+                    <div class="rm-project-tags">${activity.tags.map((tag) => `<span class="interactive-fade">${tag}</span>`).join('')}</div>
+                    ${link}
+                </div>
+            `
+        }).join('')
+
+        return `
+            <section class="rm-section" id="rm-activities">
+                <span class="rm-eyebrow">activities</span>
+                <h2>Class activities</h2>
+                ${activities}
+            </section>
+        `
+    }
+
     renderContact()
     {
         const links = content.contact.map((item) => {
@@ -175,7 +206,7 @@ export default class ResumeMode
             const attrs = isExternal ? ' target="_blank" rel="noopener"' : ''
 
             return `
-                <a class="interactive-hover interactive-hover--opacity" href="${item.href}"${attrs}>
+                <a href="${item.href}"${attrs} class="interactive-fade">
                     <span class="rm-contact-label">${item.label}</span>
                     <span>${item.value}</span>
                 </a>
@@ -197,7 +228,7 @@ export default class ResumeMode
     {
         return `
             <div class="rm-footer">
-                <button class="rm-explore-btn js-resume-close interactive-hover interactive-hover--scale" type="button">Enter the 3D world &rarr;</button>
+                <button class="rm-explore-btn js-resume-close interactive-scale" type="button">Enter the 3D world &rarr;</button>
             </div>
         `
     }
@@ -235,6 +266,19 @@ export default class ResumeMode
         this.$overlay.classList.add('is-active')
         this.$toggle.textContent = 'Explore 3D World'
         document.body.style.overflow = 'hidden'
+
+        // Hide the 3D world's teleport dock while reading the resume
+        const $navDock = document.querySelector('.js-nav-dock')
+        if($navDock)
+        {
+            $navDock.classList.add('is-hidden-by-resume')
+        }
+
+        const $contactIcons = document.querySelector('.js-contact-icons')
+        if($contactIcons)
+        {
+            $contactIcons.classList.add('is-hidden-by-resume')
+        }
     }
 
     close()
@@ -243,6 +287,19 @@ export default class ResumeMode
         this.$overlay.classList.remove('is-active')
         this.$toggle.textContent = 'Resume Mode'
         document.body.style.overflow = ''
+
+        // Restore the teleport dock when back in the 3D world
+        const $navDock = document.querySelector('.js-nav-dock')
+        if($navDock)
+        {
+            $navDock.classList.remove('is-hidden-by-resume')
+        }
+
+        const $contactIcons = document.querySelector('.js-contact-icons')
+        if($contactIcons)
+        {
+            $contactIcons.classList.remove('is-hidden-by-resume')
+        }
     }
 
     bindScrollReveal()
