@@ -4,5 +4,5 @@ export default {
     status: 'Completed',
     description: 'Describe what this class activity involved and what you did.',
     tags: ['Topic', 'Tool'],
-    link: null // or { text: 'View file', href: 'https://...' }
+    link: { text: 'Open Activity →', href: '/Activity/test-page/index.html' }
 }

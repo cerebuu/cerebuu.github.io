@@ -389,6 +389,36 @@
     pointer-events: none;
 }
 
+/* ---------- Activity open button ----------
+   Secondary CTA, quieter than .rm-explore-btn (which is the
+   solid-white "leave resume mode" action). Shares the
+   bordered-mono-pill language of .rm-project-tags span, sized
+   up to read as clickable. Motion comes free from
+   .interactive-scale already applied in the markup. */
+.rm-activity-open-btn
+{
+    display: inline-block;
+    margin-top: 14px;
+    font-family: var(--rm-font-mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid var(--rm-border);
+    border-radius: 3px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.rm-activity-open-btn:hover,
+.rm-activity-open-btn:focus-visible
+{
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
 /* ---------- Experience timeline ---------- */
 
 .rm-timeline-item

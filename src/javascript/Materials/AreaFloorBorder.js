@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-
 import shaderFragment from '../../shaders/areaFloorBorder/fragment.glsl'
 import shaderVertex from '../../shaders/areaFloorBorder/vertex.glsl'
 
@@ -17,6 +16,15 @@ export default function()
         transparent: true,
         depthTest: true,
         depthWrite: false,
+        // Pushes the border slightly toward the camera during depth
+        // comparison (without moving the geometry itself) so it stops
+        // z-fighting with the ground plane it sits flush against.
+        // Negative values pull toward the camera; magnitude tuned to
+        // be enough to resolve flicker without visibly floating the
+        // border above the terrain.
+        polygonOffset: true,
+        polygonOffsetFactor: -4,
+        polygonOffsetUnits: -4,
         uniforms,
         vertexShader: shaderVertex,
         fragmentShader: shaderFragment
