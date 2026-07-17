@@ -5,6 +5,8 @@
  * files should read from here instead of hardcoding text —
  * update your info once, it reflects everywhere.
  */
+import activities from './activities/index.js'
+
 export default {
 
     name: 'Caleb Adriel M. Tingson',
@@ -180,6 +182,8 @@ export default {
             ]
         }
     ],
+
+    activities,
 
     contact: [
         { label: 'Email', value: 'zaikurei112@gmail.com', href: 'mailto:zaikurei112@gmail.com' },

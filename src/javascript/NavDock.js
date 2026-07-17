@@ -13,7 +13,7 @@ export default class NavDock
         }
 
         // Sections that only exist in Resume Mode, not the 3D world
-        this.resumeOnlyTargets = ['about', 'skills', 'experience']
+        this.resumeOnlyTargets = ['about', 'skills', 'experience', 'activities']
 
         this.element = document.querySelector('.js-nav-dock')
 

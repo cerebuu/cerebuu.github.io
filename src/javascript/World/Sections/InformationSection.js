@@ -168,6 +168,27 @@ export default class InformationSection
         this.activities.mesh.matrixAutoUpdate = false
         this.activities.mesh.updateMatrix()
         this.container.add(this.activities.mesh)
+
+        // Interactive: open Resume Mode scrolled to Activities
+        this.activities.area = this.areas.add({
+            position: new THREE.Vector2(this.activities.x, this.activities.y),
+            halfExtents: new THREE.Vector2(this.activities.multiplier, this.activities.multiplier * 0.5)
+        })
+        this.activities.area.on('interact', () =>
+        {
+            if(window.resumeMode)
+            {
+                window.resumeMode.open()
+                window.setTimeout(() =>
+                {
+                    const activitiesSection = document.getElementById('rm-activities')
+                    if(activitiesSection)
+                    {
+                        activitiesSection.scrollIntoView({ behavior: 'smooth' })
+                    }
+                }, 400)
+            }
+        })
     }
 
     setTiles()

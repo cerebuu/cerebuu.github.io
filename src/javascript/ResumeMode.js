@@ -45,6 +45,7 @@ export default class ResumeMode
             this.renderProjects() +
             this.renderExperience() +
             this.renderCertifications() +
+            this.renderActivities() +
             this.renderContact() +
             this.renderFooter()
     }
@@ -57,6 +58,7 @@ export default class ResumeMode
             <a href="#rm-projects">Projects</a>
             <a href="#rm-experience">Experience</a>
             <a href="#rm-certifications">Certifications</a>
+            <a href="#rm-activities">Activities</a>
             <a href="#rm-contact">Contact</a>
         `
     }
@@ -164,6 +166,35 @@ export default class ResumeMode
                 <span class="rm-eyebrow">certifications</span>
                 <h2>Certifications &amp; recognition</h2>
                 ${groups}
+            </section>
+        `
+    }
+
+    renderActivities()
+    {
+        const activities = content.activities.map((activity) => {
+            const link = activity.link
+                ? `<span class="rm-project-link${activity.link.disabled ? ' is-disabled' : ' interactive-fade'}">${activity.link.text}</span>`
+                : ''
+
+            return `
+                <div class="rm-project">
+                    <div class="rm-project-header">
+                        <h3>${activity.title}</h3>
+                        <span class="rm-project-status">${activity.status}</span>
+                    </div>
+                    <p class="rm-project-line"><strong>${activity.week}:</strong> ${activity.description}</p>
+                    <div class="rm-project-tags">${activity.tags.map((tag) => `<span class="interactive-fade">${tag}</span>`).join('')}</div>
+                    ${link}
+                </div>
+            `
+        }).join('')
+
+        return `
+            <section class="rm-section" id="rm-activities">
+                <span class="rm-eyebrow">activities</span>
+                <h2>Class activities</h2>
+                ${activities}
             </section>
         `
     }
