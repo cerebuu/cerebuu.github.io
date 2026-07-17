@@ -4,6 +4,7 @@ import * as dat from 'dat.gui'
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
 import World from './World/index.js'
+import LoadingScreen from './LoadingScreen.js'
 import Resources from './Resources.js'
 import Camera from './Camera.js'
 import ThreejsJourney from './ThreejsJourney.js'
@@ -28,6 +29,7 @@ export default class Application
         this.time = new Time()
         this.sizes = new Sizes()
         this.resources = new Resources()
+        this.loadingScreen = new LoadingScreen({ resources: this.resources })
 
         this.setConfig()
         this.setDebug()
