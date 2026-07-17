@@ -153,8 +153,18 @@ export default class InformationSection
         // Geometry
         this.activities.geometry = new THREE.PlaneGeometry(2 * this.activities.multiplier, 1 * this.activities.multiplier, 1, 1)
 
-        // Texture
-        this.activities.texture = this.resources.items.informationActivitiesTexture
+        // Texture generated on a canvas (no leftover image asset needed)
+        const activitiesCanvas = document.createElement('canvas')
+        activitiesCanvas.width = 1024
+        activitiesCanvas.height = 512
+        const activitiesContext = activitiesCanvas.getContext('2d')
+        activitiesContext.textAlign = 'center'
+        activitiesContext.textBaseline = 'middle'
+        activitiesContext.fillStyle = '#ffffff'
+        activitiesContext.font = '600 96px "JetBrains Mono", "SF Mono", Menlo, monospace'
+        activitiesContext.fillText('ACTIVITIES', activitiesCanvas.width / 2, activitiesCanvas.height / 2)
+
+        this.activities.texture = new THREE.CanvasTexture(activitiesCanvas)
         this.activities.texture.magFilter = THREE.NearestFilter
         this.activities.texture.minFilter = THREE.LinearFilter
 
