@@ -61,7 +61,7 @@ export default class SummaryCard
         this.$element = document.createElement('div')
         this.$element.className = 'sc-card'
         this.$element.innerHTML = `
-            <button class="sc-close" type="button" aria-label="Dismiss">&times;</button>
+            <button class="sc-close interactive-fade" type="button" aria-label="Dismiss">&times;</button>
             <div class="sc-eyebrow">30-second summary</div>
             <div class="sc-name">${name}</div>
             <div class="sc-title">${title}</div>
@@ -69,7 +69,7 @@ export default class SummaryCard
             <div class="sc-skills">
                 ${featuredSkills.map((skill) => `<span>${skill}</span>`).join('')}
             </div>
-            <button class="sc-cta js-sc-cta" type="button">See my work &rarr;</button>
+            <button class="sc-cta js-sc-cta interactive-scale" type="button">See my work &rarr;</button>
         `
 
         document.body.appendChild(this.$element)

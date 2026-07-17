@@ -1,0 +1,66 @@
+/* ============================================
+   INTERACTIONS
+   Reusable hover/focus/active classes so motion
+   feels consistent across every clickable element
+   instead of one-off styles per component.
+   ============================================ */
+
+/* ---------- Scale ----------
+   For primary buttons/CTAs: toggle, footer button,
+   summary card CTA. Confident lift on hover, gentle
+   press-down on click. */
+.interactive-scale
+{
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.interactive-scale:hover
+{
+    transform: scale(var(--scale-hover));
+}
+
+.interactive-scale:active
+{
+    transform: scale(var(--scale-active));
+}
+
+/* ---------- Fade ----------
+   For quieter elements: tags, close buttons, contact
+   links. Dimmed by default, full strength on hover,
+   so the eye is guided without shouting. */
+.interactive-fade
+{
+    opacity: 0.65;
+    transition: opacity var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.interactive-fade:hover
+{
+    opacity: 1;
+}
+
+/* ---------- Focus ----------
+   Every interactive element gets a visible outline on
+   keyboard focus, not just mouse hover. */
+.interactive-scale:focus-visible,
+.interactive-fade:focus-visible
+{
+    outline: 1px solid var(--color-white);
+    outline-offset: 3px;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce)
+{
+    .interactive-scale,
+    .interactive-fade
+    {
+        transition: none !important;
+    }
+
+    .interactive-scale:hover,
+    .interactive-scale:active
+    {
+        transform: none !important;
+    }
+}

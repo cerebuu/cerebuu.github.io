@@ -9,35 +9,78 @@ export default {
 
     name: 'Caleb Adriel M. Tingson',
     title: 'Software Developer · Computer Science Student · GDG on Campus Lead',
-    bio: 'Computer Science student at the University of the Immaculate Conception (UIC) with a passion for software development, web technologies, artificial intelligence, and emerging technologies. As GDG Campus Lead, I organize workshops and community events on software development, AI, and cloud technologies, helping other students explore emerging tech through peer learning. I\'m continuously learning and expanding my skills to become a full-stack software developer.',
+    bio: 'Computer Science student at the University of the Immaculate Conception (UIC) with a passion for software development, web technologies, artificial intelligence, and emerging technologies. I enjoy building clean, user-focused applications, solving real-world problems, and contributing to the tech community through leadership, hackathons, and events. I\'m continuously learning and expanding my skills to become a full-stack software developer.',
 
     // Short version used in the 30-second summary card — 2 lines max
-    bioShort: 'CS student and GDG Campus Lead at UIC, building clean, user-focused apps and organizing workshops on AI, cloud, and web development.',
+    bioShort: 'CS student building clean, user-focused apps. Currently exploring full-stack development, AI, and interactive web experiences.',
 
     // The 3 skills to highlight in the summary card (pulled to the front,
     // rest of your skills still live in full detail in the skills[] list below)
     featuredSkills: ['JavaScript', 'Three.js', 'UI/UX Design'],
 
+    // ResumeMode.js reads name/title/bio from here (nested), while
+    // SummaryCard.js reads the top-level fields above. Both point to
+    // the same values so there's still just one place to edit.
+    about: {
+        name: 'Caleb Adriel M. Tingson',
+        title: 'Software Developer · Computer Science Student · GDG on Campus Lead',
+        bio: 'Computer Science student at the University of the Immaculate Conception (UIC) with a passion for software development, web technologies, artificial intelligence, and emerging technologies. I enjoy building clean, user-focused applications, solving real-world problems, and contributing to the tech community through leadership, hackathons, and events. I\'m continuously learning and expanding my skills to become a full-stack software developer.'
+    },
+
     skills: [
         {
             group: 'Programming Languages',
-            items: ['Java', 'JavaScript', 'HTML5', 'CSS3', 'SQL (Basic)']
+            tags: [
+                { name: 'Java', featured: true },
+                { name: 'JavaScript', featured: true },
+                { name: 'HTML5' },
+                { name: 'CSS3' },
+                { name: 'SQL (Basic)' }
+            ]
         },
         {
             group: 'Frameworks & Libraries',
-            items: ['React (Learning)', 'Three.js (Learning)', 'Tailwind CSS', 'Bootstrap']
+            tags: [
+                { name: 'React (Learning)' },
+                { name: 'Three.js (Learning)', featured: true },
+                { name: 'Tailwind CSS' },
+                { name: 'Bootstrap' }
+            ]
         },
         {
             group: 'Tools & Platforms',
-            items: ['Git', 'GitHub', 'VS Code', 'Figma', 'Canva', 'Microsoft Office']
+            tags: [
+                { name: 'Git', featured: true },
+                { name: 'GitHub' },
+                { name: 'VS Code' },
+                { name: 'Figma' },
+                { name: 'Canva' },
+                { name: 'Microsoft Office' }
+            ]
         },
         {
             group: 'Networking & IT',
-            items: ['Computer Hardware Servicing', 'LAN/WAN Configuration', 'Network Troubleshooting', 'Software Installation', 'System Maintenance', 'Technical Support']
+            tags: [
+                { name: 'Computer Hardware Servicing' },
+                { name: 'LAN/WAN Configuration' },
+                { name: 'Network Troubleshooting' },
+                { name: 'Software Installation' },
+                { name: 'System Maintenance' },
+                { name: 'Technical Support' }
+            ]
         },
         {
             group: 'Professional Skills',
-            items: ['UI/UX Design', 'Responsive Web Design', 'Problem Solving', 'Team Collaboration', 'Leadership', 'Research', 'Technical Documentation', 'Public Speaking']
+            tags: [
+                { name: 'UI/UX Design', featured: true },
+                { name: 'Responsive Web Design' },
+                { name: 'Problem Solving' },
+                { name: 'Team Collaboration' },
+                { name: 'Leadership' },
+                { name: 'Research' },
+                { name: 'Technical Documentation' },
+                { name: 'Public Speaking' }
+            ]
         }
     ],
 
@@ -49,8 +92,7 @@ export default {
             solution: 'Developing an interactive game-inspired portfolio with a minimalist monochrome design where visitors explore projects through gameplay.',
             impact: 'Demonstrates frontend development, creative design, and interactive user experience while strengthening my personal brand.',
             tags: ['HTML', 'CSS', 'JavaScript', 'Three.js'],
-            link: null,
-            linkLabel: 'Link coming soon'
+            link: { text: 'Link coming soon', disabled: true }
         },
         {
             title: 'Dental Clinic Information Website',
@@ -59,8 +101,6 @@ export default {
             solution: 'Collaborated on developing an informational website featuring clinic services, contact details, and appointment information.',
             impact: 'Improved the clinic\'s online presence and made information more accessible for patients.',
             tags: ['HTML', 'CSS', 'JavaScript'],
-            link: null,
-            linkLabel: null
         },
         {
             title: 'GDG on Campus Website QA',
@@ -69,8 +109,6 @@ export default {
             solution: 'Conducted QA testing, identifying UI inconsistencies, usability issues, and functional bugs.',
             impact: 'Contributed to a more polished, user-friendly website before launch.',
             tags: ['QA Testing', 'UI/UX', 'Documentation'],
-            link: null,
-            linkLabel: null
         },
         {
             title: 'Java Console Applications',
@@ -79,8 +117,6 @@ export default {
             solution: 'Developed multiple Java console programs implementing authentication systems, arrays, loops, methods, and OOP concepts.',
             impact: 'Improved programming logic and software development skills.',
             tags: ['Java', 'OOP'],
-            link: null,
-            linkLabel: null
         },
         {
             title: 'Computer Networking Projects',
@@ -89,8 +125,6 @@ export default {
             solution: 'Designed, configured, and troubleshot LAN topologies while applying networking concepts and best practices.',
             impact: 'Successfully implemented functional network infrastructures and strengthened networking expertise.',
             tags: ['Networking', 'LAN', 'WAN', 'Cisco Concepts'],
-            link: null,
-            linkLabel: null
         }
     ],
 
@@ -99,7 +133,7 @@ export default {
             role: 'Campus Lead',
             org: 'Google Developer Groups on Campus (GDG on Campus) — University of the Immaculate Conception',
             dates: '2026 — Present',
-            points: [
+            bullets: [
                 'Lead the campus developer community by organizing technical events, workshops, and collaborative activities.',
                 'Promote technology learning, innovation, and community engagement among students.'
             ]
@@ -108,7 +142,7 @@ export default {
             role: 'Freelance Encoder',
             org: 'Lebosada Dental Care',
             dates: '2024 — Present',
-            points: [
+            bullets: [
                 'Prepared, organized, and encoded business records while ensuring data accuracy and efficient documentation.'
             ]
         },
@@ -116,7 +150,7 @@ export default {
             role: 'Freelance Encoder',
             org: 'Double A Rooftech Marketing',
             dates: '2024 — Present',
-            points: [
+            bullets: [
                 'Managed monthly sales and purchase encoding for BIR reporting while maintaining organized and accurate financial records.'
             ]
         }

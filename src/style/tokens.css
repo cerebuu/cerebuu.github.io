@@ -36,4 +36,11 @@
     --color-text: #ffffff;
     --color-text-dim: #8a8a8a;
     --color-text-faint: #555555;
+
+    /* ---------- Motion ----------
+       Shared timing so every hover/focus transition
+       across the site feels like one consistent system. */
+    --transition-fast: 0.2s ease;
+    --scale-hover: 1.035;
+    --scale-active: 0.97;
 }

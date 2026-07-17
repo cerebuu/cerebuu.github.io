@@ -4,84 +4,104 @@ export default class NavDock
     {
         this.world = _options.world
 
-        // 'world' entries teleport the car to a section already built in the
-        // 3D scene. 'resume' entries (About/Skills/Experience) don't have a
-        // 3D area of their own, so those open the Resume Mode overlay and
-        // scroll to the matching anchor instead.
-        this.destinations = {
-            home: { type: 'world', x: 0, y: 0, cameraAngle: 'default' },
-            about: { type: 'resume', anchor: '#rm-about' },
-            skills: { type: 'resume', anchor: '#rm-skills' },
-            experience: { type: 'resume', anchor: '#rm-experience' },
-            projects: { type: 'world', x: 30, y: - 30, cameraAngle: 'projects' },
-            playground: { type: 'world', x: - 38, y: - 34, cameraAngle: 'default' },
-            contact: { type: 'world', x: 1.2, y: - 55, cameraAngle: 'default' }
+        // Real 3D-world teleport targets (matches World/index.js setSections() coordinates)
+        this.teleportTargets = {
+            home: { x: 0, y: 0, z: 12 },
+            projects: { x: 30, y: -30, z: 12 },
+            contact: { x: 1.2, y: -55, z: 12 },
+            playground: { x: -38, y: -34, z: 12 }
         }
 
-        this.setElements()
-        this.setEvents()
-    }
+        // Sections that only exist in Resume Mode, not the 3D world
+        this.resumeOnlyTargets = ['about', 'skills', 'experience']
 
-    setElements()
-    {
-        this.$container = document.querySelector('.js-nav-dock')
-        this.$items = this.$container ? [...this.$container.querySelectorAll('.nav-dock__item')] : []
-    }
+        this.element = document.querySelector('.js-nav-dock')
 
-    setEvents()
-    {
-        if(!this.$container)
+        if(!this.element)
         {
             return
         }
 
-        this.$items.forEach(($item) =>
+        this.bindEvents()
+    }
+
+    bindEvents()
+    {
+        const buttons = this.element.querySelectorAll('.nav-dock__item')
+
+        buttons.forEach((button) =>
         {
-            $item.addEventListener('click', () =>
+            button.addEventListener('click', () =>
             {
-                const target = $item.getAttribute('data-target')
-                this.goTo(target)
+                this.goTo(button.dataset.target)
+                this.setActive(button)
             })
         })
     }
 
+    setActive(_activeButton)
+    {
+        const buttons = this.element.querySelectorAll('.nav-dock__item')
+        buttons.forEach((button) => button.classList.remove('is-active'))
+        _activeButton.classList.add('is-active')
+    }
+
+    reveal()
+    {
+        if(this.element)
+        {
+            this.element.classList.add('is-visible')
+        }
+    }
+
     goTo(_name)
     {
-        const destination = this.destinations[_name]
+        if(this.resumeOnlyTargets.includes(_name))
+        {
+            this.openResumeAt(_name)
+            return
+        }
+
+        this.teleportTo(_name)
+    }
+
+    openResumeAt(_anchorId)
+    {
+        const toggle = document.querySelector('.js-resume-toggle, .rm-toggle')
+
+        if(toggle)
+        {
+            toggle.click()
+        }
+
+        window.setTimeout(() =>
+        {
+            const target = document.getElementById(`rm-${_anchorId}`)
+            if(target)
+            {
+                target.scrollIntoView({ behavior: 'smooth' })
+            }
+        }, 400)
+    }
+
+    teleportTo(_name)
+    {
+        const destination = this.teleportTargets[_name]
 
         if(!destination)
         {
             return
         }
 
-        if(destination.type === 'resume')
-        {
-            this.goToResume(destination)
-        }
-        else
-        {
-            this.goToWorld(destination)
-        }
-
-        this.setActive(_name)
-    }
-
-    goToWorld(_destination)
-    {
-        if(!this.world.physics)
+        if(!this.world.physics || !this.world.physics.car)
         {
             return
-        }
-
-        if(window.resumeMode && window.resumeMode.isActive)
-        {
-            window.resumeMode.close()
         }
 
         const body = this.world.physics.car.chassis.body
 
         body.sleep()
-        body.position.set(_destination.x, _destination.y, _destination.z || 4)
+        body.position.set(destination.x, destination.y, destination.z)
         body.velocity.set(0, 0, 0)
         body.angularVelocity.set(0, 0, 0)
 
@@ -92,48 +112,7 @@ export default class NavDock
 
         if(this.world.camera && this.world.camera.angle)
         {
-            this.world.camera.angle.set(_destination.cameraAngle || 'default')
+            this.world.camera.angle.set(_name === 'projects' ? 'projects' : 'default')
         }
-    }
-
-    goToResume(_destination)
-    {
-        if(!window.resumeMode)
-        {
-            return
-        }
-
-        if(!window.resumeMode.isActive)
-        {
-            window.resumeMode.open()
-        }
-
-        window.requestAnimationFrame(() =>
-        {
-            const $target = document.querySelector(_destination.anchor)
-
-            if($target)
-            {
-                $target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
-        })
-    }
-
-    setActive(_name)
-    {
-        this.$items.forEach(($item) =>
-        {
-            $item.classList.toggle('is-active', $item.getAttribute('data-target') === _name)
-        })
-    }
-
-    reveal()
-    {
-        if(!this.$container)
-        {
-            return
-        }
-
-        this.$container.classList.add('is-visible')
     }
 }

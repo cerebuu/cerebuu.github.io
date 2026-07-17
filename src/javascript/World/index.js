@@ -75,7 +75,6 @@ export default class World
         this.setNameBlocks()
         this.setCar()
         this.areas.car = this.car
-        this.navDock = new NavDock({ world: this })
         this.setTiles()
         this.setWalls()
         this.setSections()
