@@ -38,8 +38,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-Wsl0E4u6.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-B1uq_y-X.css">
+  <script type="module" crossorigin src="/assets/index-H4h4LC0f.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BC2YnIpj.css">
 </head>
 <body>
 
@@ -89,7 +89,16 @@
     <!-- Resume Mode: fast, scrollable, text-first view.
          Content is rendered by ResumeMode.js from src/content.js —
          edit content.js, not this markup, to change what's shown. -->
-    <div class="contact-icons js-contact-icons">
+    <div class="loading-screen js-loading-screen">
+    <div class="loading-screen__inner">
+        <p class="loading-screen__percent js-loading-percent">0%</p>
+        <div class="loading-screen__track">
+            <div class="loading-screen__bar js-loading-bar"></div>
+        </div>
+        <button class="loading-screen__skip js-loading-skip" type="button">Skip to Resume Mode</button>
+    </div>
+</div>
+<div class="contact-icons js-contact-icons">
     <a class="contact-icons__item" href="mailto:zaikurei112@gmail.com" aria-label="Email" title="Email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18v12H3z"/><path d="M3 6l9 7 9-7"/></svg>
     </a>
