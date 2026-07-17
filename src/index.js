@@ -1,3 +1,4 @@
+import './style/tokens.css'
 import './style/main.css'
 import './style/resume.css'
 import './style/summary-card.css'

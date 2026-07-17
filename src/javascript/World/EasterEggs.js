@@ -346,19 +346,16 @@ export default class EasterEggs
 
                     // egg.object.collision.body.removeEventListener('collide', egg.collisionCallback)
 
-                    const code = atob(egg.code)
-
                     window.setTimeout(() =>
                     {
                         if(window.confirm(`
-You find an egg!
-Here is your code for a 30% discount on https://threejs-journey.xyz
-${code}
+You found a secret!
 
-Would you like to go on the subscription page?
+Thanks for exploring the whole scene, not just the surface.
+Want to check out more of my work on GitHub?
                         `))
                         {
-                            window.open(`https://threejs-journey.xyz/subscribe/${code}`, '_blank')
+                            window.open('https://github.com/cerebuu', '_blank')
                         }
 
                         window.setTimeout(() =>

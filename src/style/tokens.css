@@ -1,0 +1,39 @@
+/* ============================================
+   DESIGN TOKENS
+   Single source of truth for fonts, type scale,
+   and the monochrome color palette. main.css,
+   resume.css, and summary-card.css all read from
+   these instead of redefining their own values.
+   ============================================ */
+
+:root
+{
+    /* ---------- Fonts ---------- */
+    --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+
+    /* ---------- Type scale ----------
+       Fluid (clamp-based) so it holds up from mobile to desktop
+       without needing separate breakpoint overrides everywhere. */
+    --text-3xl: clamp(32px, 6vw, 56px);  /* hero name / biggest headline */
+    --text-2xl: clamp(24px, 4vw, 34px);  /* section headings */
+    --text-xl:  20px;                    /* card/project titles */
+    --text-lg:  17px;                    /* lead paragraph / bio */
+    --text-base: 15px;                   /* body copy */
+    --text-sm:  13px;                    /* secondary text */
+    --text-xs:  12px;                    /* labels, eyebrows */
+    --text-2xs: 11px;                    /* tags, fine print */
+
+    /* ---------- Monochrome palette ----------
+       Consolidated from what was already in use across
+       main.css / resume.css / summary-card.css. */
+    --color-black: #000000;
+    --color-bg: #000000;
+    --color-panel: #0a0a0a;
+    --color-border: #2a2a2a;
+    --color-white: #ffffff;
+    --color-text: #ffffff;
+    --color-text-dim: #8a8a8a;
+    --color-text-faint: #555555;
+}
