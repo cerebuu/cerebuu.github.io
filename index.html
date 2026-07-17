@@ -4,24 +4,24 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Caleb Adriel Tingson</title>
-    <meta name="description" content="Creative developer and GDG Campus Lead at the University of the Immaculate Conception, building interfaces that feel deliberate, fast, and memorable." />
+    <title>Bruno Simon</title>
+    <meta name="description" content="Creative developer living in Paris, freelancer, former lead developer at Immersive Garden, former developer at Uzik and teacher." />
 
-    <meta itemprop=name content="Caleb Adriel Tingson - Creative Developer">
-    <meta itemprop="description" content="Creative developer and GDG Campus Lead at the University of the Immaculate Conception, building interfaces that feel deliberate, fast, and memorable.">
-    <meta itemprop="image" content=https://cerebuu.github.io/social/share-1200x630.png>
+    <meta itemprop=name content="Bruno Simon - Creative developer">
+    <meta itemprop="description" content="Creative developer living in Paris, freelancer, former lead developer at Immersive Garden, former developer at Uzik and teacher.">
+    <meta itemprop="image" content=https://bruno-simon.com/social/share-1200x630.png>
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Caleb Adriel Tingson - Creative Developer">
-    <meta name="twitter:description" content="Creative developer and GDG Campus Lead at the University of the Immaculate Conception, building interfaces that feel deliberate, fast, and memorable.">
-    <meta name="twitter:image" content="https://cerebuu.github.io/social/share-1200x600.png">
+    <meta name="twitter:title" content="Bruno Simon - Creative developer">
+    <meta name="twitter:description" content="Creative developer living in Paris, freelancer, former lead developer at Immersive Garden, former developer at Uzik and teacher.">
+    <meta name="twitter:image" content="https://bruno-simon.com/social/share-1200x600.png">
 
-    <meta property="og:site_name" content="Caleb Adriel Tingson - Creative Developer">
+    <meta property="og:site_name" content="Bruno Simon - Creative developer">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cerebuu.github.io">
-    <meta property="og:title" content="Caleb Adriel Tingson - Creative Developer">
-    <meta property="og:description" content="Creative developer and GDG Campus Lead at the University of the Immaculate Conception, building interfaces that feel deliberate, fast, and memorable.">
-    <meta property="og:image" content="https://cerebuu.github.io/social/share-1200x630.png">
+    <meta property="og:url" content="https://bruno-simon.com">
+    <meta property="og:title" content="Bruno Simon - Creative developer">
+    <meta property="og:description" content="Creative developer living in Paris, freelancer, former lead developer at Immersive Garden, former developer at Uzik and teacher.">
+    <meta property="og:image" content="https://bruno-simon.com/social/share-1200x630.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,16 +30,16 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <link rel="manifest" href="/favicon/site.webmanifest">
     <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000">
-    <meta name="apple-mobile-web-app-title" content="Caleb Adriel Tingson">
-    <meta name="application-name" content="Caleb Adriel Tingson">
+    <meta name="apple-mobile-web-app-title" content="Bruno Simon">
+    <meta name="application-name" content="Bruno Simon">
     <meta name="msapplication-TileColor" content="#000000">
     <meta name="theme-color" content="#ffffff">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=block" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-D0Grf3DE.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DZyAlj3o.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-BjilnM6A.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Bk0Zth_L.css">
 </head>
 <body>
 
@@ -86,45 +86,26 @@
         </div>
     </div>
 
-    <!-- Resume Mode: fast, scrollable, text-first view -->
-    <button class="rm-toggle js-resume-toggle" type="button">Resume Mode</button>
+    <!-- Resume Mode: fast, scrollable, text-first view.
+         Content is rendered by ResumeMode.js from src/content.js —
+         edit content.js, not this markup, to change what's shown. -->
+    <nav class="nav-dock js-nav-dock">
+        <button class="nav-dock__item" data-target="home" type="button"><span class="nav-dock__label">Home</span></button>
+        <button class="nav-dock__item" data-target="about" type="button"><span class="nav-dock__label">About</span></button>
+        <button class="nav-dock__item" data-target="skills" type="button"><span class="nav-dock__label">Skills</span></button>
+        <button class="nav-dock__item" data-target="experience" type="button"><span class="nav-dock__label">Experience</span></button>
+        <button class="nav-dock__item" data-target="projects" type="button"><span class="nav-dock__label">Projects</span></button>
+        <button class="nav-dock__item" data-target="playground" type="button"><span class="nav-dock__label">Playground</span></button>
+        <button class="nav-dock__item" data-target="contact" type="button"><span class="nav-dock__label">Contact</span></button>
+    </nav>
+
+    <button class="rm-toggle js-resume-toggle interactive-scale" type="button">Resume Mode</button>
 
     <div class="rm-overlay js-resume-overlay">
         <nav class="rm-nav"></nav>
-
         <div class="rm-content"></div>
     </div>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3966601-5"></script>
-    <script>
-        window.dataLayer = window.dataLayer || []
-        function gtag(){dataLayer.push(arguments)}
-        gtag('js', new Date())
-        gtag('config', 'UA-3966601-5')
-    </script>
 
-<nav class="nav-dock js-nav-dock">
-        <button class="nav-dock__item" data-target="home" type="button">
-            <span class="nav-dock__label">Home</span>
-        </button>
-        <button class="nav-dock__item" data-target="about" type="button">
-            <span class="nav-dock__label">About</span>
-        </button>
-        <button class="nav-dock__item" data-target="projects" type="button">
-            <span class="nav-dock__label">Projects</span>
-        </button>
-        <button class="nav-dock__item" data-target="skills" type="button">
-            <span class="nav-dock__label">Skills</span>
-        </button>
-        <button class="nav-dock__item" data-target="experience" type="button">
-            <span class="nav-dock__label">Experience</span>
-        </button>
-        <button class="nav-dock__item" data-target="playground" type="button">
-            <span class="nav-dock__label">Playground</span>
-        </button>
-        <button class="nav-dock__item" data-target="contact" type="button">
-            <span class="nav-dock__label">Contact</span>
-        </button>
-    </nav>
 </body>
 </html>
