@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import ActivityBoards from '../ActivityBoards.js'
 
 export default class InformationSection
 {
@@ -22,6 +23,7 @@ export default class InformationSection
         this.setBaguettes()
         this.setLinks()
         this.setActivities()
+        this.setActivityBoards()
         this.setTiles()
     }
 
@@ -198,6 +200,16 @@ export default class InformationSection
                     }
                 }, 400)
             }
+        })
+    }
+
+    setActivityBoards()
+    {
+        this.activityBoards = new ActivityBoards({
+            container: this.container,
+            areas: this.areas,
+            x: this.activities.x,
+            y: this.activities.y
         })
     }
 

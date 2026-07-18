@@ -172,13 +172,13 @@ export default class ResumeMode
 
     renderActivities()
     {
-        const activities = content.activities.map((activity) => {
+        const activities = content.activities.map((activity, index) => {
             const link = activity.link
                 ? `<span class="rm-project-link${activity.link.disabled ? ' is-disabled' : ' interactive-fade'}">${activity.link.text}</span>`
                 : ''
 
             return `
-                <div class="rm-project">
+                <div class="rm-project" id="rm-activity-${index}">
                     <div class="rm-project-header">
                         <h3>${activity.title}</h3>
                         <span class="rm-project-status">${activity.status}</span>
