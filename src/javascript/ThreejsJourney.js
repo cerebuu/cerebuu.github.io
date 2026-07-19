@@ -13,7 +13,6 @@ export default class ThreejsJourney
         this.$container = document.querySelector('.js-threejs-journey')
         this.$messages = [...this.$container.querySelectorAll('.js-message')]
         this.$yes = this.$container.querySelector('.js-yes')
-        this.$no = this.$container.querySelector('.js-no')
         this.step = 0
         this.maxStep = this.$messages.length - 1
         this.seenCount = window.localStorage.getItem('threejsJourneySeenCount') || 0
@@ -49,51 +48,27 @@ export default class ThreejsJourney
     setYesNo()
     {
         // Clicks
-        this.$yes.addEventListener('click', () =>
+        this.$yes.addEventListener('click', (_event) =>
         {
-            gsap.delayedCall(2, () =>
+            _event.preventDefault()
+
+            gsap.delayedCall(0.3, () =>
             {
                 this.hide()
             })
             window.localStorage.setItem('threejsJourneyPrevent', 1)
         })
 
-        this.$no.addEventListener('click', () =>
-        {
-            this.next()
-
-            gsap.delayedCall(5, () =>
-            {
-                this.hide()
-            })
-        })
-
         // Hovers
         this.$yes.addEventListener('mouseenter', () =>
         {
             this.$container.classList.remove('is-hover-none')
-            this.$container.classList.remove('is-hover-no')
             this.$container.classList.add('is-hover-yes')
-        })
-
-        this.$no.addEventListener('mouseenter', () =>
-        {
-            this.$container.classList.remove('is-hover-none')
-            this.$container.classList.add('is-hover-no')
-            this.$container.classList.remove('is-hover-yes')
         })
 
         this.$yes.addEventListener('mouseleave', () =>
         {
             this.$container.classList.add('is-hover-none')
-            this.$container.classList.remove('is-hover-no')
-            this.$container.classList.remove('is-hover-yes')
-        })
-
-        this.$no.addEventListener('mouseleave', () =>
-        {
-            this.$container.classList.add('is-hover-none')
-            this.$container.classList.remove('is-hover-no')
             this.$container.classList.remove('is-hover-yes')
         })
     }
@@ -173,38 +148,15 @@ export default class ThreejsJourney
     {
         let i = 0
 
-        // Visibility
         for(const _$message of this.$messages)
         {
             if(i < this.step)
+            {
                 _$message.classList.add('is-visible')
+            }
 
             i++
         }
-
-        // Position
-        this.$messages.reverse()
-
-        let height = 0
-        i = this.maxStep
-        for(const _$message of this.$messages)
-        {
-            const messageHeight = _$message.offsetHeight
-            if(i < this.step)
-            {
-                _$message.style.transform = `translateY(${- height}px)`
-                height += messageHeight + 20
-            }
-            else
-            {
-                _$message.style.transform = `translateY(${messageHeight}px)`
-            }
-
-            i--
-        }
-
-
-        this.$messages.reverse()
     }
 
     next()
