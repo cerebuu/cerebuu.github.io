@@ -127,6 +127,11 @@ export default class ActivityBoards
 
         area.on('interact', () =>
         {
+            if(_activity.link && !_activity.link.disabled)
+            {
+                window.open(_activity.link.href, '_blank', 'noopener')
+            }
+
             if(window.resumeMode)
             {
                 window.resumeMode.open()

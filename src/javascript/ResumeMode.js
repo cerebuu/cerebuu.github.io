@@ -174,7 +174,9 @@ export default class ResumeMode
     {
         const activities = content.activities.map((activity, index) => {
             const link = activity.link
-                ? `<span class="rm-project-link${activity.link.disabled ? ' is-disabled' : ' interactive-fade'}">${activity.link.text}</span>`
+                ? (activity.link.disabled
+                    ? `<span class="rm-project-link is-disabled">${activity.link.text}</span>`
+                    : `<a href="${activity.link.href}" target="_blank" rel="noopener" class="rm-project-link interactive-fade">${activity.link.text}</a>`)
                 : ''
 
             return `
