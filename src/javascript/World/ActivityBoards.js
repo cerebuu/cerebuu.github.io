@@ -113,10 +113,11 @@ export default class ActivityBoards
 
         const mesh = new THREE.Mesh(geometry, material)
 
-        // Positioned just in front of (north of) this board's own interactive
-        // box, rather than centered inside it, so the title/week text reads
-        // clearly before the car reaches that box.
-        const signY = _y + 1.8
+        // Positioned on the south side of this board's own interactive box
+        // (opposite the "ACTIVITIES" label to the north), rather than
+        // centered inside it, so the title/week text doesn't overlap
+        // either the box outline or the section label.
+        const signY = _y - 1.8
 
         mesh.rotation.x = Math.PI * 0.5
         mesh.position.set(_x, signY, standHeight)
