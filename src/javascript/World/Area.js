@@ -77,7 +77,9 @@ export default class Area extends EventEmitter
         this.floorBorder.material.uniforms.uLoadProgress.value = 1
         this.floorBorder.material.uniforms.uProgress.value = 1
         this.floorBorder.mesh = new THREE.Mesh(this.floorBorder.geometry, this.floorBorder.material)
+        this.floorBorder.mesh.position.z = 0.015
         this.floorBorder.mesh.matrixAutoUpdate = false
+        this.floorBorder.mesh.updateMatrix()
 
         this.container.add(this.floorBorder.mesh)
     }

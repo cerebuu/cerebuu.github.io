@@ -9,11 +9,12 @@ export default class NavDock
             home: { x: 0, y: 0, z: 12 },
             projects: { x: 30, y: -30, z: 12 },
             contact: { x: 1.2, y: -55, z: 12 },
-            playground: { x: -38, y: -34, z: 12 }
+            playground: { x: -38, y: -34, z: 12 },
+            activities: { x: 1.2, y: -60, z: 12 }
         }
 
         // Sections that only exist in Resume Mode, not the 3D world
-        this.resumeOnlyTargets = ['about', 'skills', 'experience', 'activities']
+        this.resumeOnlyTargets = ['about', 'skills', 'experience']
 
         this.element = document.querySelector('.js-nav-dock')
 

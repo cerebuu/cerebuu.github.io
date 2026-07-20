@@ -173,10 +173,12 @@ export default class InformationSection
         // Material
         this.activities.material = new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: this.activities.texture, transparent: true })
 
-        // Mesh
+        // Mesh — positioned outside the interactive border (north edge) so the
+        // label reads cleanly instead of overlapping the border/fence
+        this.activities.labelY = this.activities.y + this.activities.multiplier * 0.5 + 2
         this.activities.mesh = new THREE.Mesh(this.activities.geometry, this.activities.material)
         this.activities.mesh.position.x = this.activities.x
-        this.activities.mesh.position.y = this.activities.y
+        this.activities.mesh.position.y = this.activities.labelY
         this.activities.mesh.matrixAutoUpdate = false
         this.activities.mesh.updateMatrix()
         this.container.add(this.activities.mesh)
