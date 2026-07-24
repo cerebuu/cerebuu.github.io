@@ -26,14 +26,18 @@ export default class ResumeMode
         }
 
         this.render()
+        this.buildSnowLayer()
+        this.buildProgressRail()
 
         this.$closeButtons = document.querySelectorAll('.js-resume-close')
         this.$sections = document.querySelectorAll('.rm-section')
         this.$navLinks = document.querySelectorAll('.rm-nav a')
 
         this.bindToggle()
+        this.bindSkipLink()
         this.bindScrollReveal()
         this.bindNavHighlight()
+        this.bindScrollProgress()
     }
 
     render()
@@ -45,21 +49,127 @@ export default class ResumeMode
             this.renderProjects() +
             this.renderExperience() +
             this.renderCertifications() +
-            this.renderActivities() +
             this.renderContact() +
             this.renderFooter()
+    }
+
+    /**
+     * Snow layer — a lightweight canvas of drifting particles behind
+     * the content. This ties Resume Mode visually to the 3D world's
+     * one real signature effect, instead of feeling like a separate
+     * page that happens to also be black.
+     */
+    buildSnowLayer()
+    {
+        this.$snowCanvas = document.createElement('canvas')
+        this.$snowCanvas.className = 'rm-snow-layer'
+        this.$overlay.insertBefore(this.$snowCanvas, this.$overlay.firstChild)
+
+        this.snowContext = this.$snowCanvas.getContext('2d')
+        this.snowParticles = []
+        this.snowParticleCount = 70
+        this.snowAnimationId = null
+
+        const resize = () =>
+        {
+            this.$snowCanvas.width = window.innerWidth
+            this.$snowCanvas.height = window.innerHeight
+        }
+
+        resize()
+        window.addEventListener('resize', resize)
+
+        for(let i = 0; i < this.snowParticleCount; i++)
+        {
+            this.snowParticles.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                radius: 0.6 + Math.random() * 1.8,
+                speed: 0.15 + Math.random() * 0.4,
+                drift: Math.random() * 0.4 - 0.2
+            })
+        }
+    }
+
+    startSnowAnimation()
+    {
+        if(this.snowAnimationId)
+        {
+            return
+        }
+
+        const step = () =>
+        {
+            const ctx = this.snowContext
+            ctx.clearRect(0, 0, this.$snowCanvas.width, this.$snowCanvas.height)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+
+            this.snowParticles.forEach((particle) =>
+            {
+                particle.y += particle.speed
+                particle.x += particle.drift
+
+                if(particle.y > this.$snowCanvas.height)
+                {
+                    particle.y = -4
+                    particle.x = Math.random() * this.$snowCanvas.width
+                }
+
+                ctx.beginPath()
+                ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
+                ctx.fill()
+            })
+
+            this.snowAnimationId = window.requestAnimationFrame(step)
+        }
+
+        step()
+    }
+
+    stopSnowAnimation()
+    {
+        if(this.snowAnimationId)
+        {
+            window.cancelAnimationFrame(this.snowAnimationId)
+            this.snowAnimationId = null
+        }
+    }
+
+    /**
+     * Scroll progress rail — a thin vertical fill next to the nav
+     * dock showing how far through the resume you've moved, like a
+     * level-progress bar rather than a plain browser scrollbar.
+     */
+    buildProgressRail()
+    {
+        this.$progressRail = document.createElement('div')
+        this.$progressRail.className = 'rm-progress-rail'
+        this.$progressRail.innerHTML = '<div class="rm-progress-rail-fill"></div>'
+        this.$overlay.appendChild(this.$progressRail)
+
+        this.$progressFill = this.$progressRail.querySelector('.rm-progress-rail-fill')
+    }
+
+    bindScrollProgress()
+    {
+        this.$overlay.addEventListener('scroll', () =>
+        {
+            const scrollable = this.$overlay.scrollHeight - this.$overlay.clientHeight
+            const ratio = scrollable > 0 ? this.$overlay.scrollTop / scrollable : 0
+
+            this.$progressFill.style.height = `${Math.min(100, Math.max(0, ratio * 100))}%`
+        })
     }
 
     renderNav()
     {
         return `
-            <a href="#rm-about">About</a>
-            <a href="#rm-skills">Skills</a>
-            <a href="#rm-projects">Projects</a>
-            <a href="#rm-experience">Experience</a>
-            <a href="#rm-certifications">Certifications</a>
-            <a href="#rm-activities">Activities</a>
-            <a href="#rm-contact">Contact</a>
+            <a class="interactive-hover" href="#rm-about">About</a>
+            <a class="interactive-hover" href="#rm-skills">Skills</a>
+            <a class="interactive-hover" href="#rm-projects">Projects</a>
+            <a class="interactive-hover" href="#rm-experience">Experience</a>
+            <a class="interactive-hover" href="#rm-certifications">Certifications</a>
+            <a class="interactive-hover" href="#rm-contact">Contact</a>
         `
     }
 
@@ -83,7 +193,7 @@ export default class ResumeMode
             <div class="rm-skills-group">
                 <h3>${group.group}</h3>
                 <div class="rm-skills-tags">
-                    ${group.tags.map((tag) => `<span class="interactive-fade${tag.featured ? ' is-featured' : ''}">${tag.name}</span>`).join('')}
+                    ${group.tags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag}</span>`).join('')}
                 </div>
             </div>
         `).join('')
@@ -97,23 +207,49 @@ export default class ResumeMode
         `
     }
 
+    /**
+     * Maps a project's plain-text status to a small visual dot —
+     * pulsing for active work, a hollow square for private repos,
+     * solid for settled/academic ones — instead of just gray text.
+     */
+    statusDotClass(status)
+    {
+        const normalized = status.toLowerCase()
+
+        if(normalized.includes('progress') || normalized.includes('soon'))
+        {
+            return 'rm-status-dot--active'
+        }
+
+        if(normalized.includes('private'))
+        {
+            return 'rm-status-dot--private'
+        }
+
+        return 'rm-status-dot--static'
+    }
+
     renderProjects()
     {
-        const projects = content.projects.map((project) => {
+        const projects = content.projects.map((project, index) => {
             const link = project.link
-                ? `<span class="rm-project-link${project.link.disabled ? ' is-disabled' : ' interactive-fade'}">${project.link.text}</span>`
+                ? `<span class="rm-project-link interactive-hover interactive-hover--opacity${project.link.disabled ? ' is-disabled' :''}">${project.link.text}</span>`
                 : ''
+
+            const number = String(index + 1).padStart(2, '0')
+            const dotClass = this.statusDotClass(project.status)
 
             return `
                 <div class="rm-project">
+                    <span class="rm-project-number">MISSION ${number}</span>
                     <div class="rm-project-header">
                         <h3>${project.title}</h3>
-                        <span class="rm-project-status">${project.status}</span>
+                        <span class="rm-project-status"><span class="rm-status-dot ${dotClass}"></span>${project.status}</span>
                     </div>
                     <p class="rm-project-line"><strong>Problem:</strong> ${project.problem}</p>
                     <p class="rm-project-line"><strong>Solution:</strong> ${project.solution}</p>
                     <p class="rm-project-line"><strong>Impact:</strong> ${project.impact}</p>
-                    <div class="rm-project-tags">${project.tags.map((tag) => `<span class="interactive-fade">${tag}</span>`).join('')}</div>
+                    <div class="rm-project-tags">${project.tags.map((tag) => `<span>${tag}</span>`).join('')}</div>
                     ${link}
                 </div>
             `
@@ -143,7 +279,7 @@ export default class ResumeMode
 
         return `
             <section class="rm-section" id="rm-experience">
-                <span class="rm-eyebrow">experience</span>
+                <span class="rm-eyebrow">quest log</span>
                 <h2>Where I've worked</h2>
                 ${items}
             </section>
@@ -163,40 +299,9 @@ export default class ResumeMode
 
         return `
             <section class="rm-section" id="rm-certifications">
-                <span class="rm-eyebrow">certifications</span>
+                <span class="rm-eyebrow">achievements unlocked</span>
                 <h2>Certifications &amp; recognition</h2>
                 ${groups}
-            </section>
-        `
-    }
-
-    renderActivities()
-    {
-        const activities = content.activities.map((activity, index) => {
-            const link = activity.link
-                ? (activity.link.disabled
-                    ? `<span class="rm-project-link is-disabled">${activity.link.text}</span>`
-                    : `<a href="${activity.link.href}" target="_blank" rel="noopener" class="rm-project-link interactive-fade">${activity.link.text}</a>`)
-                : ''
-
-            return `
-                <div class="rm-project" id="rm-activity-${index}">
-                    <div class="rm-project-header">
-                        <h3>${activity.title}</h3>
-                        <span class="rm-project-status">${activity.status}</span>
-                    </div>
-                    <p class="rm-project-line"><strong>${activity.week}:</strong> ${activity.description}</p>
-                    <div class="rm-project-tags">${activity.tags.map((tag) => `<span class="interactive-fade">${tag}</span>`).join('')}</div>
-                    ${link}
-                </div>
-            `
-        }).join('')
-
-        return `
-            <section class="rm-section" id="rm-activities">
-                <span class="rm-eyebrow">activities</span>
-                <h2>Class activities</h2>
-                ${activities}
             </section>
         `
     }
@@ -208,7 +313,7 @@ export default class ResumeMode
             const attrs = isExternal ? ' target="_blank" rel="noopener"' : ''
 
             return `
-                <a href="${item.href}"${attrs} class="interactive-fade">
+                <a class="interactive-hover interactive-hover--opacity" href="${item.href}"${attrs}>
                     <span class="rm-contact-label">${item.label}</span>
                     <span>${item.value}</span>
                 </a>
@@ -230,7 +335,7 @@ export default class ResumeMode
     {
         return `
             <div class="rm-footer">
-                <button class="rm-explore-btn js-resume-close interactive-scale" type="button">Enter the 3D world &rarr;</button>
+                <button class="rm-explore-btn js-resume-close interactive-hover interactive-hover--scale" type="button">Enter the 3D world &rarr;</button>
             </div>
         `
     }
@@ -266,42 +371,56 @@ export default class ResumeMode
     {
         this.isActive = true
         this.$overlay.classList.add('is-active')
+        this.$overlay.setAttribute('aria-hidden', 'false')
         this.$toggle.textContent = 'Explore 3D World'
         document.body.style.overflow = 'hidden'
-
-        // Hide the 3D world's teleport dock while reading the resume
-        const $navDock = document.querySelector('.js-nav-dock')
-        if($navDock)
-        {
-            $navDock.classList.add('is-hidden-by-resume')
-        }
-
-        const $contactIcons = document.querySelector('.js-contact-icons')
-        if($contactIcons)
-        {
-            $contactIcons.classList.add('is-hidden-by-resume')
-        }
+        this.startSnowAnimation()
     }
 
     close()
     {
         this.isActive = false
         this.$overlay.classList.remove('is-active')
+        this.$overlay.setAttribute('aria-hidden', 'true')
         this.$toggle.textContent = 'Resume Mode'
         document.body.style.overflow = ''
+        this.stopSnowAnimation()
+    }
 
-        // Restore the teleport dock when back in the 3D world
-        const $navDock = document.querySelector('.js-nav-dock')
-        if($navDock)
+    /**
+     * Skip link: for keyboard/screen-reader users, jumps straight
+     * into Resume Mode (the real semantic HTML version of this site)
+     * instead of leaving them stuck on an unlabeled WebGL canvas.
+     */
+    bindSkipLink()
+    {
+        const $skipLink = document.querySelector('.js-skip-link')
+
+        if(!$skipLink)
         {
-            $navDock.classList.remove('is-hidden-by-resume')
+            return
         }
 
-        const $contactIcons = document.querySelector('.js-contact-icons')
-        if($contactIcons)
+        $skipLink.addEventListener('click', (event) =>
         {
-            $contactIcons.classList.remove('is-hidden-by-resume')
-        }
+            event.preventDefault()
+            this.open()
+
+            // Give the overlay a moment to become visible/unhidden,
+            // then move focus to the first heading so screen readers
+            // announce real content immediately, not just an empty jump.
+            window.setTimeout(() =>
+            {
+                const $firstHeading = document.getElementById('rm-about')
+
+                if($firstHeading)
+                {
+                    $firstHeading.setAttribute('tabindex', '-1')
+                    $firstHeading.focus()
+                    $firstHeading.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+            }, 50)
+        })
     }
 
     bindScrollReveal()

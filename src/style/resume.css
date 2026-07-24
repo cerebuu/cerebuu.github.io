@@ -47,6 +47,12 @@
 {
     background: rgba(255, 255, 255, 0.1);
     border-color: #ffffff;
+    /* transform/scale now comes from .interactive-hover--scale */
+}
+
+.rm-toggle:active
+{
+    transform: scale(0.98);
 }
 
 /* ---------- Overlay shell ---------- */
@@ -81,8 +87,11 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.25;
+    opacity: 0.35;
     z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .rm-content
@@ -92,6 +101,46 @@
     max-width: 780px;
     margin: 0 auto;
     padding: 100px 24px 140px;
+}
+
+/* ---------- Scroll progress rail ----------
+   Sits just left of the nav dock — a thin vertical line
+   that fills as you move through the resume, like a
+   level-progress bar rather than a plain scrollbar. */
+
+.rm-progress-rail
+{
+    position: fixed;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+    z-index: 160;
+    width: 2px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease 0.2s, visibility 0s linear 0.5s;
+}
+
+.rm-overlay.is-active .rm-progress-rail
+{
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease 0.4s, visibility 0s linear 0.4s;
+}
+
+.rm-progress-rail-fill
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: #ffffff;
+    border-radius: 999px;
+    transition: height 0.1s linear;
 }
 
 /* ---------- Nav dock (jump between sections) ---------- */
@@ -142,6 +191,7 @@
 @media (max-width: 900px)
 {
     .rm-nav { display: none; }
+    .rm-progress-rail { display: none; }
 }
 
 /* ---------- Section reveal-on-scroll ---------- */
@@ -286,25 +336,12 @@
     background: rgba(255, 255, 255, 0.05);
 }
 
-.rm-skills-tags span.is-featured
-{
-    font-size: 15px;
-    font-weight: 600;
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.rm-skills-tags span.is-featured:hover
-{
-    background: rgba(255, 255, 255, 0.14);
-}
-
-/* ---------- Projects ---------- */
+/* ---------- Projects ("missions") ---------- */
 
 .rm-project
 {
-    padding: 28px 0;
+    position: relative;
+    padding: 28px 0 28px 52px;
     border-top: 1px solid var(--rm-border);
 }
 
@@ -312,6 +349,21 @@
 {
     border-top: none;
     padding-top: 0;
+}
+
+.rm-project-number
+{
+    position: absolute;
+    left: 0;
+    top: 28px;
+    font-family: var(--rm-font-mono);
+    font-size: 12px;
+    color: var(--rm-text-faint);
+}
+
+.rm-project:first-of-type .rm-project-number
+{
+    top: 0;
 }
 
 .rm-project-header
@@ -332,10 +384,50 @@
 
 .rm-project-status
 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--rm-font-mono);
     font-size: 11px;
     color: var(--rm-text-dim);
     white-space: nowrap;
+}
+
+.rm-status-dot
+{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* In progress — pulsing, still moving */
+.rm-status-dot--active
+{
+    background: #ffffff;
+    animation: rm-pulse 1.6s ease-in-out infinite;
+}
+
+/* Private — a small lock, not just gray text */
+.rm-status-dot--private
+{
+    background: transparent;
+    border: 1px solid var(--rm-text-dim);
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+}
+
+/* Static/academic — solid, settled */
+.rm-status-dot--static
+{
+    background: var(--rm-text-faint);
+}
+
+@keyframes rm-pulse
+{
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
 }
 
 .rm-project-line
@@ -434,11 +526,9 @@
 .rm-timeline-item .rm-dates
 {
     font-family: var(--rm-font-mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: #ffffff;
+    font-size: 11px;
+    color: var(--rm-text-faint);
     margin-bottom: 10px;
-    letter-spacing: 0.02em;
 }
 
 .rm-timeline-item ul
@@ -548,13 +638,7 @@
     border: none;
     padding: 14px 28px;
     border-radius: 999px;
-    cursor: pointer;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.rm-footer .rm-explore-btn:hover
-{
-    opacity: 0.9;
+    /* hover/active scale + transition now come from .interactive-hover--scale */
 }
 
 /* ---------- Mobile ---------- */

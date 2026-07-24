@@ -11,9 +11,11 @@
 import activity01 from './activity-01.js'
 import activity02 from './activity-02.js'
 import activity03 from './activity-03.js'
+import activity04 from './activity-04.js'
 
 export default [
     activity01,
     activity02,
-    activity03
+    activity03,
+    activity04
 ]
