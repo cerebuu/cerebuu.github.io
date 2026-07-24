@@ -146,3 +146,4 @@ tags
 # End of https://www.gitignore.io/api/vim,node,macos,visualstudiocode
 src/content.js.bak
 *.bak
+davies-burger/
