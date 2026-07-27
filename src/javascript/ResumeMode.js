@@ -47,6 +47,7 @@ export default class ResumeMode
             this.renderAbout() +
             this.renderSkills() +
             this.renderProjects() +
+            this.renderActivities() +
             this.renderExperience() +
             this.renderCertifications() +
             this.renderContact() +
@@ -167,6 +168,7 @@ export default class ResumeMode
             <a class="interactive-hover" href="#rm-about">About</a>
             <a class="interactive-hover" href="#rm-skills">Skills</a>
             <a class="interactive-hover" href="#rm-projects">Projects</a>
+            <a class="interactive-hover" href="#rm-activities">Activities</a>
             <a class="interactive-hover" href="#rm-experience">Experience</a>
             <a class="interactive-hover" href="#rm-certifications">Certifications</a>
             <a class="interactive-hover" href="#rm-contact">Contact</a>
@@ -260,6 +262,43 @@ export default class ResumeMode
                 <span class="rm-eyebrow">projects</span>
                 <h2>Selected work</h2>
                 ${projects}
+            </section>
+        `
+    }
+
+    /**
+     * Activities — one card per entry in content.activities (sourced
+     * from src/activities/index.js). Each card's id must stay as
+     * `rm-activity-${index}` — this is what ActivityBoards.js scrolls
+     * to when you interact with the matching board in the 3D world.
+     */
+    renderActivities()
+    {
+        const cards = content.activities.map((activity, index) => {
+            const link = activity.link
+                ? `<a class="rm-project-link interactive-hover interactive-hover--opacity" href="${activity.link.href}" target="_blank" rel="noopener">${activity.link.text}</a>`
+                : ''
+
+            const dotClass = this.statusDotClass(activity.status)
+
+            return `
+                <div class="rm-project rm-activity-card" id="rm-activity-${index}">
+                    <div class="rm-project-header">
+                        <h3>${activity.title}</h3>
+                        <span class="rm-project-status"><span class="rm-status-dot ${dotClass}"></span>${activity.status}</span>
+                    </div>
+                    <p class="rm-project-line">${activity.description}</p>
+                    <div class="rm-project-tags">${activity.tags.map((tag) => `<span>${tag}</span>`).join('')}</div>
+                    ${link}
+                </div>
+            `
+        }).join('')
+
+        return `
+            <section class="rm-section" id="rm-activities">
+                <span class="rm-eyebrow">activities</span>
+                <h2>Hands-on practice</h2>
+                ${cards}
             </section>
         `
     }

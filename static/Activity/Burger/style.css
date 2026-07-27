@@ -4,18 +4,12 @@
     box-sizing: border-box;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     background-image: url("https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-6/htmlcss1-img_foodlogo.png");
-    background-attachment: fixed;
     text-align: center;
     font-family: 'Roboto', sans-serif;
-    font-size: clamp(14px, 2vw, 18px);
+    font-size: 18px;
     margin: 0;
-    min-height: 100%;
 }
 
 a {
@@ -26,18 +20,17 @@ a {
 
 nav {
     text-align: center;
-    padding: 12px 16px 0;
 }
 
 nav img {
     display: block;
-    width: clamp(120px, 25vw, 180px);
     margin: 0 auto;
+    width: 180px;
 }
 
 nav span {
     display: block;
-    font-size: clamp(12px, 1.6vw, 16px);
+    font-size: 16px;
     font-weight: 100;
     letter-spacing: 2px;
     margin: 10px 0;
@@ -47,15 +40,19 @@ nav a {
     color: #666666;
 }
 
+nav a:hover {
+    color: white;
+    background-color: #05A8AA;
+    padding: 5px;
+}
+
 /* Content Container */
 
 .content {
-    width: 100%;
-    max-width: 900px;
-    height: min(500px, 70vh);
+    height: 500px;
     margin: 10px auto;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    overflow: scroll;
 }
 
 /* Content Header */
@@ -64,51 +61,47 @@ nav a {
     background-image: url("https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-6/htmlcss1-img_burgerphoto.jpeg");
     background-position: center;
     background-size: cover;
-    height: clamp(200px, 30vw, 320px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 320px;
 }
 
 .header h1 {
     background-color: #05A8AA;
     color: #FFF;
     font-family: 'Oswald', sans-serif;
-    font-size: clamp(22px, 4vw, 40px);
+    font-size: 40px;
     font-weight: 300;
-    line-height: 1.1;
-    width: min(68%, 480px);
-    padding: clamp(10px, 2vw, 20px);
+    line-height: 40px;
     margin: 0 auto;
+    padding: 20px;
+    width: 68%;
 }
 
 /* Content Body */
 
 .content .body {
-    width: 90%;
-    max-width: 700px;
     margin: 0 auto;
+    width: 90%;
 }
 
 .body p {
     color: #333333;
     font-weight: 100;
-    line-height: 1.7;
-    width: 100%;
-    margin: 18px auto 0;
+    line-height: 34px;
+    width: 90%;
+    margin-top: 18px;
 }
 
 /* Content Button */
 
 .button {
+    border: 1px solid #05A8AA;
     border-radius: 4px;
     color: #05A8AA;
-    display: inline-block;
+    display: block;
     font-weight: 700;
-    width: min(200px, 80%);
-    padding: clamp(12px, 2vw, 20px);
     margin: 40px auto;
-    border: 1px solid #05A8AA;
+    padding: 20px;
+    width: 200px;
 }
 
 .button:hover {
@@ -120,41 +113,63 @@ nav a {
 /* Content Nutrition */
 
 ul.nutrition {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 3px;
     padding: 20px;
-    margin: 0;
-    list-style: none;
 }
 
 ul.nutrition li {
+    display: inline-block;
     background-color: #05A8AA;
-    width: clamp(120px, 30%, 200px);
-    padding: 10px clamp(10px, 3vw, 20px);
-    flex: 1 1 clamp(120px, 30%, 200px);
+    list-style: none;
+    margin-bottom: 3px;
+    padding: 10px 20px;
+    width: 200px;
 }
 
 .nutrition .category {
     color: white;
     font-weight: 100;
-    letter-spacing: 1px;
-    font-size: clamp(11px, 1.4vw, 14px);
+    letter-spacing: 2px;
     display: block;
 }
 
 .nutrition .value {
     color: white;
-    font-size: clamp(18px, 3vw, 26px);
+    font-size: 26px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
-/* Small phones: stack nutrition boxes full width */
-@media (max-width: 420px) {
-    ul.nutrition li {
-        flex: 1 1 100%;
+/* Responsive additions (reference has none; added per instructor's
+   general responsiveness request, only activating below desktop width) */
+
+@media (max-width: 900px) {
+    .content {
+        height: auto;
+        max-height: 80vh;
+    }
+
+    .header h1 {
+        font-size: clamp(22px, 5vw, 40px);
+        line-height: 1.2;
+    }
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        width: 90%;
+    }
+
+    .body p {
         width: 100%;
+    }
+
+    ul.nutrition li {
+        display: block;
+        width: 90%;
+        margin: 0 auto 3px;
+    }
+
+    .button {
+        width: 90%;
     }
 }

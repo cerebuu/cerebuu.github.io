@@ -351,6 +351,13 @@
     padding-top: 0;
 }
 
+/* Activity cards have no number badge (week label removed) — don't
+   reserve the 52px gutter that real numbered project cards need. */
+.rm-project.rm-activity-card
+{
+    padding-left: 0;
+}
+
 .rm-project-number
 {
     position: absolute;

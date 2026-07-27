@@ -1,8 +1,8 @@
 export default {
-    title: 'Activity Title Here',
-    week: 'Week 3',
+    title: 'Davie\'s Burger — CSS Box Model',
+    week: 'Week 2',
     status: 'Completed',
-    description: 'Describe what this class activity involved and what you did.',
-    tags: ['Topic', 'Tool'],
-    link: null // or { text: 'View file', href: 'https://...' }
+    description: 'Styled a fictional restaurant menu page from scratch, applying width, height, padding, border, and margin to fix an unstyled layout.',
+    tags: ['CSS', 'Box Model'],
+    link: { text: 'View activity →', href: '/Activity/Burger/index.html' }
 }
