@@ -183,10 +183,14 @@ export default class InformationSection
         this.activities.mesh.updateMatrix()
         this.container.add(this.activities.mesh)
 
-        // Interactive: open Resume Mode scrolled to Activities
+        // Interactive: open Resume Mode scrolled to Activities.
+        // Positioned at the ground-text label (south of the board
+        // row), not spanning the whole section — the board row
+        // already has its own 4 individual interactive areas from
+        // ActivityBoards.js, so this one used to overlap all of them.
         this.activities.area = this.areas.add({
-            position: new THREE.Vector2(this.activities.x, this.activities.y),
-            halfExtents: new THREE.Vector2(this.activities.multiplier, this.activities.multiplier * 0.5)
+            position: new THREE.Vector2(this.activities.x, this.activities.labelY),
+            halfExtents: new THREE.Vector2(4, 1)
         })
         this.activities.area.on('interact', () =>
         {
