@@ -1,0 +1,175 @@
+/* Universal Styles */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-6/htmlcss1-img_foodlogo.png");
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Navigation */
+
+nav {
+    text-align: center;
+}
+
+nav img {
+    display: block;
+    margin: 0 auto;
+    width: 180px;
+}
+
+nav span {
+    display: block;
+    font-size: 16px;
+    font-weight: 100;
+    letter-spacing: 2px;
+    margin: 10px 0;
+}
+
+nav a {
+    color: #666666;
+}
+
+nav a:hover {
+    color: white;
+    background-color: #05A8AA;
+    padding: 5px;
+}
+
+/* Content Container */
+
+.content {
+    height: 500px;
+    margin: 10px auto;
+    width: 100%;
+    overflow: scroll;
+}
+
+/* Content Header */
+
+.header {
+    background-image: url("https://s3.amazonaws.com/codecademy-content/courses/web-101/unit-6/htmlcss1-img_burgerphoto.jpeg");
+    background-position: center;
+    background-size: cover;
+    height: 320px;
+}
+
+.header h1 {
+    background-color: #05A8AA;
+    color: #FFF;
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 40px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 68%;
+}
+
+/* Content Body */
+
+.content .body {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.body p {
+    color: #333333;
+    font-weight: 100;
+    line-height: 34px;
+    width: 90%;
+    margin-top: 18px;
+}
+
+/* Content Button */
+
+.button {
+    border: 1px solid #05A8AA;
+    border-radius: 4px;
+    color: #05A8AA;
+    display: block;
+    font-weight: 700;
+    margin: 40px auto;
+    padding: 20px;
+    width: 200px;
+}
+
+.button:hover {
+    background-color: #05A8AA;
+    border: 1px solid #05A8AA;
+    color: #FFF;
+}
+
+/* Content Nutrition */
+
+ul.nutrition {
+    padding: 20px;
+}
+
+ul.nutrition li {
+    display: inline-block;
+    background-color: #05A8AA;
+    list-style: none;
+    margin-bottom: 3px;
+    padding: 10px 20px;
+    width: 200px;
+}
+
+.nutrition .category {
+    color: white;
+    font-weight: 100;
+    letter-spacing: 2px;
+    display: block;
+}
+
+.nutrition .value {
+    color: white;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Responsive additions (reference has none; added per instructor's
+   general responsiveness request, only activating below desktop width) */
+
+@media (max-width: 900px) {
+    .content {
+        height: auto;
+        max-height: 80vh;
+    }
+
+    .header h1 {
+        font-size: clamp(22px, 5vw, 40px);
+        line-height: 1.2;
+    }
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        width: 90%;
+    }
+
+    .body p {
+        width: 100%;
+    }
+
+    ul.nutrition li {
+        display: block;
+        width: 90%;
+        margin: 0 auto 3px;
+    }
+
+    .button {
+        width: 90%;
+    }
+}
