@@ -26,6 +26,7 @@ export default class ResumeMode
         }
 
         this.render()
+        this.prepareStagger()
         this.buildSnowLayer()
         this.buildProgressRail()
 
@@ -52,6 +53,34 @@ export default class ResumeMode
             this.renderCertifications() +
             this.renderContact() +
             this.renderFooter()
+    }
+
+    /**
+     * Staggered reveals — instead of every section snapping in as one
+     * flat block, each section's own children (skill tags, timeline
+     * items, project/activity cards, cert groups) get an index-based
+     * CSS custom property. resume.css uses it to delay each child's
+     * transition, so items cascade in sequence when the parent
+     * .rm-section crosses the IntersectionObserver threshold, rather
+     * than all appearing simultaneously.
+     */
+    prepareStagger()
+    {
+        document.querySelectorAll('.rm-skills-group').forEach(($group) =>
+        {
+            $group.querySelectorAll('.rm-skills-tags span').forEach(($tag, i) =>
+            {
+                $tag.style.setProperty('--stagger-index', i)
+            })
+        })
+
+        document.querySelectorAll('.rm-section').forEach(($section) =>
+        {
+            $section.querySelectorAll('.rm-timeline-item, .rm-project, .rm-cert-group').forEach(($item, i) =>
+            {
+                $item.style.setProperty('--stagger-index', i)
+            })
+        })
     }
 
     /**
@@ -191,20 +220,42 @@ export default class ResumeMode
 
     renderSkills()
     {
-        const groups = content.skills.map((group) => `
-            <div class="rm-skills-group">
-                <h3>${group.group}</h3>
+        const groups = content.skills.map((group) => {
+            const learnedTags = group.tags.filter((tag) => !tag.learning)
+
+            if(learnedTags.length === 0)
+            {
+                return ''
+            }
+
+            return `
+                <div class="rm-skills-group">
+                    <h3>${group.group}</h3>
+                    <div class="rm-skills-tags">
+                        ${learnedTags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag.name}</span>`).join('')}
+                    </div>
+                </div>
+            `
+        }).join('')
+
+        const futureTags = content.skills
+            .flatMap((group) => group.tags.filter((tag) => tag.learning))
+
+        const futurePanel = futureTags.length > 0 ? `
+            <div class="rm-skills-future">
+                <h3>Future learning</h3>
                 <div class="rm-skills-tags">
-                    ${group.tags.map((tag) => `<span class="interactive-hover interactive-hover--opacity${tag.featured ? ' is-featured' : ''}">${tag.name}</span>`).join('')}
+                    ${futureTags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag.name}</span>`).join('')}
                 </div>
             </div>
-        `).join('')
+        ` : ''
 
         return `
             <section class="rm-section" id="rm-skills">
                 <span class="rm-eyebrow">skills</span>
                 <h2>What I work with</h2>
                 ${groups}
+                ${futurePanel}
             </section>
         `
     }

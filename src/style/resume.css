@@ -216,6 +216,46 @@
     transform: translateY(0);
 }
 
+/* ---------- Staggered child reveals ----------
+   Each child gets --stagger-index set in JS (prepareStagger).
+   Delay scales off that index, so items cascade in sequence
+   once the parent .rm-section becomes visible, instead of
+   every child appearing at the exact same instant. */
+
+.rm-skills-tags span,
+.rm-timeline-item,
+.rm-project,
+.rm-cert-group
+{
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: calc(var(--stagger-index, 0) * 70ms);
+}
+
+.rm-section.is-visible .rm-skills-tags span,
+.rm-section.is-visible .rm-timeline-item,
+.rm-section.is-visible .rm-project,
+.rm-section.is-visible .rm-cert-group
+{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hero gets its own entrance — a settling scale+fade, since it's
+   a first-impression moment rather than a scroll-through list item. */
+
+.rm-section.rm-hero
+{
+    transform: scale(0.97);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.rm-section.is-visible.rm-hero
+{
+    transform: scale(1);
+}
+
 .rm-eyebrow
 {
     display: block;
@@ -330,17 +370,40 @@
     transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.rm-skills-tags span.is-featured
-{
-    border-color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
-    font-weight: 600;
-    color: #ffffff;
-}
-
 .rm-skills-tags span:hover
 {
     border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.rm-skills-future
+{
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--rm-border);
+}
+
+.rm-skills-future h3
+{
+    font-family: var(--rm-font-mono);
+    font-size: 12px;
+    color: var(--rm-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.rm-skills-future .rm-skills-tags span
+{
+    border-style: dashed;
+    color: var(--rm-text-dim);
+}
+
+.rm-skills-future .rm-skills-tags span:hover
+{
+    border-color: #ffffff;
+    color: #ffffff;
+    border-style: solid;
     background: rgba(255, 255, 255, 0.05);
 }
 
@@ -668,9 +731,11 @@
 
 @media (prefers-reduced-motion: reduce)
 {
-    .rm-overlay, .rm-section, .rm-nav, .rm-toggle
+    .rm-overlay, .rm-section, .rm-nav, .rm-toggle,
+    .rm-skills-tags span, .rm-timeline-item, .rm-project, .rm-cert-group
     {
         transition: none !important;
+        transition-delay: 0s !important;
     }
     .rm-cursor
     {

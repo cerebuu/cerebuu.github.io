@@ -33,8 +33,8 @@ export default {
         {
             group: 'Programming Languages',
             tags: [
-                { name: 'Java', featured: true },
-                { name: 'JavaScript', featured: true },
+                { name: 'Java' },
+                { name: 'JavaScript' },
                 { name: 'HTML5' },
                 { name: 'CSS3' },
                 { name: 'SQL (Basic)' }
@@ -43,8 +43,8 @@ export default {
         {
             group: 'Frameworks & Libraries',
             tags: [
-                { name: 'React (Learning)' },
-                { name: 'Three.js (Learning)', featured: true },
+                { name: 'React', learning: true },
+                { name: 'Three.js', learning: true },
                 { name: 'Tailwind CSS' },
                 { name: 'Bootstrap' }
             ]
@@ -52,7 +52,7 @@ export default {
         {
             group: 'Tools & Platforms',
             tags: [
-                { name: 'Git', featured: true },
+                { name: 'Git' },
                 { name: 'GitHub' },
                 { name: 'VS Code' },
                 { name: 'Figma' },
@@ -74,7 +74,7 @@ export default {
         {
             group: 'Professional Skills',
             tags: [
-                { name: 'UI/UX Design', featured: true },
+                { name: 'UI/UX Design' },
                 { name: 'Responsive Web Design' },
                 { name: 'Problem Solving' },
                 { name: 'Team Collaboration' },
