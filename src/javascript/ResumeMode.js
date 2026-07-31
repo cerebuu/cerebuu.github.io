@@ -195,7 +195,7 @@ export default class ResumeMode
             <div class="rm-skills-group">
                 <h3>${group.group}</h3>
                 <div class="rm-skills-tags">
-                    ${group.tags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag}</span>`).join('')}
+                    ${group.tags.map((tag) => `<span class="interactive-hover interactive-hover--opacity${tag.featured ? ' is-featured' : ''}">${tag.name}</span>`).join('')}
                 </div>
             </div>
         `).join('')
@@ -414,6 +414,11 @@ export default class ResumeMode
         this.$toggle.textContent = 'Explore 3D World'
         document.body.style.overflow = 'hidden'
         this.startSnowAnimation()
+
+        document.querySelectorAll('.nav-dock, .contact-icons').forEach(($el) =>
+        {
+            $el.classList.add('is-hidden-by-resume')
+        })
     }
 
     close()
@@ -424,6 +429,11 @@ export default class ResumeMode
         this.$toggle.textContent = 'Resume Mode'
         document.body.style.overflow = ''
         this.stopSnowAnimation()
+
+        document.querySelectorAll('.nav-dock, .contact-icons').forEach(($el) =>
+        {
+            $el.classList.remove('is-hidden-by-resume')
+        })
     }
 
     /**
