@@ -34,7 +34,7 @@
     <meta name="application-name" content="Caleb Adriel Tingson">
     <meta name="msapplication-TileColor" content="#000000">
     <meta name="theme-color" content="#ffffff">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -42,6 +42,8 @@
   <link rel="stylesheet" crossorigin href="/assets/index-C8zXmTLO.css">
 </head>
 <body>
+
+    <a class="skip-link js-skip-link" href="#resume-mode">Skip to Resume Mode</a>
 
     <canvas class="canvas js-canvas"></canvas>
 
@@ -84,7 +86,7 @@
         <div class="loading-screen__track">
             <div class="loading-screen__bar js-loading-bar"></div>
         </div>
-        <button class="loading-screen__skip js-loading-skip" type="button">Skip to Resume Mode</button>
+        <button class="loading-screen__skip js-loading-skip js-skip-link" type="button">Skip to Resume Mode</button>
     </div>
 </div>
 <div class="contact-icons js-contact-icons">
@@ -111,7 +113,7 @@
 
     <button class="rm-toggle js-resume-toggle interactive-scale" type="button">Resume Mode</button>
 
-    <div class="rm-overlay js-resume-overlay">
+    <div class="rm-overlay js-resume-overlay" id="resume-mode">
         <nav class="rm-nav"></nav>
         <div class="rm-content"></div>
     </div>

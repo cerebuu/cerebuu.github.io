@@ -1,68 +1,58 @@
-export default class LoadingScreen
-{
-    constructor(_options)
-    {
-        this.resources = _options.resources
+export default class LoadingScreen {
+  constructor(_options) {
+    this.resources = _options.resources;
 
-        this.$element = document.querySelector('.js-loading-screen')
-        this.$percent = document.querySelector('.js-loading-percent')
-        this.$bar = document.querySelector('.js-loading-bar')
-        this.$skip = document.querySelector('.js-loading-skip')
+    this.$element = document.querySelector(".js-loading-screen");
+    this.$percent = document.querySelector(".js-loading-percent");
+    this.$bar = document.querySelector(".js-loading-bar");
+    this.$skip = document.querySelector(".js-loading-skip");
 
-        if(!this.$element)
-        {
-            return
-        }
-
-        this.bindEvents()
+    if (!this.$element) {
+      return;
     }
 
-    bindEvents()
-    {
-        this.resources.on('progress', (_progress) =>
-        {
-            this.setProgress(_progress)
-        })
+    this.bindEvents();
+  }
 
-        this.resources.on('ready', () =>
-        {
-            this.setProgress(1)
-            this.hide()
-        })
+  bindEvents() {
+    this.resources.on("progress", (_progress) => {
+      this.setProgress(_progress);
+    });
 
-        if(this.$skip)
-        {
-            this.$skip.addEventListener('click', () =>
-            {
-                const toggle = document.querySelector('.js-resume-toggle')
-                if(toggle)
-                {
-                    toggle.click()
-                }
-            })
+    this.resources.on("ready", () => {
+      this.setProgress(1);
+      this.hide();
+    });
+
+    if (this.$skip) {
+      this.$skip.addEventListener("click", () => {
+        window.__resumeModeRequested = true;
+
+        this.hide();
+
+        if (window.resumeMode) {
+          window.resumeMode.open({ focusTarget: "heading" });
         }
+      });
+    }
+  }
+
+  setProgress(_progress) {
+    const percent = Math.round(_progress * 100);
+
+    if (this.$percent) {
+      this.$percent.textContent = `${percent}%`;
     }
 
-    setProgress(_progress)
-    {
-        const percent = Math.round(_progress * 100)
-
-        if(this.$percent)
-        {
-            this.$percent.textContent = `${percent}%`
-        }
-
-        if(this.$bar)
-        {
-            this.$bar.style.width = `${percent}%`
-        }
+    if (this.$bar) {
+      this.$bar.style.width = `${percent}%`;
     }
+  }
 
-    hide()
-    {
-        if(this.$element)
-        {
-            this.$element.classList.add('is-hidden')
-        }
+  hide() {
+    if (this.$element) {
+      this.$element.classList.add("is-hidden");
+      this.$element.setAttribute("aria-hidden", "true");
     }
+  }
 }
