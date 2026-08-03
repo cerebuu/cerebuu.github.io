@@ -5,98 +5,88 @@
    scrolled to the matching anchor.
    ============================================ */
 
-.nav-dock
-{
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-    padding: 8px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 999px;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
+.nav-dock {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-.nav-dock.is-visible
-{
-    opacity: 1;
-    pointer-events: auto;
+.nav-dock.is-visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.nav-dock.is-hidden-by-resume
-{
-    opacity: 0 !important;
-    pointer-events: none !important;
+.nav-dock.is-hidden-by-resume {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
-.nav-dock__item
-{
-    appearance: none;
-    border: none;
-    background: transparent;
-    color: var(--color-text-dim, #8a8a8a);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 8px 14px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: color 0.2s ease, background 0.2s ease;
+.nav-dock__item {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--color-text-dim, #8a8a8a);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
-.nav-dock__item:hover
-{
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
+.nav-dock__item:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.nav-dock__item:focus-visible
-{
-    outline: 1px solid #ffffff;
-    outline-offset: 2px;
+.nav-dock__item:focus-visible {
+  outline: 1px solid #ffffff;
+  outline-offset: 2px;
 }
 
-.nav-dock__item.is-active
-{
-    color: #000000;
-    background: #ffffff;
+.nav-dock__item.is-active {
+  color: #000000;
+  background: #ffffff;
 }
 
-@media (max-width: 700px)
-{
-    .nav-dock
-    {
-        bottom: 12px;
-        gap: 2px;
-        padding: 6px;
-        max-width: calc(100vw - 24px);
-        overflow-x: auto;
-    }
+@media (max-width: 700px) {
+  .nav-dock {
+    bottom: 12px;
+    gap: 2px;
+    padding: 6px;
+    max-width: calc(100vw - 24px);
+    overflow-x: auto;
+  }
 
-    .nav-dock__item
-    {
-        padding: 8px 10px;
-        font-size: 10px;
-        white-space: nowrap;
-    }
+  .nav-dock__item {
+    padding: 8px 10px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
 }
 
-@media (prefers-reduced-motion: reduce)
-{
-    .nav-dock,
-    .nav-dock__item
-    {
-        transition: none !important;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .nav-dock,
+  .nav-dock__item {
+    transition: none !important;
+  }
 }
 
 /* ============================================
@@ -105,80 +95,174 @@
    reachable without exploring the 3D world.
    ============================================ */
 
-.contact-icons
-{
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    display: flex;
-    gap: 8px;
-    padding: 8px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 999px;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
+.contact-icons {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-.contact-icons.is-visible
-{
-    opacity: 1;
-    pointer-events: auto;
+.contact-icons.is-visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.contact-icons.is-hidden-by-resume
-{
-    opacity: 0 !important;
-    pointer-events: none !important;
+.contact-icons.is-hidden-by-resume {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
-.contact-icons__item
-{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    color: var(--color-text-dim, #8a8a8a);
-    border-radius: 50%;
-    transition: color 0.2s ease, background 0.2s ease;
+.contact-icons__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-dim, #8a8a8a);
+  border-radius: 50%;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
-.contact-icons__item svg
-{
-    width: 16px;
-    height: 16px;
+.contact-icons__item svg {
+  width: 16px;
+  height: 16px;
 }
 
-.contact-icons__item:hover
-{
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
+.contact-icons__item:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.contact-icons__item:focus-visible
-{
-    outline: 1px solid #ffffff;
-    outline-offset: 2px;
+.contact-icons__item:focus-visible {
+  outline: 1px solid #ffffff;
+  outline-offset: 2px;
 }
 
-@media (max-width: 700px)
-{
-    .contact-icons
-    {
-        bottom: 68px;
-        right: 12px;
-        padding: 6px;
-        gap: 4px;
-    }
+/* ============================================
+   CONTROLS PANEL
+   Small accessible cheat-sheet for the 3D mode.
+   ============================================ */
 
-    .contact-icons__item
-    {
-        width: 28px;
-        height: 28px;
-    }
+.controls-panel {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 210;
+  width: min(320px, calc(100vw - 48px));
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.controls-panel summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controls-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.controls-panel summary::after {
+  content: "+";
+  color: var(--color-text-dim, #8a8a8a);
+}
+
+.controls-panel[open] summary::after {
+  content: "–";
+}
+
+.controls-panel__body {
+  padding: 0 16px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #d8d8d8;
+}
+
+.controls-panel__body p {
+  margin-bottom: 12px;
+}
+
+.controls-panel__body ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.controls-panel__body li {
+  display: flex;
+  gap: 10px;
+}
+
+.controls-panel__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.controls-panel.is-hidden-by-resume {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 700px) {
+  .controls-panel {
+    top: auto;
+    bottom: 86px;
+    left: 12px;
+    width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 700px) {
+  .contact-icons {
+    bottom: 68px;
+    right: 12px;
+    padding: 6px;
+    gap: 4px;
+  }
+
+  .contact-icons__item {
+    width: 28px;
+    height: 28px;
+  }
 }

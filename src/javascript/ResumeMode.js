@@ -19,7 +19,7 @@ export default class ResumeMode {
     this.isActive = false;
     this.$previousFocus = null;
     this.$backgroundSurfaces = Array.from(
-      document.querySelectorAll(".nav-dock, .contact-icons"),
+      document.querySelectorAll(".nav-dock, .contact-icons, .controls-panel"),
     );
     this.handleKeydown = this.handleKeydown.bind(this);
 
@@ -79,7 +79,7 @@ export default class ResumeMode {
 
     document.querySelectorAll(".rm-section").forEach(($section) => {
       $section
-        .querySelectorAll(".rm-timeline-item, .rm-project, .rm-cert-group")
+        .querySelectorAll(".rm-timeline-item, .rm-project, .rm-cert-card")
         .forEach(($item, i) => {
           $item.style.setProperty("--stagger-index", i);
         });
@@ -212,47 +212,89 @@ export default class ResumeMode {
   renderSkills() {
     const groups = content.skills
       .map((group) => {
-        const learnedTags = group.tags.filter((tag) => !tag.learning);
-
-        if (learnedTags.length === 0) {
-          return "";
-        }
+        const tags = group.tags
+          .map(
+            (tag) =>
+              `<span class="interactive-hover interactive-hover--opacity">${tag.name || tag}</span>`,
+          )
+          .join("");
 
         return `
                 <div class="rm-skills-group">
                     <h3>${group.group}</h3>
                     <div class="rm-skills-tags">
-                        ${learnedTags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag.name}</span>`).join("")}
+                        ${tags}
                     </div>
                 </div>
             `;
       })
       .join("");
 
-    const futureTags = content.skills.flatMap((group) =>
-      group.tags.filter((tag) => tag.learning),
-    );
-
-    const futurePanel =
-      futureTags.length > 0
-        ? `
-            <div class="rm-skills-future">
-                <h3>Future learning</h3>
-                <div class="rm-skills-tags">
-                    ${futureTags.map((tag) => `<span class="interactive-hover interactive-hover--opacity">${tag.name}</span>`).join("")}
-                </div>
-            </div>
-        `
-        : "";
-
     return `
             <section class="rm-section" id="rm-skills">
                 <span class="rm-eyebrow">skills</span>
                 <h2>What I work with</h2>
-                ${groups}
-                ${futurePanel}
+                <div class="rm-skills-grid">
+                    ${groups}
+                </div>
             </section>
         `;
+  }
+
+  renderProjectLink(_link) {
+    if (!_link) {
+      return "";
+    }
+
+    if (_link.disabled || !_link.href) {
+      return `<span class="rm-project-link is-disabled">${_link.text}</span>`;
+    }
+
+    return `<a class="rm-project-link" href="${_link.href}" target="_blank" rel="noopener">${_link.text}</a>`;
+  }
+
+  escapeXml(_value) {
+    return String(_value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  certificatePreviewSrc(_certificate) {
+    const title = this.escapeXml(_certificate.title);
+    const issuer = this.escapeXml(_certificate.issuer);
+    const year = this.escapeXml(
+      _certificate.issueDate || _certificate.year || "2026",
+    );
+
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="${title} certificate preview">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#101010" />
+            <stop offset="100%" stop-color="#000000" />
+          </linearGradient>
+          <linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04" />
+          </linearGradient>
+        </defs>
+        <rect width="320" height="180" rx="18" fill="url(#g)" />
+        <rect x="16" y="16" width="288" height="148" rx="14" fill="url(#s)" stroke="rgba(255,255,255,0.18)" />
+        <circle cx="58" cy="58" r="22" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5" />
+        <circle cx="58" cy="58" r="12" fill="#ffffff" fill-opacity="0.12" />
+        <text x="98" y="52" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2">CERTIFICATE</text>
+        <text x="98" y="76" fill="#ffffff" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="700">${title}</text>
+        <text x="32" y="122" fill="#d7d7d7" font-family="JetBrains Mono, monospace" font-size="11">${issuer}</text>
+        <text x="32" y="146" fill="#8b8b8b" font-family="JetBrains Mono, monospace" font-size="10">Issued ${year}</text>
+        <rect x="238" y="122" width="50" height="28" rx="14" fill="#ffffff" fill-opacity="0.14" />
+        <text x="263" y="141" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">VIEW</text>
+      </svg>
+    `;
+
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
   }
 
   /**
@@ -277,9 +319,13 @@ export default class ResumeMode {
   renderProjects() {
     const projects = content.projects
       .map((project, index) => {
-        const link = project.link
-          ? `<span class="rm-project-link interactive-hover interactive-hover--opacity${project.link.disabled ? " is-disabled" : ""}">${project.link.text}</span>`
-          : "";
+        const projectLinks = project.links || {};
+        const demoLink = this.renderProjectLink(
+          projectLinks.demo || project.link,
+        );
+        const repoLink = this.renderProjectLink(
+          projectLinks.repository || project.repo,
+        );
 
         const number = String(index + 1).padStart(2, "0");
         const dotClass = this.statusDotClass(project.status);
@@ -295,7 +341,10 @@ export default class ResumeMode {
                     <p class="rm-project-line"><strong>Solution:</strong> ${project.solution}</p>
                     <p class="rm-project-line"><strong>Impact:</strong> ${project.impact}</p>
                     <div class="rm-project-tags">${project.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
-                    ${link}
+                    <div class="rm-project-links">
+                      ${demoLink}
+                      ${repoLink}
+                    </div>
                 </div>
             `;
       })
@@ -377,16 +426,38 @@ export default class ResumeMode {
 
   renderCertifications() {
     const groups = content.certifications
-      .map(
-        (group) => `
+      .map((group) => {
+        const cards = group.items
+          .map((certificate) => {
+            const previewSrc = this.certificatePreviewSrc(certificate);
+            const credentialLink = certificate.credentialUrl
+              ? `<a class="rm-cert-link" href="${certificate.credentialUrl}" target="_blank" rel="noopener">View credential</a>`
+              : `<span class="rm-cert-link is-disabled">Credential unavailable</span>`;
+
+            return `
+              <article class="rm-cert-card">
+                  <img class="rm-cert-preview" src="${previewSrc}" alt="${certificate.title} certificate preview">
+                  <div class="rm-cert-copy">
+                      <div class="rm-cert-meta">${certificate.issuer} · ${certificate.issueDate}</div>
+                      <h3>${certificate.title}</h3>
+                      <div class="rm-cert-actions">
+                          ${credentialLink}
+                      </div>
+                  </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        return `
             <div class="rm-cert-group">
-                <h3>${group.group}</h3>
-                <ul>
-                    ${group.items.map((item) => `<li>${item}</li>`).join("")}
-                </ul>
+                <h3>${group.year}</h3>
+                <div class="rm-cert-list">
+                    ${cards}
+                </div>
             </div>
-        `,
-      )
+        `;
+      })
       .join("");
 
     return `
