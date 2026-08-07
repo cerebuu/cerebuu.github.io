@@ -369,7 +369,7 @@ export default class ResumeMode {
     const cards = content.activities
       .map((activity, index) => {
         const link = activity.link
-          ? `<a class="rm-project-link interactive-hover interactive-hover--opacity" href="${activity.link.href}" target="_blank" rel="noopener">${activity.link.text}</a>`
+          ? `<div class="rm-project-links"><a class="rm-project-link interactive-hover interactive-hover--opacity" href="${activity.link.href}" target="_blank" rel="noopener">${activity.link.text}</a></div>`
           : "";
 
         const dotClass = this.statusDotClass(activity.status);
