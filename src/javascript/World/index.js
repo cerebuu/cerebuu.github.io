@@ -6,6 +6,7 @@ import Physics from './Physics.js'
 import Zones from './Zones.js'
 import Objects from './Objects.js'
 import Car from './Car.js'
+import SnowTracks from './SnowTracks.js'
 import Areas from './Areas.js'
 import Tiles from './Tiles.js'
 import Walls from './Walls.js'
@@ -75,6 +76,7 @@ export default class World
         this.setNameBlocks()
         this.setCar()
         this.areas.car = this.car
+        this.setSnowTracks()
         this.setTiles()
         this.setWalls()
         this.setSections()
@@ -420,6 +422,15 @@ export default class World
             config: this.config
         })
         this.container.add(this.car.container)
+    }
+
+    setSnowTracks()
+    {
+        this.snowTracks = new SnowTracks({
+            time: this.time,
+            car: this.car
+        })
+        this.container.add(this.snowTracks.container)
     }
 
     setSections()
