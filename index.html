@@ -23,7 +23,7 @@
     <meta property="og:description" content="Creative developer living in Paris, freelancer, former lead developer at Immersive Garden, former developer at Uzik and teacher.">
     <meta property="og:image" content="https://cerebuu.github.io/social/share-1200x630.png">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -38,18 +38,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-Dv_4hUAQ.js"></script>
+  <script type="module" crossorigin src="/assets/index-PweIReoa.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/debug-vendor-DYGKXP-V.js">
   <link rel="modulepreload" crossorigin href="/assets/three-vendor-BEBCUPdy.js">
   <link rel="modulepreload" crossorigin href="/assets/motion-vendor-DjKJqAo0.js">
   <link rel="modulepreload" crossorigin href="/assets/three-examples-vendor-DV7Fnw5Q.js">
   <link rel="modulepreload" crossorigin href="/assets/audio-vendor-CZjnqYNJ.js">
   <link rel="modulepreload" crossorigin href="/assets/physics-vendor-xJPXo_LE.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-Bq2re8JG.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-DSLLKXLV.css">
 </head>
 <body>
 
     <canvas class="canvas js-canvas"></canvas>
+
+    <section class="orientation-hint js-orientation-hint" aria-live="polite" hidden>
+        <div class="orientation-hint__content">
+            <div class="orientation-hint__phone" aria-hidden="true"><span></span></div>
+            <p class="orientation-hint__eyebrow">3D Game Mode</p>
+            <h1>Tilt Your Phone</h1>
+            <p class="orientation-hint__copy">Rotate your phone for the best experience.</p>
+        </div>
+    </section>
+
+    <section class="mobile-guide js-mobile-guide" aria-labelledby="mobile-guide-title" hidden>
+        <div class="mobile-guide__card">
+            <p class="mobile-guide__eyebrow">Mobile controls</p>
+            <h1 id="mobile-guide-title">Explore the 3D world</h1>
+            <ul>
+                <li><strong>Move</strong><span>Use the virtual joystick.</span></li>
+                <li><strong>Look</strong><span>Swipe the open area of the screen.</span></li>
+                <li><strong>Interact</strong><span>Tap an object, then tap Interact.</span></li>
+                <li><strong>Select</strong><span>Use the View button to change the camera.</span></li>
+            </ul>
+            <button class="mobile-guide__start js-mobile-guide-start" type="button">Start exploring</button>
+        </div>
+    </section>
 
     <div class="threejs-journey is-hover-none js-threejs-journey">
         <div class="message js-message">
