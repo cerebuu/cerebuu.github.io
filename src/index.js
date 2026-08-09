@@ -8,12 +8,18 @@ import './style/main.css'
 import Application from './javascript/Application.js'
 import TerminalLoader from './javascript/TerminalLoader.js'
 
-window.application = new Application({
-    $canvas: document.querySelector('.js-canvas'),
-    useComposer: true
-})
+// Protect the singleton WebGL application from an accidental duplicate module
+// evaluation (for example a cached script being injected twice by a host).
+if (!window.application) {
+    window.application = new Application({
+        $canvas: document.querySelector('.js-canvas'),
+        useComposer: true
+    })
+}
 
-window.terminalLoader = new TerminalLoader(window.application.resources)
+if (!window.terminalLoader) {
+    window.terminalLoader = new TerminalLoader(window.application.resources)
+}
 
 // Resume Mode and the Summary Card aren't needed for the initial 3D
 // scene to render — deferring them out of the main bundle means the
@@ -29,6 +35,6 @@ Promise.all([
     const ResumeMode = resumeModeModule.default
     const SummaryCard = summaryCardModule.default
 
-    window.resumeMode = new ResumeMode()
-    window.summaryCard = new SummaryCard()
+    if (!window.resumeMode) window.resumeMode = new ResumeMode()
+    if (!window.summaryCard) window.summaryCard = new SummaryCard()
 })

@@ -50,7 +50,7 @@ export default class Application {
     this.config.debug = window.location.hash === "#debug";
     this.config.cyberTruck = window.location.hash === "#cybertruck";
     this.config.touch = window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
-    this.config.pixelRatio = this.config.touch ? 1.25 : 1.75;
+    this.config.pixelRatio = this.config.touch ? Math.min(window.devicePixelRatio || 1, 1.25) : 1.75;
 
     if (this.config.touch) {
       document.documentElement.classList.add("is-touch-device");
@@ -98,7 +98,7 @@ export default class Application {
     // this.renderer.setClearColor(0x414141, 1)
     this.renderer.setClearColor(0x000000, 1);
     // this.renderer.setPixelRatio(Math.min(Math.max(window.devicePixelRatio, 1.5), 2))
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.config.pixelRatio));
+    this.updateRenderPixelRatio();
     this.renderer.setSize(
       this.sizes.viewport.width,
       this.sizes.viewport.height,
@@ -107,11 +107,20 @@ export default class Application {
 
     // Resize event
     this.sizes.on("resize", () => {
+      this.updateRenderPixelRatio();
       this.renderer.setSize(
         this.sizes.viewport.width,
         this.sizes.viewport.height,
       );
     });
+  }
+
+  updateRenderPixelRatio() {
+    // A landscape phone has far more pixels than it needs for this stylised
+    // scene. Lower its render scale slightly while retaining crisp controls.
+    const landscapePhone = this.config.touch && this.sizes.viewport.height < 540;
+    const cap = landscapePhone ? 1 : this.config.pixelRatio;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, cap));
   }
 
   /**
@@ -418,21 +427,14 @@ export default class Application {
     if (!this.config.touch) return;
 
     this.world.controls.setTouch();
-    const guide = document.querySelector(".js-mobile-guide");
-    const start = document.querySelector(".js-mobile-guide-start");
-    if (!guide || !start) return;
-
-    const dismiss = () => {
-      guide.classList.add("is-dismissed");
-      guide.setAttribute("aria-hidden", "true");
-      window.localStorage.setItem("caleb-mobile-guide-seen", "1");
-      this.world.startingScreen?.area?.interact(false);
-    };
-
-    if (window.localStorage.getItem("caleb-mobile-guide-seen") !== "1") {
-      guide.hidden = false;
-    }
-    start.addEventListener("click", dismiss, { once: true });
+    // Mobile has no Start affordance: wait for the actual asset-ready signal,
+    // then enter through the existing idempotent start area exactly once.
+    let started = false;
+    this.resources.on("ready", () => {
+      if (started || this.world.started) return;
+      started = true;
+      window.requestAnimationFrame(() => this.world.startingScreen?.area?.interact(false));
+    });
   }
 
   setOrientationHint() {

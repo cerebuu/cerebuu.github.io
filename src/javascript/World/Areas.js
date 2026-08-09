@@ -83,17 +83,13 @@ export default class Areas
             const distance = Math.hypot(touch.clientX - this.mouse.touchStart.x, touch.clientY - this.mouse.touchStart.y)
             this.mouse.touchStart = null
 
-            // A short tap selects and activates the 3D area. Swipes remain
-            // reserved for camera look controls and cannot trigger a link.
+            // A short tap selects an area. Opening is deliberately delegated to
+            // the dedicated Interact button so looking around never opens a link.
             if(distance < 18)
             {
                 this.setTouchCoordinates(touch)
                 this.updateCurrentArea()
 
-                if(this.mouse.currentArea)
-                {
-                    this.mouse.currentArea.interact(false)
-                }
             }
         })
 

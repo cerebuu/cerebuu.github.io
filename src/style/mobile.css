@@ -1,384 +1,74 @@
-/* Touch-first controls and small-screen safe areas. Desktop styles remain untouched. */
+/* Mobile-specific game and Resume Mode layer. Desktop HUD remains in its own CSS. */
 @media (pointer: coarse) {
-  html,
-  body,
-  .canvas {
-    overscroll-behavior: none;
-    touch-action: none;
-    -webkit-user-select: none;
-    user-select: none;
-  }
+  html, body, .canvas { overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none; }
+  .rm-overlay, .rm-overlay * { touch-action: pan-y; -webkit-user-select: text; user-select: text; }
 
-  .rm-overlay,
-  .rm-overlay * {
-    touch-action: pan-y;
-    -webkit-user-select: text;
-    user-select: text;
-  }
-
-  .rm-toggle,
-  .controls-panel summary,
-  .nav-dock__item,
-  .contact-icons__item {
-    min-height: 44px;
-  }
-
-  .rm-toggle {
-    top: max(12px, env(safe-area-inset-top));
-    right: max(12px, env(safe-area-inset-right));
-    padding: 10px 14px;
-  }
-
-  .nav-dock {
-    bottom: max(10px, env(safe-area-inset-bottom));
-    width: calc(100vw - 24px);
-    max-width: calc(100vw - 24px);
-    justify-content: flex-start;
-    scrollbar-width: none;
-  }
-
-  .nav-dock::-webkit-scrollbar { display: none; }
-
-  .nav-dock__item {
-    min-width: 56px;
-    padding: 9px 11px;
-  }
-
-  .contact-icons {
-    top: calc(max(10px, env(safe-area-inset-top)) + 58px);
-    right: max(10px, env(safe-area-inset-right));
-    bottom: auto;
-    padding: 3px;
-  }
-
-  .contact-icons__item {
-    width: 44px;
-    height: 44px;
-  }
-
-  .controls-panel {
-    top: max(10px, env(safe-area-inset-top));
-    left: max(10px, env(safe-area-inset-left));
-    bottom: auto;
-    width: min(300px, calc(100vw - 20px));
-  }
-
-  .controls-panel__body {
-    font-size: 14px;
-  }
+  /* These desktop surfaces consume too much landscape real estate. The compact
+     HUD below retains Resume and contact access without covering the scene. */
+  .nav-dock, .controls-panel { display: none !important; }
+  .contact-icons { top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); bottom: auto; padding: 2px; }
+  .contact-icons__item { width: 44px; height: 44px; }
+  .rm-toggle { top: max(10px, env(safe-area-inset-top)); right: calc(max(10px, env(safe-area-inset-right)) + 154px); min-height: 44px; padding: 8px 12px; font-size: 10px; }
 }
 
-.mobile-control {
-  position: fixed;
-  z-index: 220;
-  min-width: 76px;
-  min-height: 48px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font: 500 11px/1 var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.25s ease, background 0.15s ease, transform 0.15s ease;
+/* A small Minecraft-inspired D-pad and action affordance. Its controls own
+   pointer input, keeping the rest of the canvas free for camera swipes. */
+.mobile-hud {
+  position: fixed; z-index: 230; inset: auto 0 0; display: flex;
+  align-items: end; justify-content: space-between;
+  padding: 0 max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  opacity: 0; pointer-events: none; transition: opacity .25s ease;
 }
-
-.mobile-control:active {
-  background: rgba(255, 255, 255, 0.18);
-  transform: scale(0.96);
+.mobile-hud.is-visible { opacity: 1; pointer-events: auto; }
+.mobile-hud__pad { display: grid; grid-template: repeat(2, 52px) / repeat(3, 52px); gap: 5px; grid-template-areas: ". up ." "left down right"; }
+.mobile-hud button {
+  appearance: none; border: 1px solid rgba(255,255,255,.38); color: #fff; background: rgba(7,7,7,.72);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 7px 18px rgba(0,0,0,.25);
+  touch-action: none; -webkit-tap-highlight-color: transparent; user-select: none;
 }
+.mobile-hud__pad button { border-radius: 15px; font: 700 18px/1 var(--font-mono); }
+.mobile-hud__pad button[data-action="up"] { grid-area: up; }
+.mobile-hud__pad button[data-action="left"] { grid-area: left; }
+.mobile-hud__pad button[data-action="down"] { grid-area: down; }
+.mobile-hud__pad button[data-action="right"] { grid-area: right; }
+.mobile-hud button.is-pressed { background: #fff; color: #090909; transform: scale(.95); }
+.mobile-hud__interact { min-width: 112px; min-height: 54px; padding: 0 16px; border-radius: 999px !important; font: 700 11px/1 var(--font-mono); letter-spacing: .07em; text-transform: uppercase; }
+.mobile-hud__interact span { margin-right: 6px; font-size: 16px; vertical-align: -1px; }
 
-.mobile-control--interact {
-  right: max(12px, env(safe-area-inset-right));
-  bottom: calc(max(12px, env(safe-area-inset-bottom)) + 72px);
+/* Portrait is supported, but landscape is intentionally encouraged for the world. */
+.orientation-hint { position: fixed; inset: 0; z-index: 495; display: grid; place-items: center; padding: 24px; color: #fff; background: rgba(0,0,0,.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.orientation-hint[hidden], .orientation-hint.is-dismissed { display: none; }
+.orientation-hint__content { width: min(100%, 320px); text-align: center; }
+.orientation-hint__phone { position: relative; width: 72px; height: 126px; margin: 0 auto 28px; border: 3px solid rgba(255,255,255,.92); border-radius: 14px; animation: orientation-phone-tilt 2.2s ease-in-out infinite; }
+.orientation-hint__phone::before { content: ""; position: absolute; top: 8px; left: 50%; width: 22px; height: 3px; border-radius: 999px; background: rgba(255,255,255,.72); transform: translateX(-50%); }
+.orientation-hint__phone span { position: absolute; inset: 19px 8px 9px; border-radius: 5px; background: linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.05)); }
+.orientation-hint__eyebrow { margin-bottom: 8px; color: #9a9a9a; font: 500 11px/1.2 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+.orientation-hint h1 { margin-bottom: 10px; font: 700 clamp(27px,9vw,36px)/1 var(--font-display); }
+.orientation-hint__copy { color: #d3d3d3; font: 16px/1.5 var(--font-body); }
+@keyframes orientation-phone-tilt { 0%,18% { transform: rotate(0deg); } 52%,72% { transform: rotate(90deg); } 100% { transform: rotate(0deg); } }
+@media (min-width: 701px), (pointer: fine) { .orientation-hint { display: none !important; } }
+
+/* Resume Mode can use the full viewport and natural one-column cards. */
+@media (max-width: 900px) and (pointer: coarse) {
+  .rm-content { width: 100%; max-width: none; padding: 82px 16px 104px; }
+  .rm-section { padding: 42px 0; }
+  .rm-section h2 { margin-bottom: 18px; }
+  .rm-hero .rm-bio, .rm-section p { font-size: 16px; line-height: 1.62; }
+  .rm-project, .rm-project-card { padding: 22px 0; }
+  .rm-project-header { flex-direction: column; gap: 5px; }
+  .rm-project-header h3, .rm-contact-links a { overflow-wrap: anywhere; }
+  .rm-project-status { white-space: normal; }
+  .rm-skills-grid, .rm-project-details, .rm-cert-card, .rm-cert-facts { grid-template-columns: 1fr; }
+  .rm-skills-group, .rm-cert-card { padding: 15px; border-radius: 14px; }
+  .rm-project-link, .rm-cert-link, .rm-footer .rm-explore-btn { min-height: 44px; }
+  .rm-contact-links a { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .rm-contact-links a .rm-contact-label { width: auto; }
 }
-
-.mobile-control--view {
-  right: max(12px, env(safe-area-inset-right));
-  bottom: calc(max(12px, env(safe-area-inset-bottom)) + 130px);
-}
-
-@media (pointer: coarse) {
-  .mobile-joystick {
-    left: max(12px, env(safe-area-inset-left)) !important;
-    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 62px) !important;
-    width: 132px !important;
-    height: 132px !important;
-    touch-action: none;
-  }
-
-  /* The original four vertical drive buttons were desktop-proportioned
-     overlays. The joystick now supplies continuous movement and steering,
-     leaving the right side clear for deliberate action buttons. */
-  .mobile-drive-control {
-    display: none !important;
-  }
-
-  .mobile-drive-control:nth-of-type(n) {
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
+@media (max-width: 380px) and (orientation: portrait) { .rm-toggle { right: max(10px, env(safe-area-inset-right)); top: calc(max(10px, env(safe-area-inset-top)) + 50px); } }
 @media (orientation: landscape) and (max-height: 520px) {
-  .mobile-joystick {
-    width: 120px !important;
-    height: 120px !important;
-    bottom: max(8px, env(safe-area-inset-bottom)) !important;
-  }
-
-  .mobile-control--interact {
-    bottom: 10px;
-    right: 14px;
-  }
-
-  .mobile-control--view {
-    bottom: 10px;
-    right: 98px;
-  }
-
-  .contact-icons,
-  .controls-panel {
-    transform: scale(0.9);
-    transform-origin: top left;
-  }
-}
-
-@media (max-width: 700px) and (pointer: coarse) {
-  .rm-content {
-    width: 100%;
-    max-width: none;
-    padding: 82px 16px 104px;
-  }
-
-  .rm-section {
-    padding: 42px 0;
-  }
-
-  .rm-section h2 {
-    margin-bottom: 18px;
-  }
-
-  .rm-hero .rm-bio,
-  .rm-section p {
-    font-size: 16px;
-    line-height: 1.62;
-  }
-
-  .rm-project,
-  .rm-project-card {
-    padding: 22px 0;
-  }
-
-  .rm-project-header h3 {
-    font-size: 19px;
-    overflow-wrap: anywhere;
-  }
-
-  .rm-project-status {
-    white-space: normal;
-  }
-
-  .rm-skills-group,
-  .rm-cert-card {
-    padding: 15px;
-    border-radius: 14px;
-  }
-
-  .rm-project-link,
-  .rm-cert-link,
-  .rm-footer .rm-explore-btn {
-    min-height: 44px;
-  }
-
-  .rm-contact-links a {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 3px;
-    overflow-wrap: anywhere;
-  }
-
-  .rm-contact-links a .rm-contact-label {
-    width: auto;
-  }
-}
-
-.mobile-guide {
-  position: fixed;
-  inset: 0;
-  z-index: 490;
-  display: grid;
-  place-items: center;
-  padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
-  background: rgba(0, 0, 0, 0.76);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.orientation-hint {
-  position: fixed;
-  inset: 0;
-  z-index: 495;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.35s ease, visibility 0s linear 0s;
-}
-
-.orientation-hint[hidden] {
-  display: none;
-}
-
-.orientation-hint.is-dismissed {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
-}
-
-.orientation-hint__content {
-  width: min(100%, 320px);
-  text-align: center;
-}
-
-.orientation-hint__phone {
-  position: relative;
-  width: 72px;
-  height: 126px;
-  margin: 0 auto 28px;
-  border: 3px solid rgba(255, 255, 255, 0.92);
-  border-radius: 14px;
-  animation: orientation-phone-tilt 2.2s ease-in-out infinite;
-  transform-origin: 50% 50%;
-}
-
-.orientation-hint__phone::before {
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  width: 22px;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  transform: translateX(-50%);
-}
-
-.orientation-hint__phone span {
-  position: absolute;
-  inset: 19px 8px 9px;
-  border-radius: 5px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05));
-}
-
-.orientation-hint__eyebrow {
-  margin-bottom: 8px;
-  color: #9a9a9a;
-  font: 500 11px/1.2 var(--font-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.orientation-hint h1 {
-  margin-bottom: 10px;
-  font: 700 clamp(27px, 9vw, 36px)/1 var(--font-display);
-}
-
-.orientation-hint__copy {
-  color: #d3d3d3;
-  font: 16px/1.5 var(--font-body);
-}
-
-@keyframes orientation-phone-tilt {
-  0%, 18% { transform: rotate(0deg); }
-  52%, 72% { transform: rotate(90deg); }
-  100% { transform: rotate(0deg); }
-}
-
-@media (min-width: 701px), (pointer: fine) {
-  .orientation-hint { display: none !important; }
-}
-
-.mobile-guide[hidden],
-.mobile-guide.is-dismissed {
-  display: none;
-}
-
-.mobile-guide__card {
-  width: min(100%, 390px);
-  padding: 28px 24px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 20px;
-  color: #fff;
-  background: rgba(13, 13, 13, 0.94);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-}
-
-.mobile-guide__eyebrow {
-  margin-bottom: 10px;
-  color: #9a9a9a;
-  font: 500 11px/1.2 var(--font-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.mobile-guide h1 {
-  margin-bottom: 20px;
-  font: 700 clamp(26px, 8vw, 34px)/1.05 var(--font-display);
-}
-
-.mobile-guide ul {
-  display: grid;
-  gap: 12px;
-  margin: 0 0 24px;
-  padding: 0;
-  list-style: none;
-}
-
-.mobile-guide li {
-  display: grid;
-  grid-template-columns: 82px 1fr;
-  gap: 10px;
-  color: #d8d8d8;
-  font: 15px/1.45 var(--font-body);
-}
-
-.mobile-guide strong {
-  color: #fff;
-  font-weight: 700;
-}
-
-.mobile-guide__start {
-  width: 100%;
-  min-height: 52px;
-  border: 0;
-  border-radius: 999px;
-  background: #fff;
-  color: #000;
-  font: 500 12px/1 var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  touch-action: manipulation;
-}
-
-@media (min-width: 701px) and (pointer: coarse) {
-  .mobile-guide__card { max-width: 480px; }
-}
-
-@media (orientation: landscape) and (max-height: 520px) {
-  .mobile-guide__card { padding: 18px 22px; }
-  .mobile-guide ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
-  .mobile-guide li { grid-template-columns: 1fr; gap: 2px; font-size: 13px; }
-  .mobile-guide h1 { margin-bottom: 12px; font-size: 26px; }
-  .mobile-guide ul { margin-bottom: 14px; }
-  .mobile-guide__start { min-height: 44px; }
+  .mobile-hud { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+  .mobile-hud__pad { grid-template: repeat(2,46px) / repeat(3,46px); gap: 4px; }
+  .mobile-hud__pad button { border-radius: 13px; }
+  .mobile-hud__interact { min-width: 106px; min-height: 46px; }
+  .threejs-journey { display: none !important; }
 }
