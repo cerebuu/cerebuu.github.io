@@ -22,6 +22,14 @@ export default class Areas
         this.container.matrixAutoUpdate = false
 
         this.setMouse()
+        window.addEventListener('mobile-interact', () =>
+        {
+            const area = this.mouse.currentArea || this.items.find((_area) => _area.isIn && _area.active)
+            if(area)
+            {
+                area.interact(false)
+            }
+        })
     }
 
     setMouse()

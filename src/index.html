@@ -23,7 +23,7 @@
     <meta property="og:description" content="Creative developer living in Paris, freelancer, former lead developer at Immersive Garden, former developer at Uzik and teacher.">
     <meta property="og:image" content="https://cerebuu.github.io/social/share-1200x630.png">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -42,6 +42,20 @@
 <body>
 
     <canvas class="canvas js-canvas"></canvas>
+
+    <section class="mobile-guide js-mobile-guide" aria-labelledby="mobile-guide-title" hidden>
+        <div class="mobile-guide__card">
+            <p class="mobile-guide__eyebrow">Mobile controls</p>
+            <h1 id="mobile-guide-title">Explore the 3D world</h1>
+            <ul>
+                <li><strong>Move</strong><span>Use the virtual joystick.</span></li>
+                <li><strong>Look</strong><span>Swipe the open area of the screen.</span></li>
+                <li><strong>Interact</strong><span>Tap an object, then tap Interact.</span></li>
+                <li><strong>Select</strong><span>Use the View button to change the camera.</span></li>
+            </ul>
+            <button class="mobile-guide__start js-mobile-guide-start" type="button">Start exploring</button>
+        </div>
+    </section>
 
     <div class="threejs-journey is-hover-none js-threejs-journey">
         <div class="message js-message">

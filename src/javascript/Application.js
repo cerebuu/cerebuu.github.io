@@ -35,6 +35,7 @@ export default class Application {
     this.setCamera();
     this.setPasses();
     this.setWorld();
+    this.setMobileGuide();
     this.setSnow();
     this.setTitle();
     this.setThreejsJourney();
@@ -47,7 +48,12 @@ export default class Application {
     this.config = {};
     this.config.debug = window.location.hash === "#debug";
     this.config.cyberTruck = window.location.hash === "#cybertruck";
-    this.config.touch = false;
+    this.config.touch = window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+    this.config.pixelRatio = this.config.touch ? 1.25 : 1.75;
+
+    if (this.config.touch) {
+      document.documentElement.classList.add("is-touch-device");
+    }
 
     window.addEventListener(
       "touchstart",
@@ -55,12 +61,12 @@ export default class Application {
         this.config.touch = true;
         this.world.controls.setTouch();
 
-        this.passes.horizontalBlurPass.strength = 1;
+        this.passes.horizontalBlurPass.strength = 0;
         this.passes.horizontalBlurPass.material.uniforms.uStrength.value =
-          new THREE.Vector2(this.passes.horizontalBlurPass.strength, 0);
-        this.passes.verticalBlurPass.strength = 1;
+          new THREE.Vector2(0, 0);
+        this.passes.verticalBlurPass.strength = 0;
         this.passes.verticalBlurPass.material.uniforms.uStrength.value =
-          new THREE.Vector2(0, this.passes.verticalBlurPass.strength);
+          new THREE.Vector2(0, 0);
       },
       { once: true },
     );
@@ -91,7 +97,7 @@ export default class Application {
     // this.renderer.setClearColor(0x414141, 1)
     this.renderer.setClearColor(0x000000, 1);
     // this.renderer.setPixelRatio(Math.min(Math.max(window.devicePixelRatio, 1.5), 2))
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.config.pixelRatio));
     this.renderer.setSize(
       this.sizes.viewport.width,
       this.sizes.viewport.height,
@@ -140,6 +146,7 @@ export default class Application {
     }
 
     this.passes.composer = new EffectComposer(this.renderer);
+    this.passes.composer.setPixelRatio(this.renderer.getPixelRatio());
 
     // Create passes
     this.passes.renderPass = new RenderPass(this.scene, this.camera.instance);
@@ -192,7 +199,7 @@ export default class Application {
       this.passes.glowsPass.color,
     );
     this.passes.glowsPass.material.uniforms.uColor.value.convertLinearToSRGB();
-    this.passes.glowsPass.material.uniforms.uAlpha.value = 0.55;
+    this.passes.glowsPass.material.uniforms.uAlpha.value = this.config.touch ? 0.35 : 0.55;
 
     // Debug
     if (this.debug) {
@@ -261,6 +268,7 @@ export default class Application {
         this.sizes.viewport.width,
         this.sizes.viewport.height,
       );
+      this.passes.composer.setPixelRatio(this.renderer.getPixelRatio());
       this.passes.horizontalBlurPass.material.uniforms.uResolution.value.x =
         this.sizes.viewport.width;
       this.passes.horizontalBlurPass.material.uniforms.uResolution.value.y =
@@ -305,7 +313,7 @@ export default class Application {
    */
   setSnow() {
     this.snow = {};
-    this.snow.count = 1500;
+    this.snow.count = this.config.touch ? 450 : 1500;
     this.snow.area = 60;
     this.snow.height = 40;
 
@@ -403,6 +411,26 @@ export default class Application {
    */
   setTitle() {
     document.title = "Caleb Tingson";
+  }
+
+  setMobileGuide() {
+    if (!this.config.touch) return;
+
+    this.world.controls.setTouch();
+    const guide = document.querySelector(".js-mobile-guide");
+    const start = document.querySelector(".js-mobile-guide-start");
+    if (!guide || !start) return;
+
+    const dismiss = () => {
+      guide.classList.add("is-dismissed");
+      guide.setAttribute("aria-hidden", "true");
+      window.localStorage.setItem("caleb-mobile-guide-seen", "1");
+    };
+
+    if (window.localStorage.getItem("caleb-mobile-guide-seen") !== "1") {
+      guide.hidden = false;
+    }
+    start.addEventListener("click", dismiss, { once: true });
   }
 
   /**

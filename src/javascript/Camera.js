@@ -215,7 +215,7 @@ export default class Camera {
       if (_event.touches.length === 2) {
         this.zoom.touch.startDistance = Math.hypot(
           _event.touches[0].clientX - _event.touches[1].clientX,
-          _event.touches[0].clientX - _event.touches[1].clientX,
+          _event.touches[0].clientY - _event.touches[1].clientY,
         );
         this.zoom.touch.startValue = this.zoom.targetValue;
       }
@@ -227,7 +227,7 @@ export default class Camera {
 
         const distance = Math.hypot(
           _event.touches[0].clientX - _event.touches[1].clientX,
-          _event.touches[0].clientX - _event.touches[1].clientX,
+          _event.touches[0].clientY - _event.touches[1].clientY,
         );
         const ratio = distance / this.zoom.touch.startDistance;
 

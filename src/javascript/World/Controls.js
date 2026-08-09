@@ -133,6 +133,11 @@ export default class Controls extends EventEmitter {
   }
 
   setTouch() {
+    if (this.touch) {
+      return;
+    }
+
+    document.documentElement.classList.add("is-touch-device");
     this.touch = {};
 
     /**
@@ -260,6 +265,7 @@ export default class Controls extends EventEmitter {
 
       if (touch) {
         this.touch.joystick.active = true;
+        this.actions.up = true;
 
         this.touch.joystick.touchIdentifier = touch.identifier;
 
@@ -306,6 +312,7 @@ export default class Controls extends EventEmitter {
 
       if (touch) {
         this.touch.joystick.active = false;
+        this.actions.up = false;
 
         this.touch.joystick.$limit.style.opacity = "0.25";
 
@@ -679,6 +686,18 @@ export default class Controls extends EventEmitter {
       this.touch.backward.events.touchstart,
     );
 
+    [this.touch.boost, this.touch.forward, this.touch.brake, this.touch.backward].forEach((control) => {
+      control.$element.classList.add("mobile-drive-control");
+    });
+    this.touch.joystick.$element.classList.add("mobile-joystick");
+
+    this.touch.interact = this.createMobileButton("Interact", "mobile-control--interact", () => {
+      window.dispatchEvent(new CustomEvent("mobile-interact"));
+    });
+    this.touch.view = this.createMobileButton("View", "mobile-control--view", () => {
+      this.toggleFirstPerson();
+    });
+
     // Reveal
     this.touch.reveal = () => {
       this.touch.joystick.$element.style.opacity = 1;
@@ -686,6 +705,20 @@ export default class Controls extends EventEmitter {
       this.touch.brake.$element.style.opacity = 1;
       this.touch.forward.$element.style.opacity = 1;
       this.touch.boost.$element.style.opacity = 1;
+      this.touch.interact.style.opacity = 1;
+      this.touch.view.style.opacity = 1;
     };
+  }
+
+  createMobileButton(label, className, onPress) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `mobile-control ${className}`;
+    button.textContent = label;
+    button.setAttribute("aria-label", label);
+    button.addEventListener("click", onPress);
+    button.addEventListener("touchstart", (event) => event.stopPropagation(), { passive: true });
+    document.body.appendChild(button);
+    return button;
   }
 }

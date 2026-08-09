@@ -73,16 +73,22 @@ export default class ProjectsSection {
   setList() {
     this.list = [
       {
-        name: "Three.js Journey",
+        name: "Interactive Portfolio",
         imageSources: [
-          "./models/projects/threejsJourney/slideA.webp",
-          "./models/projects/threejsJourney/slideB.webp",
-          "./models/projects/threejsJourney/slideC.webp",
-          "./models/projects/threejsJourney/slideD.webp",
+          "/models/projects/interactivePortfolio/slideA.png",
+          "/models/projects/interactivePortfolio/slideB.png",
+          "/models/projects/interactivePortfolio/slideC.png",
+          "/models/projects/interactivePortfolio/slideD.png",
         ],
-        floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
+        imageFit: "contain",
+        floorContent: {
+          title: "Interactive Portfolio",
+          description:
+            "An immersive 3D interactive portfolio designed to showcase my projects, skills, activities, and experiences through an engaging game-like environment. It combines interactive 3D elements, responsive design, animations, and a dedicated Resume Mode to create a unique way of presenting my work and technical abilities.",
+          role: "Caleb Adriel Tingson — Developer",
+        },
         link: {
-          href: "https://threejs-journey.com?c=p3",
+          href: "https://cerebuu.github.io/",
           x: -4.8,
           y: -3,
           halfExtents: {
@@ -90,18 +96,26 @@ export default class ProjectsSection {
             y: 1.5,
           },
         },
-        distinctions: [{ type: "fwa", x: 3.95, y: 4.15 }],
+        distinctions: [],
       },
       {
-        name: "Chartogne Taillet",
+        name: "GDG on Campus UIC — Quality Assurance",
         imageSources: [
-          "./models/projects/chartogne/slideA.jpg",
-          "./models/projects/chartogne/slideB.jpg",
-          "./models/projects/chartogne/slideC.jpg",
+          "/models/projects/gdgQa/slideA.png",
+          "/models/projects/gdgQa/slideB.png",
+          "/models/projects/gdgQa/slideC.png",
+          "/models/projects/gdgQa/slideD.png",
         ],
-        floorTexture: this.resources.items.projectsChartogneFloorTexture,
+        imageFit: "contain",
+        floorContent: {
+          title: "GDG on Campus UIC — Quality Assurance",
+          description:
+            "Performed QA testing for the GDG on Campus UIC system by checking its features, functionality, UI, and user interactions. Identified, documented, and reported bugs to help ensure the system works as intended.",
+          role: "Quality Assurance — Caleb Adriel Tingson",
+          developer: "Lemuel Abellana",
+        },
         link: {
-          href: "https://chartogne-taillet.com",
+          href: "https://guilds.uic.edu.ph/",
           x: -4.8,
           y: -3.3,
           halfExtents: {
@@ -109,92 +123,30 @@ export default class ProjectsSection {
             y: 1.5,
           },
         },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-          { type: "cssda", x: 7.2, y: 4.15 },
-        ],
+        distinctions: [],
       },
       {
-        name: "Bonhomme | 10 ans",
+        name: "Student Organization System",
         imageSources: [
-          "./models/projects/bonhomme10ans/slideA.webp",
-          "./models/projects/bonhomme10ans/slideB.webp",
-          "./models/projects/bonhomme10ans/slideC.webp",
-          "./models/projects/bonhomme10ans/slideD.webp",
+          "/models/projects/studentOrganizationSystem/slideA.png",
+          "/models/projects/studentOrganizationSystem/slideB.png",
+          "/models/projects/studentOrganizationSystem/slideC.png",
+          "/models/projects/studentOrganizationSystem/slideD.png",
         ],
-        floorTexture: this.resources.items.projectsBonhomme10ansFloorTexture,
-        link: {
-          href: "https://anniversary.bonhommeparis.com/",
-          x: -4.8,
-          y: -2,
-          halfExtents: {
-            x: 3.2,
-            y: 1.5,
-          },
+        imageFit: "contain",
+        floorContent: {
+          title: "Student Organization System",
+          description:
+            "A student organization management system designed to organize and streamline club-related information, announcements, activities, and student organization management in one centralized platform.",
+          role: "Developer",
+          developerLabel: "Developers",
+          developer:
+            "Caleb Adriel Tingson\nSzianzey Asesor\nBruce Arevalo",
         },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-        ],
-      },
-      {
-        name: "Luni.app",
-        imageSources: [
-          "./models/projects/luni/slideA.webp",
-          "./models/projects/luni/slideB.webp",
-          "./models/projects/luni/slideC.webp",
-          "./models/projects/luni/slideD.webp",
-        ],
-        floorTexture: this.resources.items.projectsLuniFloorTexture,
         link: {
-          href: "https://luni.app",
+          href: "https://github.com/cerebuu/student-org-system",
           x: -4.8,
-          y: -3,
-          halfExtents: {
-            x: 3.2,
-            y: 1.5,
-          },
-        },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-        ],
-      },
-      {
-        name: "Madbox",
-        imageSources: [
-          "./models/projects/madbox/slideA.jpg",
-          "./models/projects/madbox/slideB.jpg",
-          "./models/projects/madbox/slideC.jpg",
-        ],
-        floorTexture: this.resources.items.projectsMadboxFloorTexture,
-        link: {
-          href: "https://madbox.io",
-          x: -4.8,
-          y: -4,
-          halfExtents: {
-            x: 3.2,
-            y: 1.5,
-          },
-        },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-        ],
-      },
-      {
-        name: "Scout",
-        imageSources: [
-          "./models/projects/scout/slideA.jpg",
-          "./models/projects/scout/slideB.jpg",
-          "./models/projects/scout/slideC.jpg",
-        ],
-        floorTexture: this.resources.items.projectsScoutFloorTexture,
-        link: {
-          href: "https://fromscout.com",
-          x: -4.8,
-          y: -2,
+          y: -3.3,
           halfExtents: {
             x: 3.2,
             y: 1.5,
@@ -229,75 +181,6 @@ export default class ProjectsSection {
       //         { type: 'cssda', x: 7.2, y: 4.15 }
       //     ]
       // },
-      {
-        name: "priorHoldings",
-        imageSources: [
-          "./models/projects/priorHoldings/slideA.jpg",
-          "./models/projects/priorHoldings/slideB.jpg",
-          "./models/projects/priorHoldings/slideC.jpg",
-        ],
-        floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
-        link: {
-          href: "https://prior.co.jp/discover/",
-          x: -4.8,
-          y: -3,
-          halfExtents: {
-            x: 3.2,
-            y: 1.5,
-          },
-        },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-          { type: "cssda", x: 7.2, y: 4.15 },
-        ],
-      },
-      {
-        name: "orano",
-        imageSources: [
-          "./models/projects/orano/slideA.jpg",
-          "./models/projects/orano/slideB.jpg",
-          "./models/projects/orano/slideC.jpg",
-        ],
-        floorTexture: this.resources.items.projectsOranoFloorTexture,
-        link: {
-          href: "https://orano.imm-g-prod.com/experience/innovation/en",
-          x: -4.8,
-          y: -3.4,
-          halfExtents: {
-            x: 3.2,
-            y: 1.5,
-          },
-        },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-          { type: "cssda", x: 7.2, y: 4.15 },
-        ],
-      },
-      {
-        name: "citrixRedbull",
-        imageSources: [
-          "./models/projects/citrixRedbull/slideA.jpg",
-          "./models/projects/citrixRedbull/slideB.jpg",
-          "./models/projects/citrixRedbull/slideC.jpg",
-        ],
-        floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
-        link: {
-          href: "https://thenewmobileworkforce.imm-g-prod.com/",
-          x: -4.8,
-          y: -4.4,
-          halfExtents: {
-            x: 3.2,
-            y: 1.5,
-          },
-        },
-        distinctions: [
-          { type: "awwwards", x: 3.95, y: 4.15 },
-          { type: "fwa", x: 5.6, y: 4.15 },
-          { type: "cssda", x: 7.2, y: 4.15 },
-        ],
-      },
       // {
       //     name: 'gleecChat',
       //     imageSources:

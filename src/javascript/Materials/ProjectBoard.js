@@ -8,7 +8,8 @@ export default function()
     const uniforms = {
         uTexture: { value: null },
         uTextureAlpha: { value: null },
-        uColor: { value: null }
+        uColor: { value: null },
+        uImageScale: { value: new THREE.Vector2(1, 1) }
     }
 
     const material = new THREE.ShaderMaterial({
