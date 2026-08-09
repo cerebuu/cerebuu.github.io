@@ -51,7 +51,8 @@ export default class Application {
     this.config.cyberTruck = window.location.hash === "#cybertruck";
     // A primary pointer can be reported as "fine" on iPad when a trackpad is
     // attached. Any coarse pointer / no-hover environment is still a touch UI.
-    this.config.touch = window.matchMedia("(pointer: coarse), (any-pointer: coarse), (hover: none)").matches || navigator.maxTouchPoints > 0;
+    const mobileUserAgent = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    this.config.touch = window.matchMedia("(pointer: coarse), (any-pointer: coarse), (hover: none)").matches || navigator.maxTouchPoints > 0 || mobileUserAgent;
     this.config.pixelRatio = this.config.touch ? Math.min(window.devicePixelRatio || 1, 1.25) : 1.75;
 
     if (this.config.touch) {
