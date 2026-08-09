@@ -1,24 +1,32 @@
 /* Mobile-specific game and Resume Mode layer. Desktop HUD remains in its own CSS. */
-@media (pointer: coarse) {
-  html, body, .canvas { overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none; }
-  .rm-overlay, .rm-overlay * { touch-action: pan-y; -webkit-user-select: text; user-select: text; }
+/* JavaScript uses maxTouchPoints as well as pointer capability. Keying the
+   layout to this class prevents iPad/Safari's "fine pointer" report from
+   accidentally receiving desktop positioning after a landscape rotation. */
+html.is-touch-device,
+html.is-touch-device body,
+html.is-touch-device .canvas { overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none; }
+html.is-touch-device .rm-overlay,
+html.is-touch-device .rm-overlay * { touch-action: pan-y; -webkit-user-select: text; user-select: text; }
 
-  /* These desktop surfaces consume too much landscape real estate. The compact
-     HUD below retains Resume and contact access without covering the scene. */
-  .nav-dock, .controls-panel { display: none !important; }
-  .mobile-topbar {
-    position: fixed; z-index: 250; top: max(10px, env(safe-area-inset-top));
-    left: max(10px, env(safe-area-inset-left)); right: max(10px, env(safe-area-inset-right));
-    display: flex; align-items: center; gap: 8px; min-width: 0; pointer-events: none;
-  }
-  .mobile-topbar > * { pointer-events: auto; }
-  .mobile-topbar .contact-icons { position: static; order: 2; display: flex; gap: 4px; padding: 2px; min-width: 0; }
-  .contact-icons__item { width: 44px; height: 44px; }
-  .contact-icons__item:nth-child(1) { order: 3; }
-  .contact-icons__item:nth-child(2) { order: 2; }
-  .contact-icons__item:nth-child(3) { order: 1; }
-  .mobile-topbar .rm-toggle { position: static; order: 1; flex: 0 1 auto; min-height: 44px; padding: 8px 12px; font-size: 10px; white-space: nowrap; }
+/* These desktop surfaces consume too much landscape real estate. The compact
+   HUD below retains Resume and contact access without covering the scene. */
+html.is-touch-device .nav-dock,
+html.is-touch-device .controls-panel { display: none !important; }
+html.is-touch-device .mobile-topbar {
+  position: fixed; z-index: 250; top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left)); right: max(10px, env(safe-area-inset-right));
+  display: flex; align-items: center; gap: 8px; min-width: 0; pointer-events: none;
 }
+html.is-touch-device .mobile-topbar > * { pointer-events: auto; }
+html.is-touch-device .mobile-topbar .contact-icons {
+  position: static; order: 2; display: flex; gap: 4px; padding: 2px; min-width: 0;
+  opacity: 1; pointer-events: auto;
+}
+html.is-touch-device .contact-icons__item { width: 44px; height: 44px; }
+html.is-touch-device .contact-icons__item:nth-child(1) { order: 3; }
+html.is-touch-device .contact-icons__item:nth-child(2) { order: 2; }
+html.is-touch-device .contact-icons__item:nth-child(3) { order: 1; }
+html.is-touch-device .mobile-topbar .rm-toggle { position: static; order: 1; flex: 0 1 auto; min-height: 44px; padding: 8px 12px; font-size: 10px; white-space: nowrap; }
 
 /* A small Minecraft-inspired D-pad and action affordance. Its controls own
    pointer input, keeping the rest of the canvas free for camera swipes. */
@@ -26,6 +34,7 @@
   position: fixed; z-index: 230; inset: auto 0 0; display: flex;
   align-items: end; justify-content: space-between;
   padding: 0 max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  max-width: 100vw; max-height: 100dvh; overflow: visible; isolation: isolate;
   opacity: 0; pointer-events: none; transition: opacity .25s ease;
 }
 .mobile-hud.is-visible { opacity: 1; pointer-events: auto; }

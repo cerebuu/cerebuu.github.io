@@ -58,6 +58,11 @@ export default class Controls extends EventEmitter {
     `;
     document.body.appendChild(hud);
     this.touch.$element = hud;
+    // Do not make touch controls depend solely on the reveal animation. Some
+    // mobile browsers cancel delayed timers while rotating, leaving a running
+    // world with an invisible HUD. The controls remain inert until physics is
+    // available, but are always visible and reachable in the viewport.
+    hud.classList.add("is-visible");
 
     // Rotation can cancel active pointers on mobile browsers. Clear movement
     // immediately, retain the visible HUD, and record the new visual viewport
