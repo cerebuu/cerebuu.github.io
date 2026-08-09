@@ -18,13 +18,16 @@ const activities = Object.keys(modules)
         const raw = modules[path].default || {}
 
         return {
-            title: raw.title || 'Untitled Activity',
+            title: raw.title || '',
             week: raw.week || '',
             status: raw.status || 'Completed',
             description: raw.description || '',
             tags: Array.isArray(raw.tags) ? raw.tags : [],
+            thumbnail: raw.thumbnail || null,
+            thumbnailAlt: raw.thumbnailAlt || '',
             link: raw.link || null
         }
     })
+    .filter((activity) => activity.title && activity.description)
 
 export default activities

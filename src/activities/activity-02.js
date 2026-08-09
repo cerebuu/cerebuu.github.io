@@ -4,5 +4,7 @@ export default {
     status: 'Completed',
     description: 'Built an HTML table displaying the Aguilar Family Wine Festival schedule — a thead with a spanning title row and column headers, and a tbody with five rows pairing event times to event names.',
     tags: ['HTML', 'Tables'],
+    thumbnail: '/activities/wine-festival/thumbnail.svg',
+    thumbnailAlt: 'Wine Festival schedule preview',
     link: { text: 'View file', href: 'https://cerebuu.github.io/activities/wine-festival/index.html' }
 }

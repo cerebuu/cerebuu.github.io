@@ -263,6 +263,10 @@ export default class ResumeMode {
   }
 
   certificatePreviewSrc(_certificate) {
+    if (_certificate.previewImage) {
+      return _certificate.previewImage;
+    }
+
     const title = this.escapeXml(_certificate.title);
     const issuer = this.escapeXml(_certificate.issuer);
     const year = this.escapeXml(
@@ -303,7 +307,7 @@ export default class ResumeMode {
    * solid for settled/academic ones — instead of just gray text.
    */
   statusDotClass(status) {
-    const normalized = status.toLowerCase();
+    const normalized = (status || "").toLowerCase();
 
     if (normalized.includes("progress") || normalized.includes("soon")) {
       return "rm-status-dot--active";
@@ -316,9 +320,30 @@ export default class ResumeMode {
     return "rm-status-dot--static";
   }
 
+  renderProjectCredentials(credentials = []) {
+    if (!credentials.length) {
+      return "";
+    }
+
+    const cards = credentials
+      .map((credential) => {
+        const preview = credential.previewImage
+          ? `<img src="${credential.previewImage}" alt="${credential.title} preview">`
+          : "<span class=\"rm-project-credential-placeholder\" aria-hidden=\"true\">DOC</span>";
+        const body = `${preview}<span>${credential.title}</span>`;
+
+        return credential.href
+          ? `<a class="rm-project-credential interactive-hover interactive-hover--opacity" href="${credential.href}" target="_blank" rel="noopener">${body}</a>`
+          : `<span class="rm-project-credential is-disabled">${body}</span>`;
+      })
+      .join("");
+
+    return `<div class="rm-project-credentials"><span class="rm-project-detail-label">Supporting credentials</span><div class="rm-project-credential-list">${cards}</div></div>`;
+  }
+
   renderProjects() {
     const projects = content.projects
-      .map((project, index) => {
+      .map((project) => {
         const projectLinks = project.links || {};
         const demoLink = this.renderProjectLink(
           projectLinks.demo || project.link,
@@ -326,26 +351,35 @@ export default class ResumeMode {
         const repoLink = this.renderProjectLink(
           projectLinks.repository || project.repo,
         );
+        const fileLink = this.renderProjectLink(projectLinks.file);
 
-        const number = String(index + 1).padStart(2, "0");
         const dotClass = this.statusDotClass(project.status);
+        const technologies = project.technologies || project.tags || [];
+        const features = (project.features || []).map((feature) => `<li>${feature}</li>`).join("");
+        const description = project.description || project.solution || "";
 
         return `
-                <div class="rm-project">
-                    <span class="rm-project-number">MISSION ${number}</span>
-                    <div class="rm-project-header">
-                        <h3>${project.title}</h3>
-                        <span class="rm-project-status"><span class="rm-status-dot ${dotClass}"></span>${project.status}</span>
+                <article class="rm-project rm-project-card">
+                    <div class="rm-project-body">
+                        <div class="rm-project-header">
+                            <h3>${project.title}</h3>
+                            <span class="rm-project-status"><span class="rm-status-dot ${dotClass}"></span>${project.status}</span>
+                        </div>
+                        <p class="rm-project-description">${description}</p>
+                        <div class="rm-project-details">
+                          <div><span class="rm-project-detail-label">My role</span><p>${project.role || "Contributor"}</p></div>
+                          <div><span class="rm-project-detail-label">Status</span><p>${project.status}</p></div>
+                        </div>
+                        ${features ? `<div class="rm-project-features"><span class="rm-project-detail-label">Key features</span><ul>${features}</ul></div>` : ""}
+                        <div class="rm-project-technologies"><span class="rm-project-detail-label">Technologies</span><div class="rm-project-tags">${technologies.map((tag) => `<span>${tag}</span>`).join("")}</div></div>
+                        ${this.renderProjectCredentials(project.credentials)}
+                        <div class="rm-project-links">
+                          ${demoLink}
+                          ${repoLink}
+                          ${fileLink}
+                        </div>
                     </div>
-                    <p class="rm-project-line"><strong>Problem:</strong> ${project.problem}</p>
-                    <p class="rm-project-line"><strong>Solution:</strong> ${project.solution}</p>
-                    <p class="rm-project-line"><strong>Impact:</strong> ${project.impact}</p>
-                    <div class="rm-project-tags">${project.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
-                    <div class="rm-project-links">
-                      ${demoLink}
-                      ${repoLink}
-                    </div>
-                </div>
+                </article>
             `;
       })
       .join("");
@@ -371,19 +405,20 @@ export default class ResumeMode {
         const link = activity.link
           ? `<div class="rm-project-links"><a class="rm-project-link interactive-hover interactive-hover--opacity" href="${activity.link.href}" target="_blank" rel="noopener">${activity.link.text}</a></div>`
           : "";
-
         const dotClass = this.statusDotClass(activity.status);
 
         return `
-                <div class="rm-project rm-activity-card" id="rm-activity-${index}">
-                    <div class="rm-project-header">
-                        <h3>${activity.title}</h3>
-                        <span class="rm-project-status"><span class="rm-status-dot ${dotClass}"></span>${activity.status}</span>
+                <article class="rm-project rm-activity-card" id="rm-activity-${index}">
+                    <div class="rm-activity-copy">
+                      <div class="rm-project-header">
+                          <h3>${activity.title}</h3>
+                          <span class="rm-project-status"><span class="rm-status-dot ${dotClass}"></span>${activity.status}</span>
+                      </div>
+                      <p class="rm-project-line">${activity.description}</p>
+                      <div class="rm-project-tags">${activity.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
+                      ${link}
                     </div>
-                    <p class="rm-project-line">${activity.description}</p>
-                    <div class="rm-project-tags">${activity.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
-                    ${link}
-                </div>
+                </article>
             `;
       })
       .join("");
@@ -400,16 +435,24 @@ export default class ResumeMode {
   renderExperience() {
     const items = content.experience
       .map((job) => {
-        const bullets = job.bullets
+        const bullets = (job.bullets || [])
           .map((bullet) => "<li>" + bullet + "</li>")
           .join("");
+        const details = job.process || job.benefits
+          ? `<div class="rm-experience-details">
+              ${job.process ? `<div><span>Process</span><p>${job.process}</p></div>` : ""}
+              ${job.benefits ? `<div><span>Benefits</span><p>${job.benefits}</p></div>` : ""}
+            </div>`
+          : bullets
+            ? `<ul>${bullets}</ul>`
+            : "";
 
         return [
           '<div class="rm-timeline-item">',
           `<h3>${job.role}</h3>`,
           `<div class="rm-org">${job.org}</div>`,
           `<div class="rm-dates">${job.dates}</div>`,
-          `<ul>${bullets}</ul>`,
+          details,
           "</div>",
         ].join("\n");
       })
@@ -430,16 +473,34 @@ export default class ResumeMode {
         const cards = group.items
           .map((certificate) => {
             const previewSrc = this.certificatePreviewSrc(certificate);
-            const credentialLink = certificate.credentialUrl
-              ? `<a class="rm-cert-link" href="${certificate.credentialUrl}" target="_blank" rel="noopener">View credential</a>`
+            const credentialHref = certificate.credentialUrl || certificate.previewImage;
+            const credentialLink = credentialHref
+              ? `<a class="rm-cert-link" href="${credentialHref}" target="_blank" rel="noopener">${certificate.verificationLabel || (certificate.credentialUrl ? "Verify credential" : "Open certificate")}</a>`
               : `<span class="rm-cert-link is-disabled">Credential unavailable</span>`;
+            const credentialId = certificate.credentialId
+              ? `<div class="rm-cert-fact"><span>Credential ID</span><p>${certificate.credentialId}</p></div>`
+              : "";
+            const preview = credentialHref
+              ? `<a class="rm-cert-preview-link" href="${credentialHref}" target="_blank" rel="noopener" aria-label="Open ${certificate.title} credential preview"><img class="rm-cert-preview" src="${previewSrc}" alt="${certificate.title} certificate preview"></a>`
+              : `<img class="rm-cert-preview" src="${previewSrc}" alt="${certificate.title} certificate preview">`;
+            const details = (certificate.details || [])
+              .map(
+                (detail) => `<div class="rm-cert-detail"><span>${detail.label}</span><p>${detail.text}</p></div>`,
+              )
+              .join("");
 
             return `
               <article class="rm-cert-card">
-                  <img class="rm-cert-preview" src="${previewSrc}" alt="${certificate.title} certificate preview">
+                  ${preview}
                   <div class="rm-cert-copy">
-                      <div class="rm-cert-meta">${certificate.issuer} · ${certificate.issueDate}</div>
                       <h3>${certificate.title}</h3>
+                      <div class="rm-cert-facts">
+                        <div class="rm-cert-fact"><span>Issuer</span><p>${certificate.issuer}</p></div>
+                        <div class="rm-cert-fact"><span>Issued</span><p>${certificate.issueDate}</p></div>
+                        ${credentialId}
+                      </div>
+                      ${certificate.description ? `<p class="rm-cert-description">${certificate.description}</p>` : ""}
+                      ${details ? `<div class="rm-cert-details">${details}</div>` : ""}
                       <div class="rm-cert-actions">
                           ${credentialLink}
                       </div>

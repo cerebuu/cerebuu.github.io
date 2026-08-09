@@ -6,6 +6,13 @@
  * update your info once, it reflects everywhere.
  */
 import activities from "./activities/index.js";
+import aiEssentialsPreview from "./images/certifications/ai-essentials-v2.jpg";
+import generativeAiPreview from "./images/certifications/generative-ai-for-everyone.jpg";
+import introGenAiPreview from "./images/certifications/introduction-to-generative-ai.jpg";
+import emergingTechPreview from "./images/certifications/explore-emerging-tech.png";
+import firesideChatPreview from "./images/certifications/fireside-chat-panelist.jpg";
+import eventHostPreview from "./images/certifications/event-host-working-committee.jpg";
+import quantumCtfPreview from "./images/certifications/quantum-computing-ctf-hackathon.jpg";
 
 export default {
   name: "Caleb Adriel M. Tingson",
@@ -90,13 +97,16 @@ export default {
     {
       title: "Interactive Game Portfolio",
       status: "In Progress",
-      problem:
-        "Traditional portfolios often fail to showcase creativity and technical skills in an engaging way.",
-      solution:
-        "Developing an interactive game-inspired portfolio with a minimalist monochrome design where visitors explore projects through gameplay.",
-      impact:
-        "Demonstrates frontend development, creative design, and interactive user experience while strengthening my personal brand.",
-      tags: ["HTML", "CSS", "JavaScript", "Three.js"],
+      thumbnail: { label: "3D PORTFOLIO", type: "portfolio" },
+      description:
+        "An exploratory, game-inspired personal portfolio that turns a traditional resume into an interactive 3D experience. Visitors can navigate a minimalist monochrome world to discover my work, skills, and activities.",
+      role: "Designer & Frontend Developer",
+      technologies: ["HTML", "CSS", "JavaScript", "Three.js", "Vite"],
+      features: [
+        "Interactive Three.js world with physics-based exploration",
+        "Resume Mode for a fast, accessible reading experience",
+        "Responsive navigation and motion-aware interactions",
+      ],
       links: {
         demo: {
           text: "Live demo",
@@ -109,85 +119,50 @@ export default {
       },
     },
     {
-      title: "Dental Clinic Information Website",
-      status: "Private",
-      problem:
-        "The clinic needed an online platform where patients could easily access essential information and services.",
-      solution:
-        "Collaborated on developing an informational website featuring clinic services, contact details, and appointment information.",
-      impact:
-        "Improved the clinic's online presence and made information more accessible for patients.",
-      tags: ["HTML", "CSS", "JavaScript"],
-      links: {
-        demo: {
-          text: "Private demo",
-          disabled: true,
-        },
-        repository: {
-          text: "Private repository",
-          disabled: true,
-        },
-      },
-    },
-    {
       title: "GDG on Campus Website QA",
       status: "Private",
-      problem:
-        "The organization required website testing before deployment to ensure quality and usability.",
-      solution:
-        "Conducted QA testing, identifying UI inconsistencies, usability issues, and functional bugs.",
-      impact:
-        "Contributed to a more polished, user-friendly website before launch.",
-      tags: ["QA Testing", "UI/UX", "Documentation"],
+      thumbnail: { label: "QA REVIEW", type: "quality" },
+      description:
+        "Quality-assurance work for a private GDG on Campus website prior to launch, focused on finding user-interface inconsistencies, usability issues, and functional bugs.",
+      role: "QA Tester",
+      technologies: ["QA Testing", "UI/UX Review", "Documentation"],
+      features: [
+        "UI consistency and responsive-layout checks",
+        "Usability review across key visitor flows",
+        "Clear issue documentation for the development team",
+      ],
       links: {
         demo: {
           text: "Private demo",
-          disabled: true,
+          href: "https://drive.google.com/file/d/1IJwK2b3F7fa_t-pa3dXy5Vg4v5oxXhb1/view?usp=sharing",
         },
-        repository: {
-          text: "Private repository",
-          disabled: true,
+        file: {
+          text: "View File",
+          href: "/documents/quality-assurance.pdf",
         },
       },
     },
     {
-      title: "Java Console Applications",
+      title: "Student Organization System",
       status: "GitHub Soon",
-      problem:
-        "Strengthen Java programming fundamentals through practical applications.",
-      solution:
-        "Developed multiple Java console programs implementing authentication systems, arrays, loops, methods, and OOP concepts.",
-      impact: "Improved programming logic and software development skills.",
-      tags: ["Java", "OOP"],
+      thumbnail: { label: "JAVA LAB", type: "terminal" },
+      description:
+        "A collection of practical Java console exercises built to strengthen core programming logic through authentication flows, data handling, reusable methods, and object-oriented programming.",
+      role: "Java Developer",
+      technologies: ["Java", "OOP", "Console I/O"],
+      features: [
+        "Authentication-oriented console workflows",
+        "Arrays, loops, methods, and conditional logic",
+        "Object-oriented programming practice",
+      ],
       links: {
         demo: {
-          text: "Demo pending",
-          disabled: true,
+          text: "Live Demo",
+          href: "https://www.linkedin.com/posts/calebtingson_excited-to-share-our-project-we-developed-ugcPost-7446183944657666048-QhvP/",
         },
         repository: {
-          text: "Repository pending",
-          disabled: true,
-        },
-      },
-    },
-    {
-      title: "Computer Networking Projects",
-      status: "Academic",
-      problem:
-        "Build reliable local networks for academic and practical environments.",
-      solution:
-        "Designed, configured, and troubleshot LAN topologies while applying networking concepts and best practices.",
-      impact:
-        "Successfully implemented functional network infrastructures and strengthened networking expertise.",
-      tags: ["Networking", "LAN", "WAN", "Cisco Concepts"],
-      links: {
-        demo: {
-          text: "Demo unavailable",
-          disabled: true,
-        },
-        repository: {
-          text: "Repository unavailable",
-          disabled: true,
+          text: "Repository",
+          href: "https://github.com/cerebuu/student-org-system",
         },
       },
     },
@@ -207,17 +182,19 @@ export default {
       role: "Freelance Encoder",
       org: "Lebosada Dental Care",
       dates: "2024 — Present",
-      bullets: [
-        "Prepared, organized, and encoded business records while ensuring data accuracy and efficient documentation.",
-      ],
+      process:
+        "Encoded and organized patient and clinic-related information, then reviewed records for accuracy.",
+      benefits:
+        "Improved record organization, reduced staff workload, and made information easier to manage and retrieve.",
     },
     {
       role: "Freelance Encoder",
       org: "Double A Rooftech Marketing",
       dates: "2024 — Present",
-      bullets: [
-        "Managed monthly sales and purchase encoding for BIR reporting while maintaining organized and accurate financial records.",
-      ],
+      process:
+        "Encoded and organized business-related data, checked information for errors, and maintained accurate digital records.",
+      benefits:
+        "Saved time, reduced manual workload, improved data accuracy, and supported efficient business operations.",
     },
   ],
 
@@ -229,42 +206,95 @@ export default {
           title: "Artificial Intelligence Essentials V2",
           issuer: "Coursera",
           issueDate: "2026",
-          credentialUrl: null,
+          previewImage: aiEssentialsPreview,
+          credentialId: "8d8cf770-6007-4086-85d4-fde25a3c5bef",
+          description:
+            "Foundational credential covering artificial intelligence concepts and their real-world applications.",
+          credentialUrl:
+            "https://www.credly.com/badges/8d8cf770-6007-4086-85d4-fde25a3c5bef/linked_in_profile",
+          verificationLabel: "Verify on Credly",
         },
         {
           title: "Introduction to Generative AI",
           issuer: "Google Cloud",
           issueDate: "2026",
-          credentialUrl: null,
+          previewImage: introGenAiPreview,
+          credentialId: "FCPAOYMEHDT6",
+          description:
+            "An introductory Google Cloud course exploring generative AI concepts, use cases, and responsible adoption.",
+          credentialUrl:
+            "https://www.coursera.org/account/accomplishments/verify/FCPAOYMEHDT6",
+          verificationLabel: "Verify on Coursera",
         },
         {
           title: "Generative AI for Everyone",
           issuer: "DeepLearning.AI",
           issueDate: "2026",
-          credentialUrl: null,
+          previewImage: generativeAiPreview,
+          credentialId: "E7R0SM002TG8",
+          description:
+            "An introductory credential on generative AI, its capabilities, and practical ways to apply it across work and technology.",
+          credentialUrl:
+            "https://www.coursera.org/account/accomplishments/verify/E7R0SM002TG8",
+          verificationLabel: "Verify on Coursera",
         },
         {
           title: "Explore Emerging Tech",
           issuer: "IBM",
           issueDate: "2026",
-          credentialUrl: null,
+          previewImage: emergingTechPreview,
+          credentialId: "5788c4c5-a9d3-4b6e-862e-970273be5f28",
+          description:
+            "IBM credential recognizing exploration of emerging technologies and their potential impact.",
+          credentialUrl:
+            "https://www.credly.com/badges/5788c4c5-a9d3-4b6e-862e-970273be5f28/linked_in_profile",
+          verificationLabel: "Verify on Credly",
         },
         {
           title: "Quantum Computing and Cybersecurity CTF Hackathon",
           issuer: "Quantum Computing Society of the Philippines (QCSP)",
           issueDate: "2026",
+          previewImage: quantumCtfPreview,
+          description:
+            "Recognition for participating in a quantum computing and cybersecurity capture-the-flag hackathon.",
           credentialUrl: null,
         },
         {
           title: "Fireside Chat Panelist",
           issuer: "GDG Davao",
           issueDate: "2026",
+          previewImage: firesideChatPreview,
+          details: [
+            {
+              label: "What I Did",
+              text: "Shared my experiences and insights as a student in technology, AI, and learning. Participated in an open discussion and exchanged ideas with fellow students and attendees.",
+            },
+            {
+              label: "Contribution",
+              text: "Helped encourage students to explore technology, AI, and opportunities for personal and academic growth.",
+            },
+          ],
           credentialUrl: null,
         },
         {
           title: "Event Host (Working Committee)",
           issuer: "University of the Immaculate Conception (UIC)",
           issueDate: "2026",
+          previewImage: eventHostPreview,
+          details: [
+            {
+              label: "Context",
+              text: "An educational initiative focused on introducing students to AI through interactive and engaging learning activities.",
+            },
+            {
+              label: "What I Did",
+              text: "Assisted in presenting and explaining basic AI concepts to students using simple, interactive, and student-friendly approaches.",
+            },
+            {
+              label: "Impact",
+              text: "Helped students understand the basic uses of AI and encouraged them to explore technology as a learning tool.",
+            },
+          ],
           credentialUrl: null,
         },
       ],

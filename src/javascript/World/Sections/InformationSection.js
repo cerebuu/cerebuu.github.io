@@ -73,7 +73,7 @@ export default class InformationSection
     {
         // Set up
         this.links = {}
-        this.links.x = 1.95
+        this.links.x = 4.35
         this.links.y = - 1.5
         this.links.halfExtents = {}
         this.links.halfExtents.x = 1
@@ -91,16 +91,17 @@ export default class InformationSection
         // Options
         this.links.options = [
             {
-                href: 'https://github.com/cerebuu/',
-                labelTexture: this.resources.items.informationContactGithubLabelTexture
+                href: 'https://github.com/cerebuu',
+                label: 'GITHUB'
             },
             {
                 href: 'https://www.linkedin.com/in/calebtingson/',
-                labelTexture: this.resources.items.informationContactLinkedinLabelTexture
+                label: 'LINKEDIN'
             },
             {
                 href: 'mailto:zaikurei112@gmail.com',
-                labelTexture: this.resources.items.informationContactMailLabelTexture
+                label: 'EMAIL',
+                detail: 'zaikurei112@gmail.com'
             }
         ]
 
@@ -121,16 +122,23 @@ export default class InformationSection
             })
             item.area.on('interact', () =>
             {
-                window.open(_option.href, '_blank')
+                if(_option.href.startsWith('mailto:'))
+                {
+                    window.location.href = _option.href
+                    return
+                }
+
+                window.open(_option.href, '_blank', 'noopener')
             })
 
-            // Texture
-            item.texture = _option.labelTexture
+            // Generate labels so the same visual treatment applies to each
+            // contact structure, including the full email address.
+            item.texture = this.createLinkLabelTexture(_option.label, _option.detail)
             item.texture.magFilter = THREE.NearestFilter
             item.texture.minFilter = THREE.LinearFilter
 
             // Create label
-            item.labelMesh = new THREE.Mesh(this.links.labelGeometry, new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: _option.labelTexture, depthTest: true, depthWrite: false, transparent: true }))
+            item.labelMesh = new THREE.Mesh(this.links.labelGeometry, new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: item.texture, depthTest: true, depthWrite: false, transparent: true }))
             item.labelMesh.position.x = item.x + this.links.labelWidth * 0.5 - this.links.halfExtents.x
             item.labelMesh.position.y = item.y + this.links.labelOffset
             item.labelMesh.matrixAutoUpdate = false
@@ -142,6 +150,28 @@ export default class InformationSection
 
             i++
         }
+    }
+
+    createLinkLabelTexture(_label, _detail = '')
+    {
+        const canvas = document.createElement('canvas')
+        canvas.width = 1024
+        canvas.height = 256
+        const context = canvas.getContext('2d')
+
+        context.fillStyle = '#ffffff'
+        context.textAlign = 'left'
+        context.textBaseline = 'middle'
+        context.font = '700 92px "JetBrains Mono", "SF Mono", Menlo, monospace'
+        context.fillText(_label, 18, _detail ? 78 : 128)
+
+        if(_detail)
+        {
+            context.font = '600 42px "JetBrains Mono", "SF Mono", Menlo, monospace'
+            context.fillText(_detail, 18, 184)
+        }
+
+        return new THREE.CanvasTexture(canvas)
     }
 
     setActivities()
