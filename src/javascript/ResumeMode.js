@@ -602,6 +602,7 @@ export default class ResumeMode {
     this.$overlay.setAttribute("aria-hidden", "false");
     this.$toggle.textContent = "Explore 3D World";
     this.$overlay.scrollTop = 0;
+    this.revealAllSections();
     window.application?.world?.controls?.setTouchVisibility?.(false);
     document.body.style.overflow = "hidden";
     this.setBackgroundInteractivity(true);
@@ -777,6 +778,15 @@ export default class ResumeMode {
     );
 
     this.$sections.forEach(($section) => observer.observe($section));
+  }
+
+  // The overlay starts hidden. Some mobile browsers delay IntersectionObserver
+  // callbacks for descendants of a hidden fixed scroll container, which left
+  // late sections (notably Certifications and Contact) permanently transparent.
+  // Rendering stays data-driven; this only makes the already-rendered sections
+  // visible when the user enters Resume Mode.
+  revealAllSections() {
+    this.$sections.forEach(($section) => $section.classList.add("is-visible"));
   }
 
   bindNavHighlight() {
