@@ -49,7 +49,9 @@ export default class Application {
     this.config = {};
     this.config.debug = window.location.hash === "#debug";
     this.config.cyberTruck = window.location.hash === "#cybertruck";
-    this.config.touch = window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+    // A primary pointer can be reported as "fine" on iPad when a trackpad is
+    // attached. Any coarse pointer / no-hover environment is still a touch UI.
+    this.config.touch = window.matchMedia("(pointer: coarse), (any-pointer: coarse), (hover: none)").matches || navigator.maxTouchPoints > 0;
     this.config.pixelRatio = this.config.touch ? Math.min(window.devicePixelRatio || 1, 1.25) : 1.75;
 
     if (this.config.touch) {
@@ -59,15 +61,7 @@ export default class Application {
     window.addEventListener(
       "touchstart",
       () => {
-        this.config.touch = true;
-        this.world.controls.setTouch();
-
-        this.passes.horizontalBlurPass.strength = 0;
-        this.passes.horizontalBlurPass.material.uniforms.uStrength.value =
-          new THREE.Vector2(0, 0);
-        this.passes.verticalBlurPass.strength = 0;
-        this.passes.verticalBlurPass.material.uniforms.uStrength.value =
-          new THREE.Vector2(0, 0);
+        this.enableTouchMode();
       },
       { once: true },
     );
@@ -426,8 +420,7 @@ export default class Application {
   setMobileGuide() {
     if (!this.config.touch) return;
 
-    this.world.controls.setTouch();
-    this.setMobileTopBar();
+    this.enableTouchMode();
     // Mobile has no Start affordance: wait for the actual asset-ready signal,
     // then enter through the existing idempotent start area exactly once.
     let started = false;
@@ -436,6 +429,20 @@ export default class Application {
       started = true;
       window.requestAnimationFrame(() => this.world.startingScreen?.area?.interact(false));
     });
+  }
+
+  enableTouchMode() {
+    this.config.touch = true;
+    document.documentElement.classList.add("is-touch-device");
+    this.world?.controls?.setTouch();
+    this.setMobileTopBar();
+
+    if (this.passes) {
+      this.passes.horizontalBlurPass.strength = 0;
+      this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, 0);
+      this.passes.verticalBlurPass.strength = 0;
+      this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, 0);
+    }
   }
 
   setMobileTopBar() {
