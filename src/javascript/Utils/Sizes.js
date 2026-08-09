@@ -22,6 +22,8 @@ export default class Sizes extends EventEmitter
         // Resize event
         this.resize = this.resize.bind(this)
         window.addEventListener('resize', this.resize)
+        window.addEventListener('orientationchange', this.resize)
+        window.visualViewport?.addEventListener('resize', this.resize)
 
         this.resize()
     }

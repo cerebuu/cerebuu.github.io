@@ -8,6 +8,7 @@ export default class Controls extends EventEmitter {
     super();
     this.config = options.config;
     this.camera = options.camera;
+    this.sizes = options.sizes;
     this.setActions();
     this.setKeyboard();
   }
@@ -57,6 +58,22 @@ export default class Controls extends EventEmitter {
     `;
     document.body.appendChild(hud);
     this.touch.$element = hud;
+
+    // Rotation can cancel active pointers on mobile browsers. Clear movement
+    // immediately, retain the visible HUD, and record the new visual viewport
+    // so CSS always lays out against the current—not initial—phone dimensions.
+    this.touch.refreshLayout = () => {
+      this.releaseAll();
+      this.touch.pointers.clear();
+      const viewport = window.visualViewport;
+      hud.style.setProperty("--mobile-vw", `${Math.round(viewport?.width || window.innerWidth)}px`);
+      hud.style.setProperty("--mobile-vh", `${Math.round(viewport?.height || window.innerHeight)}px`);
+      hud.classList.toggle("is-landscape", (viewport?.width || window.innerWidth) > (viewport?.height || window.innerHeight));
+    };
+    this.sizes?.on("resize", this.touch.refreshLayout);
+    window.visualViewport?.addEventListener("resize", this.touch.refreshLayout, { passive: true });
+    window.addEventListener("orientationchange", this.touch.refreshLayout, { passive: true });
+    this.touch.refreshLayout();
 
     const endPointer = (event) => {
       const action = this.touch.pointers.get(event.pointerId);

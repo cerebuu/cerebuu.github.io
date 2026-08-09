@@ -427,6 +427,7 @@ export default class Application {
     if (!this.config.touch) return;
 
     this.world.controls.setTouch();
+    this.setMobileTopBar();
     // Mobile has no Start affordance: wait for the actual asset-ready signal,
     // then enter through the existing idempotent start area exactly once.
     let started = false;
@@ -435,6 +436,17 @@ export default class Application {
       started = true;
       window.requestAnimationFrame(() => this.world.startingScreen?.area?.interact(false));
     });
+  }
+
+  setMobileTopBar() {
+    const contact = document.querySelector(".js-contact-icons");
+    const resume = document.querySelector(".js-resume-toggle");
+    if (!contact || !resume || contact.parentElement?.classList.contains("mobile-topbar")) return;
+
+    const topBar = document.createElement("div");
+    topBar.className = "mobile-topbar";
+    contact.parentElement.insertBefore(topBar, contact);
+    topBar.append(contact, resume);
   }
 
   setOrientationHint() {

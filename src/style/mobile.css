@@ -6,9 +6,18 @@
   /* These desktop surfaces consume too much landscape real estate. The compact
      HUD below retains Resume and contact access without covering the scene. */
   .nav-dock, .controls-panel { display: none !important; }
-  .contact-icons { top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right)); bottom: auto; padding: 2px; }
+  .mobile-topbar {
+    position: fixed; z-index: 250; top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left)); right: max(10px, env(safe-area-inset-right));
+    display: flex; align-items: center; gap: 8px; min-width: 0; pointer-events: none;
+  }
+  .mobile-topbar > * { pointer-events: auto; }
+  .mobile-topbar .contact-icons { position: static; order: 2; display: flex; gap: 4px; padding: 2px; min-width: 0; }
   .contact-icons__item { width: 44px; height: 44px; }
-  .rm-toggle { top: max(10px, env(safe-area-inset-top)); right: calc(max(10px, env(safe-area-inset-right)) + 154px); min-height: 44px; padding: 8px 12px; font-size: 10px; }
+  .contact-icons__item:nth-child(1) { order: 3; }
+  .contact-icons__item:nth-child(2) { order: 2; }
+  .contact-icons__item:nth-child(3) { order: 1; }
+  .mobile-topbar .rm-toggle { position: static; order: 1; flex: 0 1 auto; min-height: 44px; padding: 8px 12px; font-size: 10px; white-space: nowrap; }
 }
 
 /* A small Minecraft-inspired D-pad and action affordance. Its controls own
@@ -64,10 +73,9 @@
   .rm-contact-links a { align-items: flex-start; flex-direction: column; gap: 3px; }
   .rm-contact-links a .rm-contact-label { width: auto; }
 }
-@media (max-width: 380px) and (orientation: portrait) { .rm-toggle { right: max(10px, env(safe-area-inset-right)); top: calc(max(10px, env(safe-area-inset-top)) + 50px); } }
 @media (orientation: landscape) and (max-height: 520px) {
   .mobile-hud { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
-  .mobile-hud__pad { grid-template: repeat(2,46px) / repeat(3,46px); gap: 4px; }
+  .mobile-hud__pad { grid-template: repeat(2,48px) / repeat(3,48px); gap: 4px; }
   .mobile-hud__pad button { border-radius: 13px; }
   .mobile-hud__interact { min-width: 106px; min-height: 46px; }
   .threejs-journey { display: none !important; }
