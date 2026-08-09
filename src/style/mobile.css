@@ -40,7 +40,9 @@ html.is-touch-device .mobile-topbar .rm-toggle { position: static; order: 1; fle
   max-width: 100vw; max-height: 100dvh; overflow: visible; isolation: isolate;
   opacity: 0; pointer-events: none; transition: opacity .25s ease;
 }
-.mobile-hud.is-visible { opacity: 1; pointer-events: auto; }
+.mobile-hud.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+.mobile-hud[hidden],
+.landscape-controller[hidden] { display: none !important; pointer-events: none !important; }
 .mobile-hud__pad { display: grid; grid-template: repeat(2, 52px) / repeat(3, 52px); gap: 5px; grid-template-areas: ". up ." "left down right"; }
 .mobile-hud button {
   appearance: none; border: 1px solid rgba(255,255,255,.38); color: #fff; background: rgba(7,7,7,.72);

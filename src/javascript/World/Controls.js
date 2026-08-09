@@ -58,11 +58,21 @@ export default class Controls extends EventEmitter {
     `;
     document.body.appendChild(hud);
     this.touch.$element = hud;
+    this.touch.$surfaces = [hud, document.querySelector(".js-landscape-controller")].filter(Boolean);
     // Do not make touch controls depend solely on the reveal animation. Some
     // mobile browsers cancel delayed timers while rotating, leaving a running
     // world with an invisible HUD. The controls remain inert until physics is
     // available, but are always visible and reachable in the viewport.
     hud.classList.add("is-visible");
+    this.setTouchVisibility = (visible) => {
+      this.touch.visible = visible;
+      if (!visible) this.releaseAll();
+      this.touch.$surfaces.forEach((surface) => {
+        surface.hidden = !visible;
+        surface.setAttribute("aria-hidden", String(!visible));
+      });
+    };
+    this.setTouchVisibility(true);
 
     // Rotation can cancel active pointers on mobile browsers. Clear movement
     // immediately, retain the visible HUD, and record the new visual viewport
@@ -116,8 +126,7 @@ export default class Controls extends EventEmitter {
       }
     };
 
-    bindControlSurface(hud);
-    bindControlSurface(document.querySelector(".js-landscape-controller"));
+    this.touch.$surfaces.forEach(bindControlSurface);
 
     this.touch.reveal = () => hud.classList.add("is-visible");
   }

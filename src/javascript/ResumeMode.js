@@ -601,6 +601,7 @@ export default class ResumeMode {
     this.$overlay.classList.add("is-active");
     this.$overlay.setAttribute("aria-hidden", "false");
     this.$toggle.textContent = "Explore 3D World";
+    window.application?.world?.controls?.setTouchVisibility?.(false);
     document.body.style.overflow = "hidden";
     this.setBackgroundInteractivity(true);
     document.addEventListener("keydown", this.handleKeydown);
@@ -620,6 +621,7 @@ export default class ResumeMode {
     this.$overlay.classList.remove("is-active");
     this.$overlay.setAttribute("aria-hidden", "true");
     this.$toggle.textContent = "Resume Mode";
+    window.application?.world?.controls?.setTouchVisibility?.(true);
     document.body.style.overflow = "";
     document.removeEventListener("keydown", this.handleKeydown);
     this.setBackgroundInteractivity(false);
