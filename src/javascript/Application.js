@@ -477,7 +477,14 @@ export default class Application {
     };
 
     update();
-    landscape.addEventListener("change", update);
+    // Older Safari exposes MediaQueryList#addListener rather than the modern
+    // EventTarget API. Failing here previously stopped the constructor before
+    // setMobileGuide() could create the landscape control HUD.
+    if (typeof landscape.addEventListener === "function") {
+      landscape.addEventListener("change", update);
+    } else {
+      landscape.addListener(update);
+    }
   }
 
   /**
