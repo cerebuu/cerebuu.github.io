@@ -53,9 +53,9 @@ export default class ResumeMode {
     this.$content.innerHTML =
       this.renderAbout() +
       this.renderSkills() +
+      this.renderExperience() +
       this.renderProjects() +
       this.renderActivities() +
-      this.renderExperience() +
       this.renderCertifications() +
       this.renderContact() +
       this.renderFooter();
@@ -601,6 +601,7 @@ export default class ResumeMode {
     this.$overlay.classList.add("is-active");
     this.$overlay.setAttribute("aria-hidden", "false");
     this.$toggle.textContent = "Explore 3D World";
+    this.$overlay.scrollTop = 0;
     window.application?.world?.controls?.setTouchVisibility?.(false);
     document.body.style.overflow = "hidden";
     this.setBackgroundInteractivity(true);
@@ -744,7 +745,6 @@ export default class ResumeMode {
         }
 
         $hero.focus({ preventScroll: true });
-        $hero.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
     }
@@ -773,7 +773,7 @@ export default class ResumeMode {
           }
         });
       },
-      { threshold: 0.15 },
+      { root: this.$overlay, threshold: 0.15 },
     );
 
     this.$sections.forEach(($section) => observer.observe($section));
