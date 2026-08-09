@@ -35,6 +35,7 @@ export default class Application {
     this.setCamera();
     this.setPasses();
     this.setWorld();
+    this.setOrientationHint();
     this.setMobileGuide();
     this.setSnow();
     this.setTitle();
@@ -431,6 +432,29 @@ export default class Application {
       guide.hidden = false;
     }
     start.addEventListener("click", dismiss, { once: true });
+  }
+
+  setOrientationHint() {
+    if (!this.config.touch) return;
+
+    const hint = document.querySelector(".js-orientation-hint");
+    if (!hint) return;
+
+    const landscape = window.matchMedia("(orientation: landscape)");
+    let landscapeAcknowledged = landscape.matches;
+    hint.hidden = false;
+
+    const update = () => {
+      if (landscape.matches) {
+        landscapeAcknowledged = true;
+      }
+
+      hint.classList.toggle("is-dismissed", landscapeAcknowledged);
+      hint.setAttribute("aria-hidden", String(landscapeAcknowledged));
+    };
+
+    update();
+    landscape.addEventListener("change", update);
   }
 
   /**

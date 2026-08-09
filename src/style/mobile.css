@@ -218,6 +218,96 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+.orientation-hint {
+  position: fixed;
+  inset: 0;
+  z-index: 495;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s ease, visibility 0s linear 0s;
+}
+
+.orientation-hint[hidden] {
+  display: none;
+}
+
+.orientation-hint.is-dismissed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.orientation-hint__content {
+  width: min(100%, 320px);
+  text-align: center;
+}
+
+.orientation-hint__phone {
+  position: relative;
+  width: 72px;
+  height: 126px;
+  margin: 0 auto 28px;
+  border: 3px solid rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  animation: orientation-phone-tilt 2.2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+.orientation-hint__phone::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 22px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  transform: translateX(-50%);
+}
+
+.orientation-hint__phone span {
+  position: absolute;
+  inset: 19px 8px 9px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05));
+}
+
+.orientation-hint__eyebrow {
+  margin-bottom: 8px;
+  color: #9a9a9a;
+  font: 500 11px/1.2 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.orientation-hint h1 {
+  margin-bottom: 10px;
+  font: 700 clamp(27px, 9vw, 36px)/1 var(--font-display);
+}
+
+.orientation-hint__copy {
+  color: #d3d3d3;
+  font: 16px/1.5 var(--font-body);
+}
+
+@keyframes orientation-phone-tilt {
+  0%, 18% { transform: rotate(0deg); }
+  52%, 72% { transform: rotate(90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media (min-width: 701px), (pointer: fine) {
+  .orientation-hint { display: none !important; }
+}
+
 .mobile-guide[hidden],
 .mobile-guide.is-dismissed {
   display: none;
