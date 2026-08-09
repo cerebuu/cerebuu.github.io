@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Wine festival schedule preview">
+  <rect width="800" height="600" fill="#100c0d"/>
+  <rect x="70" y="54" width="660" height="492" rx="16" fill="#21171a" stroke="#a98961" stroke-width="3"/>
+  <text x="400" y="128" text-anchor="middle" fill="#f7e9d2" font-family="Georgia, serif" font-size="38">WINE FESTIVAL</text>
+  <text x="400" y="160" text-anchor="middle" fill="#bd9a6b" font-family="Arial, sans-serif" font-size="15" letter-spacing="5">SCHEDULE</text>
+  <g stroke="#705254" stroke-width="2"><path d="M118 208h564M118 274h564M118 340h564M118 406h564M118 472h564M276 208v264"/></g>
+  <g fill="#d4b180" font-family="Arial, sans-serif" font-size="18"><text x="158" y="249">12:00 PM</text><text x="310" y="249">WELCOME RECEPTION</text><text x="158" y="315">01:00 PM</text><text x="310" y="315">STORYTELLING &amp; TASTING</text><text x="158" y="381">02:00 PM</text><text x="310" y="381">WINE LUNCHEON</text><text x="158" y="447">04:00 PM</text><text x="310" y="447">WINE &amp; CHEESE TASTING</text></g>
+  <path d="M638 96v55c0 30-18 45-18 64v56m18-120c0 30 18 45 18 64v56m-36 0h36" fill="none" stroke="#d4b180" stroke-width="5" stroke-linecap="round"/>
+</svg>

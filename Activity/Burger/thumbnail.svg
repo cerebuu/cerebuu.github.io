@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Davie's Burger preview">
+  <rect width="800" height="600" fill="#123337"/>
+  <path d="M0 70h800v530H0z" fill="#f6e4b7"/>
+  <text x="400" y="142" text-anchor="middle" fill="#163b3f" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="6">DAVIE'S BURGER</text>
+  <g transform="translate(188 182)"><path d="M40 80c10-97 334-97 344 0z" fill="#d58c39"/><path d="M52 92h320l-16 27H68z" fill="#f5d45d"/><path d="M61 120h302l-25 26H86z" fill="#4f7f37"/><path d="M74 151h276c0 36-26 63-51 63H125c-25 0-51-27-51-63z" fill="#593328"/><path d="M67 218h292l-22 32H89z" fill="#e0aa3e"/><path d="M85 254h256c-10 39-44 61-83 61H168c-39 0-73-22-83-61z" fill="#d58c39"/><g fill="#f8dfaa"><circle cx="128" cy="61" r="5"/><circle cx="171" cy="48" r="5"/><circle cx="218" cy="62" r="5"/><circle cx="266" cy="44" r="5"/><circle cx="307" cy="60" r="5"/></g></g>
+  <text x="400" y="548" text-anchor="middle" fill="#163b3f" font-family="Arial, sans-serif" font-size="20" letter-spacing="4">CSS BOX MODEL</text>
+</svg>
