@@ -426,6 +426,7 @@ export default class Application {
       guide.classList.add("is-dismissed");
       guide.setAttribute("aria-hidden", "true");
       window.localStorage.setItem("caleb-mobile-guide-seen", "1");
+      this.world.startingScreen?.area?.interact(false);
     };
 
     if (window.localStorage.getItem("caleb-mobile-guide-seen") !== "1") {

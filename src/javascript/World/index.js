@@ -62,6 +62,13 @@ export default class World
 
     start()
     {
+        if(this.started)
+        {
+            return
+        }
+
+        this.started = true
+
         window.setTimeout(() =>
         {
             this.camera.pan.enable()
