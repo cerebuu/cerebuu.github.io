@@ -144,7 +144,7 @@ export default {
     },
     {
       title: "Student Organization System",
-      status: "GitHub Soon",
+      status: "Completed",
       thumbnail: { label: "JAVA LAB", type: "terminal" },
       description:
         "A collection of practical Java console exercises built to strengthen core programming logic through authentication flows, data handling, reusable methods, and object-oriented programming.",
