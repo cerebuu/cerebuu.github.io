@@ -5,6 +5,9 @@
 html.is-touch-device,
 html.is-touch-device body,
 html.is-touch-device .canvas { overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none; }
+html.is-touch-device,
+html.is-touch-device body { width: 100vw; height: 100dvh; }
+html.is-touch-device .canvas { width: 100vw; height: 100dvh; }
 html.is-touch-device .rm-overlay,
 html.is-touch-device .rm-overlay * { touch-action: pan-y; -webkit-user-select: text; user-select: text; }
 
@@ -91,10 +94,9 @@ html.is-touch-device .mobile-topbar .rm-toggle { position: static; order: 1; fle
   html.is-touch-device .landscape-controller {
     position: fixed; z-index: 1000; left: max(10px, env(safe-area-inset-left));
     bottom: max(10px, env(safe-area-inset-bottom)); display: grid;
-    grid-template: repeat(2, 48px) / repeat(3, 48px) minmax(92px, 1fr);
-    grid-template-areas: ". up . action" "left down right action";
-    gap: 5px; width: min(280px, calc(100vw - max(20px, env(safe-area-inset-left) + env(safe-area-inset-right))));
-    max-height: calc(100dvh - max(20px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+    grid-template: repeat(2, 48px) / repeat(3, 48px);
+    grid-template-areas: ". up ." "left down right";
+    gap: 5px; width: 154px; height: 101px;
     pointer-events: auto; isolation: isolate;
   }
   .landscape-controller button {
@@ -106,8 +108,12 @@ html.is-touch-device .mobile-topbar .rm-toggle { position: static; order: 1; fle
   .landscape-controller button[data-action="left"] { grid-area: left; }
   .landscape-controller button[data-action="down"] { grid-area: down; }
   .landscape-controller button[data-action="right"] { grid-area: right; }
-  .landscape-controller__interact { grid-area: action; padding: 0 10px; font-size: 10px !important; letter-spacing: .06em; text-transform: uppercase; }
-  .landscape-controller__interact span { display: block; margin-bottom: 5px; font-size: 17px; }
+  .landscape-controller__interact {
+    position: fixed; z-index: 1001; right: max(10px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom)); width: 88px; min-width: 88px; height: 48px;
+    padding: 0 8px; font-size: 10px !important; letter-spacing: .05em; text-transform: uppercase;
+  }
+  .landscape-controller__interact span { margin-right: 4px; font-size: 15px; }
   .landscape-controller button.is-pressed { color: #090909; background: #fff; transform: scale(.96); }
   .threejs-journey { display: none !important; }
 }
