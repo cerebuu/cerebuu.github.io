@@ -88,7 +88,11 @@ export default class Controls extends EventEmitter {
       event.currentTarget?.classList.remove("is-pressed");
     };
 
-    hud.querySelectorAll("[data-action]").forEach((button) => {
+    const bindControlSurface = (surface) => {
+      if (!surface || surface.dataset.controlsBound === "true") return;
+      surface.dataset.controlsBound = "true";
+
+      surface.querySelectorAll("[data-action]").forEach((button) => {
       button.addEventListener("pointerdown", (event) => {
         if (event.pointerType === "mouse" && event.button !== 0) return;
         event.preventDefault();
@@ -99,15 +103,21 @@ export default class Controls extends EventEmitter {
         button.setPointerCapture?.(event.pointerId);
       });
       ["pointerup", "pointercancel", "lostpointercapture"].forEach((type) => button.addEventListener(type, endPointer));
-    });
+      });
 
-    const interact = hud.querySelector("[data-command='interact']");
-    interact.addEventListener("pointerdown", (event) => {
-      event.preventDefault();
-      interact.classList.add("is-pressed");
-      window.dispatchEvent(new CustomEvent("mobile-interact"));
-    });
-    ["pointerup", "pointercancel", "lostpointercapture"].forEach((type) => interact.addEventListener(type, () => interact.classList.remove("is-pressed")));
+      const interact = surface.querySelector("[data-command='interact']");
+      if (interact) {
+        interact.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          interact.classList.add("is-pressed");
+          window.dispatchEvent(new CustomEvent("mobile-interact"));
+        });
+        ["pointerup", "pointercancel", "lostpointercapture"].forEach((type) => interact.addEventListener(type, () => interact.classList.remove("is-pressed")));
+      }
+    };
+
+    bindControlSurface(hud);
+    bindControlSurface(document.querySelector(".js-landscape-controller"));
 
     this.touch.reveal = () => hud.classList.add("is-visible");
   }
