@@ -138,7 +138,7 @@ export default class Camera {
   setInstance() {
     // Set up
     this.instance = new THREE.PerspectiveCamera(
-      40,
+      this.config.touch ? 52 : 40,
       this.sizes.viewport.width / this.sizes.viewport.height,
       1,
       80,

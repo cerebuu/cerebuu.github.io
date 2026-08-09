@@ -31,8 +31,8 @@
 
   .nav-dock {
     bottom: max(10px, env(safe-area-inset-bottom));
-    width: calc(100vw - 20px);
-    max-width: none;
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
     justify-content: flex-start;
     scrollbar-width: none;
   }
@@ -45,8 +45,10 @@
   }
 
   .contact-icons {
+    top: calc(max(10px, env(safe-area-inset-top)) + 58px);
     right: max(10px, env(safe-area-inset-right));
-    bottom: calc(max(10px, env(safe-area-inset-bottom)) + 58px);
+    bottom: auto;
+    padding: 3px;
   }
 
   .contact-icons__item {
@@ -57,6 +59,7 @@
   .controls-panel {
     top: max(10px, env(safe-area-inset-top));
     left: max(10px, env(safe-area-inset-left));
+    bottom: auto;
     width: min(300px, calc(100vw - 20px));
   }
 
@@ -102,17 +105,17 @@
 @media (pointer: coarse) {
   .mobile-joystick {
     left: max(12px, env(safe-area-inset-left)) !important;
-    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 64px) !important;
-    width: 148px !important;
-    height: 148px !important;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 62px) !important;
+    width: 132px !important;
+    height: 132px !important;
     touch-action: none;
   }
 
+  /* The original four vertical drive buttons were desktop-proportioned
+     overlays. The joystick now supplies continuous movement and steering,
+     leaving the right side clear for deliberate action buttons. */
   .mobile-drive-control {
-    right: max(6px, env(safe-area-inset-right)) !important;
-    width: 72px !important;
-    height: 58px !important;
-    touch-action: none;
+    display: none !important;
   }
 
   .mobile-drive-control:nth-of-type(n) {
@@ -129,18 +132,77 @@
 
   .mobile-control--interact {
     bottom: 10px;
-    right: 94px;
+    right: 14px;
   }
 
   .mobile-control--view {
     bottom: 10px;
-    right: 178px;
+    right: 98px;
   }
 
   .contact-icons,
   .controls-panel {
     transform: scale(0.9);
     transform-origin: top left;
+  }
+}
+
+@media (max-width: 700px) and (pointer: coarse) {
+  .rm-content {
+    width: 100%;
+    max-width: none;
+    padding: 82px 16px 104px;
+  }
+
+  .rm-section {
+    padding: 42px 0;
+  }
+
+  .rm-section h2 {
+    margin-bottom: 18px;
+  }
+
+  .rm-hero .rm-bio,
+  .rm-section p {
+    font-size: 16px;
+    line-height: 1.62;
+  }
+
+  .rm-project,
+  .rm-project-card {
+    padding: 22px 0;
+  }
+
+  .rm-project-header h3 {
+    font-size: 19px;
+    overflow-wrap: anywhere;
+  }
+
+  .rm-project-status {
+    white-space: normal;
+  }
+
+  .rm-skills-group,
+  .rm-cert-card {
+    padding: 15px;
+    border-radius: 14px;
+  }
+
+  .rm-project-link,
+  .rm-cert-link,
+  .rm-footer .rm-explore-btn {
+    min-height: 44px;
+  }
+
+  .rm-contact-links a {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  .rm-contact-links a .rm-contact-label {
+    width: auto;
   }
 }
 
