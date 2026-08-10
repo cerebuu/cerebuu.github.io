@@ -52,7 +52,8 @@ nav a:hover {
     height: 500px;
     margin: 10px auto;
     width: 100%;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* Content Header */
