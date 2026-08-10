@@ -1,5 +1,5 @@
 export default {
-    title: 'Fashion Blog',
+    title: 'HTML Activity 1.1 — Fashion Blog',
     week: 'Week 1',
     status: 'Completed',
     description: 'Built the HTML structure for a fashion blogger\'s site — headings, paragraphs, images, an unordered list of related posts, an anchor link out to Wikipedia, and a contact section with an anchor-linked profile image.',

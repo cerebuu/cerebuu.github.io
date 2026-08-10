@@ -1,5 +1,5 @@
 export default {
-    title: 'Davis Burger Activity',
+    title: 'CSS Activity 2.1 — Davies Burger',
     week: 'Week 2',
     status: 'Completed',
     description: 'Styled a fictional restaurant menu page from scratch, applying width, height, padding, border, and margin to fix an unstyled layout.',

@@ -1,5 +1,5 @@
 export default {
-    title: 'Wine Festival Schedule',
+    title: 'HTML Activity 1.2 — Wine Festival Schedule',
     week: 'Week 2',
     status: 'Completed',
     description: 'Built an HTML table displaying the Aguilar Family Wine Festival schedule — a thead with a spanning title row and column headers, and a tbody with five rows pairing event times to event names.',
