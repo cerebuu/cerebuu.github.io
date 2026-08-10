@@ -50,8 +50,10 @@ export default class Areas
             this.mouse.needsUpdate = true
         })
 
-        // Mouse click event
-        window.addEventListener('mousedown', () =>
+        // Only clicks on the WebGL canvas may activate a 3D area. Listening on
+        // window made clicks on Resume Mode links bubble into the game and open
+        // whichever 3D area happened to be under the pointer.
+        this.renderer.domElement.addEventListener('mousedown', () =>
         {
             if(!this.config.touch && this.mouse.currentArea)
             {
